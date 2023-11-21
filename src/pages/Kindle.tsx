@@ -1,21 +1,15 @@
+import { useNavigate } from "react-router-dom";
 import { FcKindle } from "../misc/icons";
 
 export const Kindle = () => {
-  const handleDragEnd = (event) => {
-    event.preventDefault();
-    console.log("Drag end");
-  };
-  const handleDrag = (event) => {
-    event.preventDefault();
-    console.log("Drag");
-  };
-
+  const navigate = useNavigate();
   const handleDrop = (event) => {
     event.preventDefault();
-    if (event.dataTransfer.items) {
-      console.log(event.dataTransfer.items);
-      console.log(event.dataTransfer.items[0].getAsFile());
-    }
+    // if (event.dataTransfer === null) return;
+    // if (event.dataTransfer.items) {
+    //   console.log(event.dataTransfer.items);
+    //   console.log(event.dataTransfer.items[0].getAsFile());
+    // }
     //   if (ev.dataTransfer.items) {
     //   // Use DataTransferItemList interface to access the file(s)
     //   [...ev.dataTransfer.items].forEach((item, i) => {
@@ -32,6 +26,7 @@ export const Kindle = () => {
     //   });
     // }
     console.log("drop");
+    navigate("/book");
   };
 
   const handleDragOver = (event) => {
@@ -40,18 +35,17 @@ export const Kindle = () => {
   };
 
   return (
-    <>
-      <div
-        className="hidden md:flex justify-center items-center"
-        onDrag={handleDrag}
-        onDragEnd={handleDragEnd}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-      >
+    <div
+      className="flex-grow h-full flex justify-center bg-red-300"
+      onDrop={handleDrop}
+      onClick={handleDrop}
+      onDragOver={handleDragOver}
+    >
+      <div className="hidden md:flex justify-center items-center">
         <FcKindle size={300} />
       </div>
-      <div className="flex justify-center items-center w-full lg:w-1/4 md:w-1/2 h-full">
-        <div className="space-y-4 text-xl px-12 md:px-8 overflow-hidden">
+      <div className="flex justify-center items-center">
+        <div className="space-y-4 text-sm px-12 md:px-8 overflow-hidden">
           <ul className="space-y-4 list-disc">
             <li>
               Drag'n'drop from Kindle Connect your Kindle to the computer via a
@@ -69,6 +63,6 @@ export const Kindle = () => {
           </form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
