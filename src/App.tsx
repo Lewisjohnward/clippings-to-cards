@@ -28,8 +28,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/kindle" element={<Kindle />} />
-        <Route path="/clippings" element={<Clippings />} />
         <Route path="/book" element={<Books />} />
+        <Route path="/clippings/:code" element={<Clippings />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </Layout>
