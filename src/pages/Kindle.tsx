@@ -26,7 +26,7 @@ export const Kindle = () => {
     //   });
     // }
     console.log("drop");
-    navigate("/book");
+    navigate("/books");
   };
 
   const handleDragOver = (event) => {
