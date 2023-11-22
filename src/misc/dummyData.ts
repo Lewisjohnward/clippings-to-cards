@@ -11,6 +11,18 @@ export const dummyData = [
       },
     ],
   },
+  {
+    id: 2,
+    title: "Another book",
+    author: "Cixin Liu",
+    // Put highlights here
+    highlights: [
+      {
+        id: 44,
+        text: "«La sonda è scomparsa!» Il rapporto dell’ufficiale in servizio fu come una doccia fredda per il dottor Kuhn e il generale Robinson. Entrambi sapevano che la notizia, una volta trapelata, avrebbe gettato nel panico sia l’Internazionale Terrestre, sia la Flotta Internazionale, soprattutto perché, stando alle ultime osservazioni della sua velocità, la sonda avrebbe attraversato l’orbita di Giove soltanto di lì a sei giorni.",
+      },
+    ],
+  },
 ];
 
 // «La sonda è scomparsa!» Il rapporto dell’ufficiale in servizio fu come una doccia fredda per il dottor Kuhn e il generale Robinson. Entrambi sapevano che la notizia, una volta trapelata, avrebbe gettato nel panico sia l’Internazionale Terrestre, sia la Flotta Internazionale, soprattutto perché, stando alle ultime osservazioni della sua velocità, la sonda avrebbe attraversato l’orbita di Giove soltanto di lì a sei giorni.
