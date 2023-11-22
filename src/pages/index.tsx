@@ -1,7 +1,7 @@
-import { Book } from "./Book";
+import { Books } from "./Books";
 import { Clippings } from "./Clippings";
 import { Kindle } from "./Kindle";
 import { Home } from "./Home";
 import { NotFound } from "./NotFound";
 
-export { Book, Clippings, Kindle, Home, NotFound };
+export { Books, Clippings, Kindle, Home, NotFound };

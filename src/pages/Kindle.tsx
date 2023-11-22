@@ -45,7 +45,7 @@ export const Kindle = () => {
         <FcKindle size={300} />
       </div>
       <div className="flex justify-center items-center">
-        <div className="space-y-4 text-sm px-12 md:px-8 overflow-hidden">
+        <div className="space-y-4 text-sm px-12 md:text-lg md:px-8 overflow-hidden">
           <ul className="space-y-4 list-disc">
             <li>
               Drag'n'drop from Kindle Connect your Kindle to the computer via a
