@@ -36,7 +36,7 @@ export const Kindle = () => {
 
   return (
     <div
-      className="flex-grow h-full flex justify-center bg-red-300"
+      className="h-full flex justify-center bg-red-300"
       onDrop={handleDrop}
       onClick={handleDrop}
       onDragOver={handleDragOver}
