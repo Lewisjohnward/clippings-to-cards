@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
-import { Books, Clippings, Kindle, NotFound } from "./pages/index";
+import { Books, Kindle, ClippingsDisplay, NotFound } from "./pages/index";
 import { Home } from "./pages/Home";
 import { Layout } from "./components/Layout";
 import { dummyData } from "./misc/dummyData";
@@ -34,7 +34,7 @@ function App() {
         <Route path="/books" element={<Books clippings={clippings} />} />
         <Route
           path="/clippings/:id"
-          element={<Clippings clippings={clippings} />}
+          element={<ClippingsDisplay clippings={clippings} />}
         />
         <Route path="/*" element={<NotFound />} />
       </Routes>
