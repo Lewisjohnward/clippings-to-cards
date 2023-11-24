@@ -11,7 +11,7 @@ export const ClippingsDisplay = ({ clippings }: Props) => {
     <div className="p-10 bg-sky-50">
       <h2 className="text-xl">
         <Link to="/books" className="underline">
-          Clippings
+          Books
         </Link>
         {` > ${id}`}
       </h2>
