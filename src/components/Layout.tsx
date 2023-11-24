@@ -12,7 +12,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
         </Link>
         <FcKindle size={30} />
       </div>
-      <div className="flex-grow flex flex-col md:flex-row justify-center items-center border-8 border-dashed border-black">
+      <div className="flex-grow border-8 border-dashed border-black">
         {children}
       </div>
       <footer className="text-center">footer</footer>
