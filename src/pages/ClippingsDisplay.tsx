@@ -7,6 +7,7 @@ interface Props {
 
 export const ClippingsDisplay = ({ clippings }: Props) => {
   const { id } = useParams();
+  const [book] = clippings.filter((d) => d.title == id);
   return (
     <div className="p-10 bg-sky-50">
       <h2 className="text-xl">
@@ -15,6 +16,15 @@ export const ClippingsDisplay = ({ clippings }: Props) => {
         </Link>
         {` > ${id}`}
       </h2>
+      {book.highlights.map((d, i) => {
+        const number = i + 1;
+        return (
+          <div className="flex items-center gap-4">
+            <p>{number}</p>
+            <p>{d.text}</p>
+          </div>
+        );
+      })}
     </div>
   );
 };
