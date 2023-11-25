@@ -6,25 +6,7 @@ import { Layout } from "./components/Layout";
 import { dummyData } from "./misc/dummyData";
 
 function App() {
-  // const [file, setFile] = useState<File>();
-  // const [text, setText] = useState<string>("");
-  const [array, setArray] = useState<string[]>([""]);
   const [clippings, setClipping_] = useState(dummyData);
-  console.log(clippings);
-
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files) return;
-
-    const file = event.target.files[0];
-    const convertToText = async () => {
-      if (!file) return;
-      const text = await file.text();
-      const _array = text.split("\r\n");
-      console.log(text.split("\r\n"));
-      setArray(_array);
-    };
-    convertToText();
-  };
 
   return (
     <Layout>
