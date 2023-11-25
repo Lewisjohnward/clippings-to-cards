@@ -7,26 +7,41 @@ import { Dispatch, DragEvent, SetStateAction } from "react";
 const isTitle = (i: number) => i % 3 == 0;
 const isHighlight = (i: number) => (i + 1) % 3 == 0;
 
+const getAuthor = (rawTitle: string) => {
+  const regExp = /\(([^)]+)\)/;
+  const matches = regExp.exec(rawTitle);
+  if (matches && matches.length == 2) return matches[1];
+};
+
+const getTitle = (rawTitle: string) => {
+  const title = rawTitle.replace(/\([^()]*\)/g, "").trim();
+  return title;
+};
+
 const handleTitle = (
   titles: string[],
   clippingObj: Clippings,
-  title: string,
+  rawTitle: string,
   clippings: Clippings[],
 ) => {
-  if (titles.includes(title)) return;
-  titles.push(title);
+  const author = getAuthor(rawTitle);
+  const title = getTitle(rawTitle);
+  if (titles.includes(rawTitle)) return;
+  titles.push(rawTitle);
+  clippingObj.rawTitle = rawTitle;
   clippingObj.title = title;
+  clippingObj.author = author || "?";
   clippingObj.id = uuidv4();
   clippings.push(clippingObj);
 };
 
 const handleHighlight = (
   clippings: Clippings[],
-  currentBook: string,
+  rawTitle: string,
   highlight: string,
 ) => {
   clippings.find((clipping, i) => {
-    if (clipping.title == currentBook) {
+    if (clipping.rawTitle == rawTitle) {
       const id = uuidv4();
       clippings[i].highlights.push({ text: highlight, id });
       return true;
