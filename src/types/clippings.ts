@@ -8,6 +8,7 @@ interface Highlights {
 
 export default interface Clippings {
   id: string;
+  rawTitle: string;
   title: string;
   author: string;
   //image
