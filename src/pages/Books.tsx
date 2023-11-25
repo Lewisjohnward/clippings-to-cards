@@ -8,8 +8,8 @@ export const Books = ({ clippings }: { clippings: Clippings[] }) => {
         <h2 className="text-xl">Books</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-red-200">
           {clippings.map((book) => (
-            <Link to={`/clippings/${book.title}`}>
-              <div key={book.id} className="bg-sky-700 rounded">
+            <Link  key={book.id} to={`/clippings/${book.title}`}>
+              <div className="bg-sky-700 rounded">
                 <h3>{book.title}</h3>
                 <p>{book.author}</p>
                 <p>{book.highlights.length}</p>
