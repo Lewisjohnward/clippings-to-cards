@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { FcKindle } from "../misc/icons";
 import { v4 as uuidv4 } from "uuid";
 import Clippings from "../types/clippings";
-import { DragEvent, SetStateAction } from "react";
+import { Dispatch, DragEvent, SetStateAction } from "react";
 
 const isTitle = (i: number) => i % 3 == 0;
 const isHighlight = (i: number) => (i + 1) % 2 == 0;
@@ -56,7 +56,7 @@ const parseClippings = (string: string) => {
 export const Kindle = ({
   setClippings,
 }: {
-  setClippings: React.Dispatch<SetStateAction<Clippings[]>>;
+  setClippings: Dispatch<SetStateAction<Clippings[]>>;
 }) => {
   const navigate = useNavigate();
 
