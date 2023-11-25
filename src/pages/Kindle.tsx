@@ -7,7 +7,6 @@ import { Dispatch, DragEvent, SetStateAction } from "react";
 const isTitle = (i: number) => i % 3 == 0;
 const isHighlight = (i: number) => (i + 1) % 3 == 0;
 
-
 const handleTitle = (
   titles: string[],
   clippingObj: Clippings,
@@ -80,33 +79,32 @@ export const Kindle = ({
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    if (event.dataTransfer === null) return;
-    if (event.dataTransfer.items.length != 1) return;
-    if (event.dataTransfer.items) {
-      console.log(event.dataTransfer.items);
-      console.log(event.dataTransfer.items[0].getAsFile());
+    // Throw error "It appears there has been an error"
+    if (event.dataTransfer === null) {
+      console.log("Throw error It appears there has been an error");
+      return;
     }
 
-    if (event.dataTransfer.items) {
-      // Use DataTransferItemList interface to access the file(s)
-      [...event.dataTransfer.items].forEach((item) => {
-        // If dropped items aren't files, reject them
-        if (item.kind === "file") {
-          const file = item.getAsFile();
-          if (!file) return;
-          file.text().then((data: string) => {
-            const clippings = parseClippings(data);
-            setClippings(clippings);
-            navigate("/books");
-          });
-        }
-      });
-    } else {
-      // Use DataTransfer interface to access the file(s)
-      [...event.dataTransfer.files].forEach((file, i) => {
-        console.log(`… file[${i}].name = ${file.name}`);
-      });
+    //Throw error "only one file at a time"
+    if (event.dataTransfer.items.length != 1 || !event.dataTransfer.items) {
+      console.log("Throw error only one file at a time");
+      return;
     }
+
+    const item = event.dataTransfer.items[0];
+    // Throw error "Doesn't appear to be a text file"
+    if (item.type != "text/plain" || item.kind != "file") {
+      console.log("Throw error doesn't appear to be a text file");
+      return;
+    }
+
+    const file = item.getAsFile();
+    if (!file) return;
+    file.text().then((data: string) => {
+      const clippings = parseClippings(data);
+      setClippings(clippings);
+      navigate("/books");
+    });
   };
 
   return (
