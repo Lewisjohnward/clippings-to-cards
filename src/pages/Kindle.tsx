@@ -1,45 +1,95 @@
 import { useNavigate } from "react-router-dom";
 import { FcKindle } from "../misc/icons";
+import { v4 as uuidv4 } from "uuid";
+import Clippings from "../types/clippings";
+import { DragEvent } from "react";
+
+const isTitle = (i: number) => i % 3 == 0;
+const isHighlight = (i: number) => (i + 1) % 2 == 0;
+
+const parseClippings = (string: string) => {
+  const replaced = string.replace(/\ufeff/g, "");
+  let array = replaced
+    .split("\r\n")
+    .filter((el) => el.length != 0 && el != "==========");
+  array = array.slice(0, 60);
+
+  const titles: string[] = [];
+  const obj: Clippings = {} as Clippings;
+  obj.highlights = [];
+
+  const clippings: Clippings[] = [];
+
+  let currentBook = "";
+  array.forEach((el, i) => {
+    if (isTitle(i)) {
+      currentBook = el;
+      if (titles.includes(currentBook)) return;
+      titles.push(currentBook);
+      obj.title = currentBook;
+      obj.id = uuidv4();
+      clippings.push(obj);
+      return;
+    }
+    if (isHighlight(i)) {
+      clippings.find((clipping, i) => {
+        if (clipping.title == currentBook) {
+          const id = uuidv4();
+          clippings[i].highlights.push({ text: el, id });
+          return true;
+        }
+      });
+    }
+  });
+  console.log(titles);
+  console.log(clippings);
+  return clippings;
+
+  // line 0 title
+  // line 1 page | position | date
+  // line 2 highlight
+  // line 3 title
+  // line 4 page
+  // line 5 highlight
+};
 
 export const Kindle = () => {
   const navigate = useNavigate();
-  const handleDrop = (event) => {
-    event.preventDefault();
-    // if (event.dataTransfer === null) return;
-    // if (event.dataTransfer.items) {
-    //   console.log(event.dataTransfer.items);
-    //   console.log(event.dataTransfer.items[0].getAsFile());
-    // }
-    //   if (ev.dataTransfer.items) {
-    //   // Use DataTransferItemList interface to access the file(s)
-    //   [...ev.dataTransfer.items].forEach((item, i) => {
-    //     // If dropped items aren't files, reject them
-    //     if (item.kind === "file") {
-    //       const file = item.getAsFile();
-    //       console.log(`… file[${i}].name = ${file.name}`);
-    //     }
-    //   });
-    // } else {
-    //   // Use DataTransfer interface to access the file(s)
-    //   [...ev.dataTransfer.files].forEach((file, i) => {
-    //     console.log(`… file[${i}].name = ${file.name}`);
-    //   });
-    // }
-    console.log("drop");
-    navigate("/books");
-  };
 
-  const handleDragOver = (event) => {
+  const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    console.log("Drag over");
+    if (event.dataTransfer === null) return;
+    if (event.dataTransfer.items.length != 1) return;
+    if (event.dataTransfer.items) {
+      console.log(event.dataTransfer.items);
+      console.log(event.dataTransfer.items[0].getAsFile());
+    }
+
+    if (event.dataTransfer.items) {
+      // Use DataTransferItemList interface to access the file(s)
+      [...event.dataTransfer.items].forEach((item) => {
+        // If dropped items aren't files, reject them
+        if (item.kind === "file") {
+          const file = item.getAsFile();
+          if (!file) return;
+          file.text().then((data: string) => parseClippings(data));
+        }
+      });
+    } else {
+      // Use DataTransfer interface to access the file(s)
+      [...event.dataTransfer.files].forEach((file, i) => {
+        console.log(`… file[${i}].name = ${file.name}`);
+      });
+    }
+    console.log("drop");
+    // navigate("/books");
   };
 
   return (
     <div
       className="h-full flex justify-center bg-red-300"
       onDrop={handleDrop}
-      onClick={handleDrop}
-      onDragOver={handleDragOver}
+      // onClick={handleDrop}
     >
       <div className="hidden md:flex justify-center items-center">
         <FcKindle size={300} />
