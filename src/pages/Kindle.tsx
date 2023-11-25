@@ -7,6 +7,34 @@ import { Dispatch, DragEvent, SetStateAction } from "react";
 const isTitle = (i: number) => i % 3 == 0;
 const isHighlight = (i: number) => (i + 1) % 3 == 0;
 
+
+const handleTitle = (
+  titles: string[],
+  clippingObj: Clippings,
+  title: string,
+  clippings: Clippings[],
+) => {
+  if (titles.includes(title)) return;
+  titles.push(title);
+  clippingObj.title = title;
+  clippingObj.id = uuidv4();
+  clippings.push(clippingObj);
+};
+
+const handleHighlight = (
+  clippings: Clippings[],
+  currentBook: string,
+  highlight: string,
+) => {
+  clippings.find((clipping, i) => {
+    if (clipping.title == currentBook) {
+      const id = uuidv4();
+      clippings[i].highlights.push({ text: highlight, id });
+      return true;
+    }
+  });
+};
+
 const parseClippings = (string: string) => {
   const replaced = string.replace(/\ufeff/g, "");
   let array = replaced
@@ -24,21 +52,11 @@ const parseClippings = (string: string) => {
   array.forEach((el, i) => {
     if (isTitle(i)) {
       currentBook = el;
-      if (titles.includes(currentBook)) return;
-      titles.push(currentBook);
-      obj.title = currentBook;
-      obj.id = uuidv4();
-      clippings.push(obj);
+      handleTitle(titles, obj, currentBook, clippings);
       return;
     }
     if (isHighlight(i)) {
-      clippings.find((clipping, i) => {
-        if (clipping.title == currentBook) {
-          const id = uuidv4();
-          clippings[i].highlights.push({ text: el, id });
-          return true;
-        }
-      });
+      handleHighlight(clippings, currentBook, el);
     }
   });
   console.log(titles);
