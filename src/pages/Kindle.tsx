@@ -5,7 +5,7 @@ import Clippings from "../types/clippings";
 import { Dispatch, DragEvent, SetStateAction } from "react";
 
 const isTitle = (i: number) => i % 3 == 0;
-const isHighlight = (i: number) => (i + 1) % 2 == 0;
+const isHighlight = (i: number) => (i + 1) % 3 == 0;
 
 const parseClippings = (string: string) => {
   const replaced = string.replace(/\ufeff/g, "");
