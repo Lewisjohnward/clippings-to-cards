@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { FcKindle } from "../misc/icons";
 import { v4 as uuidv4 } from "uuid";
 import Clippings from "../types/clippings";
-import { DragEvent } from "react";
+import { DragEvent, SetStateAction } from "react";
 
 const isTitle = (i: number) => i % 3 == 0;
 const isHighlight = (i: number) => (i + 1) % 2 == 0;
@@ -53,7 +53,11 @@ const parseClippings = (string: string) => {
   // line 5 highlight
 };
 
-export const Kindle = () => {
+export const Kindle = ({
+  setClippings,
+}: {
+  setClippings: React.Dispatch<SetStateAction<Clippings[]>>;
+}) => {
   const navigate = useNavigate();
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
@@ -72,7 +76,11 @@ export const Kindle = () => {
         if (item.kind === "file") {
           const file = item.getAsFile();
           if (!file) return;
-          file.text().then((data: string) => parseClippings(data));
+          file.text().then((data: string) => {
+            const clippings = parseClippings(data);
+            setClippings(clippings);
+            navigate("/books");
+          });
         }
       });
     } else {
@@ -81,8 +89,6 @@ export const Kindle = () => {
         console.log(`… file[${i}].name = ${file.name}`);
       });
     }
-    console.log("drop");
-    // navigate("/books");
   };
 
   return (
