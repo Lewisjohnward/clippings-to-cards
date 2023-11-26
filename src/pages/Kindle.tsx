@@ -24,15 +24,16 @@ const handleTitle = (
   rawTitle: string,
   clippings: Clippings[],
 ) => {
+  const obj = { ...clippingObj };
   const author = getAuthor(rawTitle);
   const title = getTitle(rawTitle);
   if (titles.includes(rawTitle)) return;
   titles.push(rawTitle);
-  clippingObj.rawTitle = rawTitle;
-  clippingObj.title = title;
-  clippingObj.author = author || "?";
-  clippingObj.id = uuidv4();
-  clippings.push(clippingObj);
+  obj.rawTitle = rawTitle;
+  obj.title = title;
+  obj.author = author || "?";
+  obj.id = uuidv4();
+  clippings.push(obj);
 };
 
 const handleHighlight = (
@@ -41,12 +42,25 @@ const handleHighlight = (
   highlight: string,
 ) => {
   clippings.find((clipping, i) => {
-    if (clipping.rawTitle == rawTitle) {
+    if (clipping.rawTitle === rawTitle) {
       const id = uuidv4();
-      clippings[i].highlights.push({ text: highlight, id });
+      const highlightObj = { text: highlight, id: id };
+      clippings[i].highlights.push(highlightObj);
       return true;
     }
   });
+};
+
+const removeBookmarks = (array: string[]) => {
+  const cleanedArray = [];
+  let i = 0;
+  while (i < array.length) {
+    if (array[i].includes("segnalibro")) {
+      cleanedArray.pop();
+    } else cleanedArray.push(array[i]);
+    i++;
+  }
+  return cleanedArray;
 };
 
 const parseClippings = (string: string) => {
@@ -54,7 +68,8 @@ const parseClippings = (string: string) => {
   let array = replaced
     .split("\r\n")
     .filter((el) => el.length != 0 && el != "==========");
-  array = array.slice(0, 60);
+  array = array.slice(0, 800);
+  array = removeBookmarks(array);
 
   const titles: string[] = [];
   const obj: Clippings = {} as Clippings;
