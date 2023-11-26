@@ -18,11 +18,11 @@ const getTitle = (rawTitle: string) => {
   return title;
 };
 
-const handleTitle = (titles: string[], rawTitle: string) => {
+const handleTitle = (clippings: Clippings[], rawTitle: string) => {
+  if (clippings.some((clipping) => clipping.rawTitle === rawTitle)) return;
+
   const author = getAuthor(rawTitle) || "?";
   const title = getTitle(rawTitle);
-  if (titles.includes(rawTitle)) return;
-  titles.push(rawTitle);
   const obj = { id: uuidv4(), rawTitle, title, author, highlights: [] };
   return obj;
 };
@@ -61,14 +61,13 @@ const parseClippings = (string: string) => {
     .filter((el) => el.length != 0 && el != "==========");
   array = removeBookmarks(array);
 
-  const titles: string[] = [];
   const clippings: Clippings[] = [];
 
   let currentBook = "";
   array.forEach((el, i) => {
     if (isTitle(i)) {
       currentBook = el;
-      const newObj = handleTitle(titles, currentBook);
+      const newObj = handleTitle(clippings, currentBook);
       if (newObj == undefined) return;
       else clippings.push(newObj);
       return;
@@ -77,7 +76,6 @@ const parseClippings = (string: string) => {
       handleHighlight(clippings, currentBook, el);
     }
   });
-  console.log("titles", titles);
   console.log(clippings);
   return clippings;
 
