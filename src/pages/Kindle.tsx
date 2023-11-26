@@ -18,22 +18,13 @@ const getTitle = (rawTitle: string) => {
   return title;
 };
 
-const handleTitle = (
-  titles: string[],
-  clippingObj: Clippings,
-  rawTitle: string,
-  clippings: Clippings[],
-) => {
-  const obj = { ...clippingObj };
-  const author = getAuthor(rawTitle);
+const handleTitle = (titles: string[], rawTitle: string) => {
+  const author = getAuthor(rawTitle) || "?";
   const title = getTitle(rawTitle);
   if (titles.includes(rawTitle)) return;
   titles.push(rawTitle);
-  obj.rawTitle = rawTitle;
-  obj.title = title;
-  obj.author = author || "?";
-  obj.id = uuidv4();
-  clippings.push(obj);
+  const obj = { id: uuidv4(), rawTitle, title, author, highlights: [] };
+  return obj;
 };
 
 const handleHighlight = (
@@ -42,7 +33,7 @@ const handleHighlight = (
   highlight: string,
 ) => {
   clippings.find((clipping, i) => {
-    if (clipping.rawTitle === rawTitle) {
+    if (clipping.rawTitle == rawTitle) {
       const id = uuidv4();
       const highlightObj = { text: highlight, id: id };
       clippings[i].highlights.push(highlightObj);
@@ -68,27 +59,25 @@ const parseClippings = (string: string) => {
   let array = replaced
     .split("\r\n")
     .filter((el) => el.length != 0 && el != "==========");
-  array = array.slice(0, 800);
   array = removeBookmarks(array);
 
   const titles: string[] = [];
-  const obj: Clippings = {} as Clippings;
-  obj.highlights = [];
-
   const clippings: Clippings[] = [];
 
   let currentBook = "";
   array.forEach((el, i) => {
     if (isTitle(i)) {
       currentBook = el;
-      handleTitle(titles, obj, currentBook, clippings);
+      const newObj = handleTitle(titles, currentBook);
+      if (newObj == undefined) return;
+      else clippings.push(newObj);
       return;
     }
     if (isHighlight(i)) {
       handleHighlight(clippings, currentBook, el);
     }
   });
-  console.log(titles);
+  console.log("titles", titles);
   console.log(clippings);
   return clippings;
 
