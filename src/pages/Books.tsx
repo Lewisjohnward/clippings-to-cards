@@ -6,7 +6,7 @@ export const Books = ({ clippings }: { clippings: Clippings[] }) => {
     <div className="flex-grow h-full w-full p-10">
       <div className="space-y-2">
         <h2 className="text-xl">Books</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 2xl:grid-cols-12 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-8 gap-4">
           {clippings.map((book) => (
             <Link key={book.id} to={`/clippings/${book.title}`}>
               <div className="h-full flex flex-col justify-between p-4 space-y-2 bg-white rounded shadow-xl">
