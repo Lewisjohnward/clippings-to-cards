@@ -13,7 +13,7 @@ export const ClippingsDisplay = ({ clippings }: Props) => {
   const [book] = clippings.filter((d) => d.title == id);
   return (
     <div className="p-10 bg-sky-50 space-y-2">
-      <div className="flex justify-between items-center px-2 bg-white rounded">
+      <div className="flex justify-between items-center px-2 bg-white rounded shadow-lg">
         <h2 className="text-xl">
           <Link to="/books" className="underline">
             Books
