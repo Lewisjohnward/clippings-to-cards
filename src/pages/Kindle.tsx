@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { FcKindle } from "../misc/icons";
 import { v4 as uuidv4 } from "uuid";
 import Clippings from "../types/clippings";
-import { Dispatch, DragEvent, SetStateAction } from "react";
+import { ChangeEvent, Dispatch, DragEvent, SetStateAction } from "react";
 
 const isTitle = (i: number) => i % 3 == 0;
 const isHighlight = (i: number) => (i + 1) % 3 == 0;
@@ -109,7 +109,7 @@ export const Kindle = ({
       return;
     }
 
-    const item = event.dataTransfer.items[0];
+    const [item] = event.dataTransfer.items;
     // Throw error "Doesn't appear to be a text file"
     if (item.type != "text/plain" || item.kind != "file") {
       console.log("Throw error doesn't appear to be a text file");
@@ -125,12 +125,28 @@ export const Kindle = ({
     });
   };
 
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    // Throw error "Appears to be an error uploading file"
+    if (event.target.files == null) return;
+    const [item] = event.target.files;
+    console.log(item);
+    // Throw error "Doesn't appear to be text file"
+    if (item.type != "text/plain") {
+      console.log("Throw error doesn't appear to be a text file");
+      return;
+    }
+    item.text().then((data: string) => {
+      const clippings = parseClippings(data);
+      setClippings(clippings);
+      navigate("/books");
+    });
+
+    console.log(event.target.files[0]);
+    // console.log(event);
+  };
+
   return (
-    <div
-      className="h-full flex justify-center bg-red-300"
-      onDrop={handleDrop}
-      // onClick={handleDrop}
-    >
+    <div className="h-full flex justify-center bg-red-300" onDrop={handleDrop}>
       <div className="hidden md:flex justify-center items-center">
         <FcKindle size={300} />
       </div>
@@ -149,7 +165,7 @@ export const Kindle = ({
             </li>
           </ul>
           <form>
-            <input type="file" />
+            <input onChange={handleChange} type="file" />
           </form>
         </div>
       </div>
