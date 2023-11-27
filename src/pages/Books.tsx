@@ -3,16 +3,16 @@ import Clippings from "../types/clippings";
 
 export const Books = ({ clippings }: { clippings: Clippings[] }) => {
   return (
-    <div className="flex-grow h-full w-full bg-blue-200 p-10">
+    <div className="flex-grow h-full w-full p-10">
       <div className="space-y-2">
         <h2 className="text-xl">Books</h2>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 bg-red-200">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 2xl:grid-cols-12 gap-4">
           {clippings.map((book) => (
             <Link key={book.id} to={`/clippings/${book.title}`}>
-              <div className="p-4 space-y-2 bg-white rounded shadow-xl">
-                <div>
+              <div className="h-full flex flex-col justify-between p-4 space-y-2 bg-white rounded shadow-xl">
+                <div className="space-y-1">
                   <h3>{book.title}</h3>
-                  <p className="italic text-sm">-{book.author}</p>
+                  <p className="italic text-xs">-{book.author}</p>
                 </div>
                 <p className="text-right">{`${book.highlights.length} clippings`}</p>
               </div>
