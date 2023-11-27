@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import Clippings from "../types/clippings";
 import { clsx } from "clsx";
+import { MdDelete } from "../misc/icons";
 
 interface Props {
   clippings: Clippings[];
@@ -10,7 +11,7 @@ export const ClippingsDisplay = ({ clippings }: Props) => {
   const { id } = useParams();
   const [book] = clippings.filter((d) => d.title == id);
   return (
-    <div className="p-10 bg-sky-50">
+    <div className="p-10 bg-sky-50 space-y-2">
       <h2 className="text-xl">
         <Link to="/books" className="underline">
           Books
@@ -24,12 +25,17 @@ export const ClippingsDisplay = ({ clippings }: Props) => {
             <div
               key={d.id}
               className={clsx(
-                "flex items-center gap-4",
+                "flex justify-between items-center gap-4 p-2",
                 i % 2 == 0 ? "bg-white" : "bg-yellow-200",
               )}
             >
-              <p>{number}</p>
-              <p>{d.text}</p>
+              <div className="flex items-center gap-4 ">
+                <p>{number}</p>
+                <p>{d.text}</p>
+              </div>
+              <button>
+                <MdDelete size={20} />
+              </button>
             </div>
           );
         })}
