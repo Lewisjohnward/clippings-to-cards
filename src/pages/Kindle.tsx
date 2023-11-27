@@ -30,12 +30,13 @@ const handleTitle = (clippings: Clippings[], rawTitle: string) => {
 const handleHighlight = (
   clippings: Clippings[],
   rawTitle: string,
-  highlight: string,
+  text: string,
 ) => {
   clippings.find((clipping, i) => {
     if (clipping.rawTitle == rawTitle) {
       const id = uuidv4();
-      const highlightObj = { text: highlight, id: id };
+      const selected = false;
+      const highlightObj = { text, id, selected };
       clippings[i].highlights.push(highlightObj);
       return true;
     }

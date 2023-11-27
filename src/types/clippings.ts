@@ -1,6 +1,7 @@
 interface Highlights {
   id: string;
   text: string;
+  selected: boolean;
   // Add translation
   // Add pictures
   // Add images
