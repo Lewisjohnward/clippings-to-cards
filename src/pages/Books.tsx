@@ -5,7 +5,14 @@ export const Books = ({ clippings }: { clippings: Clippings[] }) => {
   return (
     <div className="flex-grow h-full w-full p-10">
       <div className="space-y-2">
-        <h2 className="text-xl">Books</h2>
+        <div className="flex gap-4">
+          {/* Make /books/ /books/bookname /books/selected /books/al */}
+          <Link to="/books" className="text-xl">
+            Books
+          </Link>
+          <button className="text-xl">All</button>
+          <button className="text-xl">Selected</button>
+        </div>
         <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-8 gap-4">
           {clippings.map((book) => (
             <Link key={book.id} to={`/clippings/${book.title}`}>
