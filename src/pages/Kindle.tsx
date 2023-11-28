@@ -146,6 +146,29 @@ export const Kindle = ({
   };
 
   return (
+    <div className="h-full flex justify-center bg-red-400">
+      {false && <Loading />}
+      <CardDropArea handleDrop={handleDrop} handleChange={handleChange} />
+    </div>
+  );
+};
+
+const Loading = () => {
+  return (
+    <div>
+      <div>...loading</div>
+    </div>
+  );
+};
+
+const CardDropArea = ({
+  handleDrop,
+  handleChange,
+}: {
+  handleDrop: (event: DragEvent<HTMLDivElement>) => void;
+  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+}) => {
+  return (
     <div className="h-full flex justify-center bg-red-300" onDrop={handleDrop}>
       <div className="hidden md:flex justify-center items-center">
         <FcKindle size={300} />
