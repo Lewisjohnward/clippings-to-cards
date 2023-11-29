@@ -21,9 +21,8 @@ export const ClippingsDisplay = ({ clippings }: Props) => {
           {` > ${id}`}
         </h2>
         <Checkbox
-          ripple={false}
-          className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
-        />
+                  ripple={false}
+                  className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0" crossOrigin={undefined}        />
       </div>
       <div className="space-y-4">
         {book.highlights.map((d, i) => {
@@ -42,9 +41,8 @@ export const ClippingsDisplay = ({ clippings }: Props) => {
               </div>
               <div className="flex flex-col items-center justify-center">
                 <Checkbox
-                  ripple={false}
-                  className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
-                />
+                          ripple={false}
+                          className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0" crossOrigin={undefined}                />
                 <IconButton size="sm" variant="outlined">
                   <MdDelete size={20} />
                 </IconButton>
