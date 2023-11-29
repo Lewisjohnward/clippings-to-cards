@@ -10,8 +10,8 @@ export const Books = ({ clippings }: { clippings: Clippings[] }) => {
           <Link to="/books" className="text-xl">
             Books
           </Link>
-          <button className="text-xl">All</button>
-          <button className="text-xl">Selected</button>
+          <Link to="/clippings/all" className="text-xl">All</Link>
+          <Link to="/clippings/selected" className="text-xl">Selected</Link>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-8 gap-4">
           {clippings.map((book) => (
