@@ -21,21 +21,15 @@ export const BooksView = ({ books }: { books: Books[] }) => {
         <h2 className="text-xl">Books</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-8 gap-4">
           <Link to={`/books/all`}>
-            <div className="h-full flex flex-col justify-between p-4 space-y-2 bg-white rounded shadow-xl">
-              <div className="space-y-1">
-                <h3>All</h3>
-                <p className="italic text-xs">-</p>
-              </div>
-              <p className="text-right">{total}</p>
+            <div className="flex flex-col md:flex-row justify-between p-4 bg-white rounded shadow-xl">
+              <h3>All</h3>
+              <p className="text-left">{total}</p>
             </div>
           </Link>
           <Link to={`/books/all`}>
-            <div className="h-full flex flex-col justify-between p-4 space-y-2 bg-white rounded shadow-xl">
-              <div className="space-y-1">
-                <h3>Selected</h3>
-                <p className="italic text-xs">-</p>
-              </div>
-              <p className="text-right">0</p>
+            <div className="flex flex-col md:flex-row justify-between p-4 bg-white rounded shadow-xl">
+              <h3>Selected</h3>
+              <p className="text-left">0</p>
             </div>
           </Link>
         </div>
