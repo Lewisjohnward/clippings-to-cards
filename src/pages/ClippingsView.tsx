@@ -37,14 +37,14 @@ export const ClippingsView = ({ books }: Props) => {
           crossOrigin={undefined}
         />
       </div>
-      <div className="space-y-4">
+      <div className="rounded overflow-hidden">
         {highlights.map((d, i) => {
           const number = i + 1;
           return (
             <div
               key={d.id}
               className={clsx(
-                "flex justify-between items-center gap-4 p-2 rounded shadow-lg",
+                "flex justify-between items-center gap-4 p-2 shadow-lg",
                 i % 2 == 0 ? "bg-white" : "bg-yellow-200",
               )}
             >
@@ -52,7 +52,7 @@ export const ClippingsView = ({ books }: Props) => {
                 <p>{number}</p>
                 <p>{d.text}</p>
               </div>
-              <div className="flex flex-col items-center justify-center">
+              <div className="flex items-center justify-center">
                 <Checkbox
                   ripple={false}
                   className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
