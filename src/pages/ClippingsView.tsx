@@ -8,9 +8,20 @@ interface Props {
   books: Books[];
 }
 
+const getHighlights = (id: string | undefined, books: Books[]) => {
+  if (id === "all") {
+    const highlights = [];
+    books.forEach(({ highlights }) => highlights.push(...highlights));
+    return highlights;
+  } else {
+    const [{ highlights }] = books.filter((d) => d.title == id);
+    return highlights;
+  }
+};
+
 export const ClippingsView = ({ books }: Props) => {
   const { id } = useParams();
-  const [book] = books.filter((d) => d.title == id);
+  const highlights = getHighlights(id, books);
   return (
     <div className="p-10 bg-sky-50 space-y-2">
       <div className="flex justify-between items-center px-2 bg-white rounded shadow-lg">
@@ -27,7 +38,7 @@ export const ClippingsView = ({ books }: Props) => {
         />
       </div>
       <div className="space-y-4">
-        {book.highlights.map((d, i) => {
+        {highlights.map((d, i) => {
           const number = i + 1;
           return (
             <div
