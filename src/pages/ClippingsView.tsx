@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import Books from "../types/Books";
+import Books, { Highlights } from "../types/Books";
 import { clsx } from "clsx";
 import { MdDelete } from "../misc/icons";
 import { Checkbox, IconButton } from "@material-tailwind/react";
@@ -10,8 +10,8 @@ interface Props {
 
 const getHighlights = (id: string | undefined, books: Books[]) => {
   if (id === "all") {
-    const highlights = [];
-    books.forEach(({ highlights }) => highlights.push(...highlights));
+    const highlights: Highlights[] = [];
+    books.forEach((book) => highlights.push(...book.highlights));
     return highlights;
   } else {
     const [{ highlights }] = books.filter((d) => d.title == id);
