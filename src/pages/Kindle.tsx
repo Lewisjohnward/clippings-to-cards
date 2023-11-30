@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { FcKindle } from "../misc/icons";
 import { v4 as uuidv4 } from "uuid";
-import Clippings from "../types/clippings";
+import Books from "../types/Books";
 import { ChangeEvent, Dispatch, DragEvent, SetStateAction } from "react";
 
 const isTitle = (i: number) => i % 3 == 0;
@@ -18,7 +18,7 @@ const getTitle = (rawTitle: string) => {
   return title;
 };
 
-const handleTitle = (clippings: Clippings[], rawTitle: string) => {
+const handleTitle = (clippings: Books[], rawTitle: string) => {
   if (clippings.some((clipping) => clipping.rawTitle === rawTitle)) return;
 
   const author = getAuthor(rawTitle) || "?";
@@ -28,7 +28,7 @@ const handleTitle = (clippings: Clippings[], rawTitle: string) => {
 };
 
 const handleHighlight = (
-  clippings: Clippings[],
+  clippings: Books[],
   rawTitle: string,
   text: string,
 ) => {
@@ -62,7 +62,7 @@ const parseClippings = (string: string) => {
     .filter((el) => el.length != 0 && el != "==========");
   array = removeBookmarks(array);
 
-  const clippings: Clippings[] = [];
+  const clippings: Books[] = [];
 
   let currentBook = "";
   array.forEach((el, i) => {
@@ -89,9 +89,9 @@ const parseClippings = (string: string) => {
 };
 
 export const Kindle = ({
-  setClippings,
+  setBooks,
 }: {
-  setClippings: Dispatch<SetStateAction<Clippings[]>>;
+  setBooks: Dispatch<SetStateAction<Books[]>>;
 }) => {
   const navigate = useNavigate();
 
@@ -120,7 +120,7 @@ export const Kindle = ({
     if (!file) return;
     file.text().then((data: string) => {
       const clippings = parseClippings(data);
-      setClippings(clippings);
+      setBooks(clippings);
       navigate("/books");
     });
   };
@@ -137,7 +137,7 @@ export const Kindle = ({
     }
     item.text().then((data: string) => {
       const clippings = parseClippings(data);
-      setClippings(clippings);
+      setBooks(clippings);
       navigate("/books");
     });
 

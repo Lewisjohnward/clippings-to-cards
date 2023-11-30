@@ -1,26 +1,20 @@
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import { Books, Kindle, ClippingsDisplay, NotFound } from "./pages/index";
+import { BooksView, Kindle, ClippingsView, NotFound } from "./pages/index";
 import { Home } from "./pages/Home";
 import { Layout } from "./components/Layout";
-import Clippings from "./types/clippings";
+import Books from "./types/Books";
 
 function App() {
-  const [clippings, setClippings] = useState<Clippings[]>([]);
+  const [books, setBooks] = useState<Books[]>([]);
 
   return (
     <Layout>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route
-          path="/kindle"
-          element={<Kindle setClippings={setClippings} />}
-        />
-        <Route path="/books" element={<Books clippings={clippings} />} />
-        <Route
-          path="/clippings/:id"
-          element={<ClippingsDisplay clippings={clippings} />}
-        />
+        <Route path="/kindle" element={<Kindle setBooks={setBooks} />} />
+        <Route path="/books" element={<BooksView books={books} />} />
+        <Route path="/books/:id" element={<ClippingsView books={books} />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </Layout>

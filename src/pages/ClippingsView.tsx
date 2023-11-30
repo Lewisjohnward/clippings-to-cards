@@ -1,16 +1,16 @@
 import { Link, useParams } from "react-router-dom";
-import Clippings from "../types/clippings";
+import Books from "../types/Books";
 import { clsx } from "clsx";
 import { MdDelete } from "../misc/icons";
 import { Checkbox, IconButton } from "@material-tailwind/react";
 
 interface Props {
-  clippings: Clippings[];
+  books: Books[];
 }
 
-export const ClippingsDisplay = ({ clippings }: Props) => {
+export const ClippingsView = ({ books }: Props) => {
   const { id } = useParams();
-  const [book] = clippings.filter((d) => d.title == id);
+  const [book] = books.filter((d) => d.title == id);
   return (
     <div className="p-10 bg-sky-50 space-y-2">
       <div className="flex justify-between items-center px-2 bg-white rounded shadow-lg">
