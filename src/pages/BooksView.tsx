@@ -41,7 +41,7 @@ export const BooksView = ({ books }: { books: Books[] }) => {
                   <h3>{book.title}</h3>
                   <p className="italic text-xs">-{book.author}</p>
                 </div>
-                <p className="text-right">{`${book.highlights.length} books`}</p>
+                <p className="text-right">{`${book.highlights.length} clippings`}</p>
               </div>
             </Link>
           ))}
