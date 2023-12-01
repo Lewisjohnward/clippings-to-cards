@@ -1,4 +1,4 @@
-import {Books} from "../types/Books";
+import { Books } from "../types/Books";
 import { v4 as uuidv4 } from "uuid";
 
 export const parseClippings = (data: string) => {
@@ -64,7 +64,8 @@ const handleHighlight = (
     if (clipping.rawTitle == rawTitle) {
       const id = uuidv4();
       const selected = false;
-      const highlightObj = { text, id, selected };
+      const title = clipping.title;
+      const highlightObj = { text, title, id, selected };
       clippings[i].highlights.push(highlightObj);
       return true;
     }
