@@ -1,4 +1,4 @@
-export const Footer = (props: {}) => {
+export const Footer = () => {
   return (
     <div>
       <div>footer</div>
