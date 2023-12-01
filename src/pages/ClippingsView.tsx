@@ -5,11 +5,14 @@ import { MdDelete } from "../misc/icons";
 import { Checkbox, IconButton } from "@material-tailwind/react";
 import Clipping from "../components/Clipping";
 import { useBookStore } from "../stores/useBookStore";
+import { getHighlights } from "../helpers/getHighlights";
 
 export const ClippingsView = () => {
-  const { id } = useParams();
-  const getHighlights = useBookStore((state) => state.getHighlights);
-  const highlights = getHighlights(id);
+  const { id }  = useParams();
+  const books = useBookStore((state) => state.books);
+  if (id === undefined) return;
+  const highlights = getHighlights(books, id);
+  if (highlights === undefined) return <NoBooksFound />;
 
   return (
     <div className="p-10 bg-sky-50 space-y-2">
@@ -29,9 +32,21 @@ export const ClippingsView = () => {
       <div className="rounded overflow-hidden">
         {highlights.map((highlight, i) => {
           const count = i + 1;
-          return <Clipping highlight={highlight} count={count} />;
+          return (
+            <div key={highlight.id}>
+              <Clipping id={id} highlight={highlight} count={count} />
+            </div>
+          );
         })}
       </div>
+    </div>
+  );
+};
+
+const NoBooksFound = () => {
+  return (
+    <div>
+      <div>No books here</div>
     </div>
   );
 };
