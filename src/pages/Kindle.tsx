@@ -1,98 +1,11 @@
 import { useNavigate } from "react-router-dom";
 import { FcKindle } from "../misc/icons";
-import { v4 as uuidv4 } from "uuid";
-import Books from "../types/Books";
-import { ChangeEvent, Dispatch, DragEvent, SetStateAction } from "react";
+import { ChangeEvent, DragEvent } from "react";
+import { useBookStore } from "../stores/useBookStore";
+import { parseClippings } from "../helpers/parseClippings";
 
-const isTitle = (i: number) => i % 3 == 0;
-const isHighlight = (i: number) => (i + 1) % 3 == 0;
-
-const getAuthor = (rawTitle: string) => {
-  const regExp = /\(([^)]+)\)/;
-  const matches = regExp.exec(rawTitle);
-  if (matches && matches.length == 2) return matches[1];
-};
-
-const getTitle = (rawTitle: string) => {
-  const title = rawTitle.replace(/\([^()]*\)/g, "").trim();
-  return title;
-};
-
-const handleTitle = (clippings: Books[], rawTitle: string) => {
-  if (clippings.some((clipping) => clipping.rawTitle === rawTitle)) return;
-
-  const author = getAuthor(rawTitle) || "?";
-  const title = getTitle(rawTitle);
-  const obj = { id: uuidv4(), rawTitle, title, author, highlights: [] };
-  return obj;
-};
-
-const handleHighlight = (
-  clippings: Books[],
-  rawTitle: string,
-  text: string,
-) => {
-  clippings.find((clipping, i) => {
-    if (clipping.rawTitle == rawTitle) {
-      const id = uuidv4();
-      const selected = false;
-      const highlightObj = { text, id, selected };
-      clippings[i].highlights.push(highlightObj);
-      return true;
-    }
-  });
-};
-
-const removeBookmarks = (array: string[]) => {
-  const cleanedArray = [];
-  let i = 0;
-  while (i < array.length) {
-    if (array[i].includes("segnalibro")) {
-      cleanedArray.pop();
-    } else cleanedArray.push(array[i]);
-    i++;
-  }
-  return cleanedArray;
-};
-
-const parseClippings = (string: string) => {
-  const replaced = string.replace(/\ufeff/g, "");
-  let array = replaced
-    .split("\r\n")
-    .filter((el) => el.length != 0 && el != "==========");
-  array = removeBookmarks(array);
-
-  const clippings: Books[] = [];
-
-  let currentBook = "";
-  array.forEach((el, i) => {
-    if (isTitle(i)) {
-      currentBook = el;
-      const newObj = handleTitle(clippings, currentBook);
-      if (newObj == undefined) return;
-      else clippings.push(newObj);
-      return;
-    }
-    if (isHighlight(i)) {
-      handleHighlight(clippings, currentBook, el);
-    }
-  });
-  console.log(clippings);
-  return clippings;
-
-  // line 0 title
-  // line 1 page | position | date
-  // line 2 highlight
-  // line 3 title
-  // line 4 page
-  // line 5 highlight
-};
-
-export const Kindle = ({
-  setBooks,
-}: {
-  setBooks: Dispatch<SetStateAction<Books[]>>;
-}) => {
+export const Kindle = () => {
+  const initialiseBooks = useBookStore((state) => state.initialiseBooks);
   const navigate = useNavigate();
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
@@ -120,7 +33,7 @@ export const Kindle = ({
     if (!file) return;
     file.text().then((data: string) => {
       const clippings = parseClippings(data);
-      setBooks(clippings);
+      initialiseBooks(clippings);
       navigate("/books");
     });
   };
@@ -129,7 +42,6 @@ export const Kindle = ({
     // Throw error "Appears to be an error uploading file"
     if (event.target.files == null) return;
     const [item] = event.target.files;
-    console.log(item);
     // Throw error "Doesn't appear to be text file"
     if (item.type != "text/plain") {
       console.log("Throw error doesn't appear to be a text file");
@@ -137,12 +49,9 @@ export const Kindle = ({
     }
     item.text().then((data: string) => {
       const clippings = parseClippings(data);
-      setBooks(clippings);
+      initialiseBooks(clippings);
       navigate("/books");
     });
-
-    console.log(event.target.files[0]);
-    // console.log(event);
   };
 
   return (
