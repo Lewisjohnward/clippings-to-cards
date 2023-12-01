@@ -7,7 +7,7 @@ export interface Highlights {
   // Add images
 }
 
-export default interface Books {
+export interface Books {
   id: string;
   rawTitle: string;
   title: string;
