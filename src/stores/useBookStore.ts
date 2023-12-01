@@ -53,16 +53,12 @@ export const useBookStore = create<Store>()(
         console.log("getHighlightsId ", id);
         const booksArr = get().books;
         if (id === "all") {
-          const highlights: Highlights[] = [];
-          booksArr.forEach((book) => highlights.push(...book.highlights));
-          return highlights;
+          return booksArr.map((book) => book.highlights).flat();
         } else if (id === "selected") {
-          const highlights: Highlights[] = [];
-          booksArr.forEach((book) => highlights.push(...book.highlights));
-          const highlightsSelected = highlights.filter(
-            (highlight) => highlight.selected == true,
-          );
-          return highlightsSelected;
+          return booksArr
+            .map((book) => book.highlights)
+            .flat()
+            .filter((highlight) => highlight.selected === true);
         } else {
           const booksFiltered = booksArr.filter((d) => d.title == id);
           if (booksFiltered.length === 0) return;
