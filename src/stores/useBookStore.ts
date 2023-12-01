@@ -16,12 +16,11 @@ export const useBookStore = create<Store>()(
     immer((set, get) => ({
       books: [],
 
-      initialiseBooks: (books) => {
-        console.log("initialised books", books);
-        return set(() => {
-          return { books };
-        });
-      },
+      initialiseBooks: (books) =>
+        set(() => {
+          ({ books });
+        }),
+
       toggleHighlight: (bookName, position) => {
         const bookPosition = get()
           .books.map((book) => book.title)
