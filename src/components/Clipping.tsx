@@ -2,21 +2,24 @@ import clsx from "clsx";
 import { Highlights } from "../types/Books";
 import { Checkbox, IconButton } from "@material-tailwind/react";
 import { MdDelete } from "../misc/icons";
+import { useBookStore } from "../stores/useBookStore";
 
 export default function Clipping({
   highlight,
   count,
+  id,
 }: {
   highlight: Highlights;
   count: number;
+  id: string;
 }) {
+  const toggleHighlight = useBookStore((state) => state.toggleHighlight);
   const handleSelect = () => {
-    console.log("hello");
+    toggleHighlight(id, count - 1);
   };
 
   return (
     <div
-      key={highlight.id}
       className={clsx(
         "flex justify-between items-center gap-4 p-2 shadow-lg",
         count % 2 == 0 ? "bg-white" : "bg-yellow-200",
@@ -28,6 +31,7 @@ export default function Clipping({
       </div>
       <div className="flex items-center justify-center">
         <Checkbox
+          checked={highlight.selected}
           ripple={false}
           onChange={handleSelect}
           className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
