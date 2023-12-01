@@ -11,11 +11,11 @@ function App() {
         <Route path="/kindle" element={<Kindle />} />
         <Route path="/books" element={<BooksView />} />
         <Route path="/books/:id" element={<ClippingsView />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </Layout>
   );
 }
-// <Route path="/*" element={<NotFound />} />
 
 export default App;
 // <div className="flex flex-col items-center justify-center">
