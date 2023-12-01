@@ -22,6 +22,14 @@ export const useBookStore = create<Store>()(
         }),
 
       toggleHighlight: (bookName, position) => {
+        // Using highlight object from component find the bookPos and highlightPos
+        console.log(bookName);
+        const bookArr = get().books;
+        if (bookName === "all") {
+          // 9889ae22-e4f1-4cfb-bd8f-399b2fe877e7
+          console.log(bookArr);
+          // const pos = bookArr.findIndex((book) => book.highlights.includes());
+        }
         const bookPosition = get()
           .books.map((book) => book.title)
           .indexOf(bookName);
