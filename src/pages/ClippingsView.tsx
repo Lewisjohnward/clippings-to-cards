@@ -3,6 +3,7 @@ import Books, { Highlights } from "../types/Books";
 import { clsx } from "clsx";
 import { MdDelete } from "../misc/icons";
 import { Checkbox, IconButton } from "@material-tailwind/react";
+import Clipping from "../components/Clipping";
 
 interface Props {
   books: Books[];
@@ -23,9 +24,6 @@ export const ClippingsView = ({ books }: Props) => {
   const { id } = useParams();
   const highlights = getHighlights(id, books);
 
-  const handleCheck = () => {
-    console.log("hello")
-  }
 
   return (
     <div className="p-10 bg-sky-50 space-y-2">
@@ -43,33 +41,9 @@ export const ClippingsView = ({ books }: Props) => {
         />
       </div>
       <div className="rounded overflow-hidden">
-        {highlights.map((d, i) => {
-          const number = i + 1;
-          return (
-            <div
-              key={d.id}
-              className={clsx(
-                "flex justify-between items-center gap-4 p-2 shadow-lg",
-                i % 2 == 0 ? "bg-white" : "bg-yellow-200",
-              )}
-            >
-              <div className="flex items-center gap-4 ">
-                <p>{number}</p>
-                <p>{d.text}</p>
-              </div>
-              <div className="flex items-center justify-center">
-                <Checkbox
-                  ripple={false}
-                  onChange={handleCheck}
-                  className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
-                  crossOrigin={undefined}
-                />
-                <IconButton size="sm" variant="outlined">
-                  <MdDelete size={20} />
-                </IconButton>
-              </div>
-            </div>
-          );
+        {highlights.map((highlight, i) => {
+          const count = i + 1;
+          return <Clipping highlight={highlight} count={count} />;
         })}
       </div>
     </div>
