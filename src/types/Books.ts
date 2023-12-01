@@ -1,5 +1,6 @@
 export interface Highlights {
   id: string;
+  title: string;
   text: string;
   selected: boolean;
   // Add translation
