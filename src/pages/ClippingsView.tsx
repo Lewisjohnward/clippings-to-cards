@@ -22,6 +22,11 @@ const getHighlights = (id: string | undefined, books: Books[]) => {
 export const ClippingsView = ({ books }: Props) => {
   const { id } = useParams();
   const highlights = getHighlights(id, books);
+
+  const handleCheck = () => {
+    console.log("hello")
+  }
+
   return (
     <div className="p-10 bg-sky-50 space-y-2">
       <div className="flex justify-between items-center px-2 bg-white rounded shadow-lg">
@@ -55,6 +60,7 @@ export const ClippingsView = ({ books }: Props) => {
               <div className="flex items-center justify-center">
                 <Checkbox
                   ripple={false}
+                  onChange={handleCheck}
                   className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
                   crossOrigin={undefined}
                 />
