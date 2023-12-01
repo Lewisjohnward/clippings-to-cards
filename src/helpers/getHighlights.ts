@@ -1,7 +1,6 @@
 import { Books, Highlights } from "../types/Books";
 
 export const getHighlights = (books: Books[], id: string) => {
-  console.log("getHighlightsId ", id);
   if (id === "all") {
     const highlights: Highlights[] = [];
     books.forEach((book) => highlights.push(...book.highlights));
