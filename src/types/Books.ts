@@ -1,4 +1,4 @@
-interface Highlights {
+export interface Highlights {
   id: string;
   text: string;
   selected: boolean;
