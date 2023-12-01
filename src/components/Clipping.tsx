@@ -6,27 +6,27 @@ import { useBookStore } from "../stores/useBookStore";
 
 export default function Clipping({
   highlight,
-  count,
+  position,
   id,
 }: {
   highlight: Highlights;
-  count: number;
+  position: number;
   id: string;
 }) {
   const toggleHighlight = useBookStore((state) => state.toggleHighlight);
   const handleSelect = () => {
-    toggleHighlight(id, count - 1);
+    toggleHighlight(id, position);
   };
 
   return (
     <div
       className={clsx(
         "flex justify-between items-center gap-4 p-2 shadow-lg",
-        count % 2 == 0 ? "bg-white" : "bg-yellow-200",
+        position % 2 == 0 ? "bg-white" : "bg-yellow-200",
       )}
     >
       <div className="flex items-center gap-4 ">
-        <p>{count}</p>
+        <p>{position + 1}</p>
         <p>{highlight.text}</p>
       </div>
       <div className="flex items-center justify-center">
