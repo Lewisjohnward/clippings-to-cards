@@ -5,8 +5,7 @@ import { useBookStore } from "../stores/useBookStore";
 import { getHighlights } from "../helpers/getHighlights";
 
 export const ClippingsView = () => {
-  const { id:  bookName } = useParams();
-  console.log(bookName);
+  const { id: bookName } = useParams();
   const books = useBookStore((state) => state.books);
   if (bookName === undefined) return;
   const highlights = getHighlights(books, bookName);
