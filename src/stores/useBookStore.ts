@@ -42,10 +42,7 @@ export const useBookStore = create<Store>()(
             .map((book) => book.highlights)
             .flat()
             .reduce((total, favouriteCount) => {
-              if (favouriteCount.selected) {
-                return total + 1;
-              }
-              return total + 0;
+              return favouriteCount.selected ? total + 1 : total + 0;
             }, 0);
         }
       },
