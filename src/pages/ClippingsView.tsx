@@ -4,26 +4,12 @@ import { clsx } from "clsx";
 import { MdDelete } from "../misc/icons";
 import { Checkbox, IconButton } from "@material-tailwind/react";
 import Clipping from "../components/Clipping";
+import { useBookStore } from "../stores/useBookStore";
 
-interface Props {
-  books: Books[];
-}
-
-const getHighlights = (id: string | undefined, books: Books[]) => {
-  if (id === "all") {
-    const highlights: Highlights[] = [];
-    books.forEach((book) => highlights.push(...book.highlights));
-    return highlights;
-  } else {
-    const [{ highlights }] = books.filter((d) => d.title == id);
-    return highlights;
-  }
-};
-
-export const ClippingsView = ({ books }: Props) => {
+export const ClippingsView = () => {
   const { id } = useParams();
-  const highlights = getHighlights(id, books);
-
+  const getHighlights = useBookStore((state) => state.getHighlights);
+  const highlights = getHighlights(id);
 
   return (
     <div className="p-10 bg-sky-50 space-y-2">
