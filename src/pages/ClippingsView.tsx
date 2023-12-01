@@ -1,8 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import Books, { Highlights } from "../types/Books";
-import { clsx } from "clsx";
-import { MdDelete } from "../misc/icons";
-import { Checkbox, IconButton } from "@material-tailwind/react";
+import { Checkbox} from "@material-tailwind/react";
 import Clipping from "../components/Clipping";
 import { useBookStore } from "../stores/useBookStore";
 import { getHighlights } from "../helpers/getHighlights";
