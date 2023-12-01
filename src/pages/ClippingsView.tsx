@@ -1,14 +1,15 @@
 import { Link, useParams } from "react-router-dom";
-import { Checkbox} from "@material-tailwind/react";
+import { Checkbox } from "@material-tailwind/react";
 import Clipping from "../components/Clipping";
 import { useBookStore } from "../stores/useBookStore";
 import { getHighlights } from "../helpers/getHighlights";
 
 export const ClippingsView = () => {
-  const { id }  = useParams();
+  const { id:  bookName } = useParams();
+  console.log(bookName);
   const books = useBookStore((state) => state.books);
-  if (id === undefined) return;
-  const highlights = getHighlights(books, id);
+  if (bookName === undefined) return;
+  const highlights = getHighlights(books, bookName);
   if (highlights === undefined) return <NoBooksFound />;
 
   return (
@@ -18,7 +19,7 @@ export const ClippingsView = () => {
           <Link to="/books" className="underline">
             Books
           </Link>
-          {` > ${id}`}
+          {` > ${bookName}`}
         </h2>
         <Checkbox
           ripple={false}
@@ -27,11 +28,14 @@ export const ClippingsView = () => {
         />
       </div>
       <div className="rounded overflow-hidden">
-        {highlights.map((highlight, i) => {
-          const count = i + 1;
+        {highlights.map((highlight, position) => {
           return (
             <div key={highlight.id}>
-              <Clipping id={id} highlight={highlight} count={count} />
+              <Clipping
+                id={bookName}
+                highlight={highlight}
+                position={position}
+              />
             </div>
           );
         })}
