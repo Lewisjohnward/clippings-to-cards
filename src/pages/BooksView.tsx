@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 import Books from "../types/Books";
 
+const views = [
+  { id: "all", text: "All", display: "total" },
+  { id: "selected", text: "Selected", display: "selected" },
+];
+
 // Change component name to Books
 export const BooksView = ({ books }: { books: Books[] }) => {
   const total = books.reduce(
@@ -17,21 +22,23 @@ export const BooksView = ({ books }: { books: Books[] }) => {
   return (
     <div className="flex-grow h-full w-full p-10">
       <div className="space-y-2">
-        {/* Change to site/books site/books/bookname site/books/all site/books/selected*/}
         <h2 className="text-xl">Books</h2>
         <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-8 gap-4">
-          <Link to={`/books/all`}>
-            <div className="flex flex-col md:flex-row justify-between p-4 bg-white rounded shadow-xl">
-              <h3>All</h3>
-              <p className="text-left">{total}</p>
-            </div>
-          </Link>
-          <Link to={`/books/all`}>
-            <div className="flex flex-col md:flex-row justify-between p-4 bg-white rounded shadow-xl">
-              <h3>Selected</h3>
-              <p className="text-left">0</p>
-            </div>
-          </Link>
+          {views.map((view) => {
+            const count = view.display == "total" ? total : 0;
+            return (
+              <Link
+                id={view.id}
+                to={`/books/${view.id}`}
+                className="bg-white rounded shadow-xl"
+              >
+                <div className="flex flex-col lg:flex-row justify-between p-4">
+                  <h3>{view.text}</h3>
+                  <p className="text-left">{count} clippings</p>
+                </div>
+              </Link>
+            );
+          })}
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-8 gap-4">
           {books.map((book) => (
@@ -41,7 +48,7 @@ export const BooksView = ({ books }: { books: Books[] }) => {
                   <h3>{book.title}</h3>
                   <p className="italic text-xs">-{book.author}</p>
                 </div>
-                <p className="text-right">{`${book.highlights.length} clippings`}</p>
+                <p className="text-left">{`${book.highlights.length} clippings`}</p>
               </div>
             </Link>
           ))}
