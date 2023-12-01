@@ -7,15 +7,15 @@ import { useBookStore } from "../stores/useBookStore";
 export default function Clipping({
   highlight,
   position,
-  id,
+  bookName,
 }: {
   highlight: Highlights;
   position: number;
-  id: string;
+  bookName: string;
 }) {
   const toggleHighlight = useBookStore((state) => state.toggleHighlight);
   const handleSelect = () => {
-    toggleHighlight(id, position);
+    toggleHighlight(bookName, position);
   };
 
   return (

@@ -31,7 +31,7 @@ export const ClippingsView = () => {
           return (
             <div key={highlight.id}>
               <Clipping
-                id={bookName}
+                bookName={bookName}
                 highlight={highlight}
                 position={position}
               />
