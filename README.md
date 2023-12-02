@@ -34,3 +34,5 @@ export default {
 - [ ] Col-rows styling on books.
 - [ ] Clean up kindle/extract custom hook.
 - [ ] [dropzone example](https://blog.alexdevero.com/react-file-dropzone/)
+- [ ] Append, replace current clippings if they exist
+- [ ] Fetch definitions
