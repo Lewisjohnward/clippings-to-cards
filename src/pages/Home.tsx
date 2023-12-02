@@ -7,7 +7,7 @@ export const Home = () => {
       <Link to="/kindle" className="text-4xl underline">
         Upload clippings
       </Link>
-      <FcKindle size={800} />
+      <FcKindle size={800} className="select-none" />
     </div>
   );
 };
