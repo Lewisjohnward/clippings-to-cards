@@ -21,7 +21,7 @@ export default function Clipping({
     <div
       className={clsx(
         "flex justify-between items-center gap-4 p-2 shadow-lg",
-        position % 2 == 0 ? "bg-white" : "bg-yellow-200",
+        (position + 1) % 2 == 0 ? "bg-white" : "bg-yellow-200",
       )}
     >
       <div className="flex items-center gap-4 ">
