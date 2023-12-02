@@ -11,7 +11,7 @@ export const ClippingsView = () => {
   if (highlights === undefined) return <NoBooksFound />;
 
   return (
-    <div className="bg-sky-50">
+    <div>
       <div className="flex justify-between items-center p-4 bg-white shadow-lg">
         <h2 className="text-xl">
           <Link to="/books" className="underline">
