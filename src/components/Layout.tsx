@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { TbCardsFilled, FcKindle } from "../misc/icons";
+import { Footer } from "./Footer";
 
 export const Layout = ({ children }: { children: ReactNode }) => {
   return (
@@ -15,7 +16,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       <div className="flex-grow border-8 border-dashed border-black overflow-scroll">
         {children}
       </div>
-      <footer className="text-center">footer</footer>
+      <Footer />
     </div>
   );
 };
