@@ -11,7 +11,10 @@ export const Layout = ({ children }: { children: ReactNode }) => {
           <h1 className="text-bold text-xl">Clippings to Cards</h1>
           <TbCardsFilled size={30} />
         </Link>
-        <FcKindle size={30} />
+        <div className="flex gap-4 items-center underline">
+          <Link to="/books">Books</Link>
+          <Link to="/kindle">Upload clippings</Link>
+        </div>
       </div>
       <div className="flex-grow border-8 border-dashed border-black overflow-scroll">
         {children}
