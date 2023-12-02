@@ -6,7 +6,8 @@ import { immer } from "zustand/middleware/immer";
 type Store = {
   books: Books[];
   initialiseBooks: (books: Books[]) => void;
-  toggleHighlight: (bookName: Highlights) => void;
+  toggleSelected: (bookName: Highlights) => void;
+  deleteHighlight: (highlight: Highlights) => void;
   getCount: (selector: string) => number;
   getHighlights: (id: string) => Highlights[] | undefined;
 };
@@ -18,7 +19,7 @@ export const useBookStore = create<Store>()(
 
       initialiseBooks: (books) => set(() => ({ books })),
 
-      toggleHighlight: (highlight) => {
+      toggleSelected: (highlight) => {
         const booksArray = get().books;
 
         const bookPosition = booksArray
@@ -32,6 +33,21 @@ export const useBookStore = create<Store>()(
         return set((state) => {
           state.books[bookPosition].highlights[highlightPosition].selected =
             !state.books[bookPosition].highlights[highlightPosition].selected;
+        });
+      },
+
+      deleteHighlight: (highlight) => {
+        const booksArray = get().books;
+        const bookPosition = booksArray
+          .map((book) => book.title)
+          .indexOf(highlight.title);
+
+        const updatedHighlights = booksArray[bookPosition].highlights.filter(
+          (highlightElement) => highlightElement.id != highlight.id,
+        );
+
+        return set((state) => {
+          state.books[bookPosition].highlights = updatedHighlights;
         });
       },
 
