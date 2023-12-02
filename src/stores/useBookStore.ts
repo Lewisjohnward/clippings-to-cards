@@ -6,7 +6,7 @@ import { immer } from "zustand/middleware/immer";
 type Store = {
   books: Books[];
   initialiseBooks: (books: Books[]) => void;
-  toggleHighlight: (bookName: string, position: number) => void;
+  toggleHighlight: (bookName: Highlights) => void;
   getCount: (selector: string) => number;
   getHighlights: (id: string) => Highlights[] | undefined;
 };
