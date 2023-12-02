@@ -55,7 +55,7 @@ export const Kindle = () => {
   };
 
   return (
-    <div className="h-full flex justify-center bg-red-400">
+    <div className="h-full flex justify-center">
       {false && <Loading />}
       <CardDropArea handleDrop={handleDrop} handleChange={handleChange} />
     </div>
@@ -78,7 +78,7 @@ const CardDropArea = ({
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }) => {
   return (
-    <div className="h-full flex justify-center bg-red-300" onDrop={handleDrop}>
+    <div className="h-full flex justify-center" onDrop={handleDrop}>
       <div className="hidden md:flex justify-center items-center">
         <FcKindle size={300} />
       </div>
