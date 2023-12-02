@@ -11,6 +11,18 @@ export const BooksView = () => {
   const books = useBookStore((state) => state.books);
   const getCount = useBookStore((state) => state.getCount);
 
+  const handleFetchDefinition = () => {
+    console.log("fetching!");
+    const str =
+      " https://dictionary.yandex.net/api/v1/dicservice.json/lookup?=&flags=4&key=dict.1.1.20231202T165200Z.f37a0db6c660a327.38c38e5f1732bcdf6faea905077ad49744d61e3d&lang=it-en&text=ubicare ";
+    fetch(str)
+      .then((res) => res.body)
+      .then((body) => {
+        const reader = body.getReader();
+        //Readable stream?
+      });
+  };
+
   return (
     <div className="flex-grow h-full w-full p-10">
       <div className="space-y-8">
@@ -47,6 +59,8 @@ export const BooksView = () => {
           </div>
         </div>
       </div>
+      <p>my word</p>
+      <button onClick={handleFetchDefinition}>Fetch def</button>
     </div>
   );
 };
