@@ -12,9 +12,13 @@ export default function Clipping({
   position: number;
   bookName: string;
 }) {
-  const toggleHighlight = useBookStore((state) => state.toggleHighlight);
+  const toggleSelected = useBookStore((state) => state.toggleSelected);
+  const deleteHighlight = useBookStore((state) => state.deleteHighlight);
   const handleSelect = () => {
-    toggleHighlight(highlight);
+    toggleSelected(highlight);
+  };
+  const handleDeleteHighlight = () => {
+    deleteHighlight(highlight);
   };
 
   return (
@@ -37,7 +41,7 @@ export default function Clipping({
           crossOrigin={undefined}
         />
         <IconButton size="sm" variant="outlined">
-          <MdDelete size={20} />
+          <MdDelete size={20} onClick={handleDeleteHighlight} />
         </IconButton>
       </div>
     </div>
