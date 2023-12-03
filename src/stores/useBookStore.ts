@@ -5,6 +5,8 @@ import { immer } from "zustand/middleware/immer";
 
 type Store = {
   books: Books[];
+  displayDate: boolean;
+  toggleDisplayDate: () => void;
   initialiseBooks: (books: Books[]) => void;
   toggleSelected: (bookName: Highlights) => void;
   deleteHighlight: (highlight: Highlights) => void;
@@ -16,6 +18,13 @@ export const useBookStore = create<Store>()(
   persist(
     immer((set, get) => ({
       books: [],
+      displayDate: false,
+
+      toggleDisplayDate: () => {
+        set((state) => {
+          state.displayDate = !state.displayDate;
+        });
+      },
 
       initialiseBooks: (books) => set(() => ({ books })),
 
