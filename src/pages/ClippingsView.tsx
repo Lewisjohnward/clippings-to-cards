@@ -6,23 +6,24 @@ import { FaDownload } from "../misc/icons";
 import { Highlights } from "../types/Books";
 import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
-import { useEffect, useRef } from "react";
+import { CSSProperties, useEffect, useRef } from "react";
 
 export const ClippingsView = () => {
   const rowHeights = useRef({});
-  const listRef = useRef({});
+  const listRef = useRef(null);
   const { id: bookName } = useParams();
   const books = useBookStore((state) => state.books);
   if (bookName === undefined) return;
   const highlights = getHighlights(books, bookName);
   if (highlights === undefined) return <NoBooksFound />;
 
-  function getRowHeight(index) {
+  function getRowHeight(index: number) {
+    if (!rowHeights.current) return 0;
     return rowHeights.current[index] || 82;
   }
 
-  function Row({ index, style }) {
-    const rowRef = useRef({});
+  const Row = ({ index, style }: { index: number; style: CSSProperties }) => {
+    const rowRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
       if (rowRef.current) {
@@ -42,9 +43,10 @@ export const ClippingsView = () => {
         </div>
       </div>
     );
-  }
+  };
 
-  function setRowHeight(index, size) {
+  function setRowHeight(index: number, size: number) {
+    if (!listRef.current) return;
     listRef.current.resetAfterIndex(0);
     rowHeights.current = { ...rowHeights.current, [index]: size };
   }
