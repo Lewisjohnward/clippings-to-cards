@@ -13,6 +13,7 @@ export const ClippingsView = () => {
   const listRef = useRef(null);
   const { id: bookName } = useParams();
   const books = useBookStore((state) => state.books);
+  const toggleDisplayDate = useBookStore((state) => state.toggleDisplayDate);
   if (bookName === undefined) return;
   const highlights = getHighlights(books, bookName);
   if (highlights === undefined) return <NoBooksFound />;
@@ -50,7 +51,6 @@ export const ClippingsView = () => {
     listRef.current.resetAfterIndex(0);
     rowHeights.current = { ...rowHeights.current, [index]: size };
   }
-
   return (
     <div className="h-full flex flex-col">
       <div className="flex justify-between items-center p-4 bg-white shadow-lg">
@@ -61,7 +61,7 @@ export const ClippingsView = () => {
           {` > ${bookName}`}
         </h2>
         <div className="flex gap-2">
-          <button>
+          <button onClick={toggleDisplayDate}>
             <SlCalender />
           </button>
           {bookName === "selected" && highlights.length > 0 && (
