@@ -32,7 +32,7 @@ export default function Clipping({
       <div className="flex items-center gap-4 ">
         <p>{position + 1}</p>
         <div>
-          <p>{highlight.text}</p>
+          <p className="text-sm">{highlight.text}</p>
           <p className="text-xs h-4">
             {displayDate && new Date().toLocaleString()}
           </p>
