@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import Clipping from "../components/Clipping";
 import { useBookStore } from "../stores/useBookStore";
 import { getHighlights } from "../helpers/getHighlights";
-import { FaDownload } from "../misc/icons";
+import { FaDownload, SlCalender } from "../misc/icons";
 import { Highlights } from "../types/Books";
 import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
@@ -60,9 +60,14 @@ export const ClippingsView = () => {
           </Link>
           {` > ${bookName}`}
         </h2>
-        {bookName === "selected" && highlights.length > 0 && (
-          <Selected highlights={highlights} />
-        )}
+        <div className="flex gap-2">
+          <button>
+            <SlCalender />
+          </button>
+          {bookName === "selected" && highlights.length > 0 && (
+            <Selected highlights={highlights} />
+          )}
+        </div>
       </div>
       <div className="flex-grow rounded overflow-hidden bg-lime-50">
         <AutoSizer>
