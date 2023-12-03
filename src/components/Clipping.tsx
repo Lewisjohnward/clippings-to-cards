@@ -12,6 +12,7 @@ export default function Clipping({
   position: number;
   bookName: string;
 }) {
+  const displayDate = useBookStore((state) => state.displayDate);
   const toggleSelected = useBookStore((state) => state.toggleSelected);
   const deleteHighlight = useBookStore((state) => state.deleteHighlight);
   const handleSelect = () => {
@@ -30,7 +31,12 @@ export default function Clipping({
     >
       <div className="flex items-center gap-4 ">
         <p>{position + 1}</p>
-        <p>{highlight.text}</p>
+        <div>
+          <p>{highlight.text}</p>
+          <p className="text-xs h-4">
+            {displayDate && new Date().toLocaleString()}
+          </p>
+        </div>
       </div>
       <div className="flex items-center justify-center">
         <Checkbox
