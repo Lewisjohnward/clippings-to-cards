@@ -4,16 +4,55 @@ import { useBookStore } from "../stores/useBookStore";
 import { getHighlights } from "../helpers/getHighlights";
 import { FaDownload } from "../misc/icons";
 import { Highlights } from "../types/Books";
+import { VariableSizeList as List } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
+import { CSSProperties, useEffect, useRef } from "react";
 
 export const ClippingsView = () => {
+  const rowHeights = useRef({});
+  const listRef = useRef(null);
   const { id: bookName } = useParams();
   const books = useBookStore((state) => state.books);
   if (bookName === undefined) return;
   const highlights = getHighlights(books, bookName);
   if (highlights === undefined) return <NoBooksFound />;
 
+  function getRowHeight(index: number) {
+    if (!rowHeights.current) return 0;
+    return rowHeights.current[index] || 82;
+  }
+
+  const Row = ({ index, style }: { index: number; style: CSSProperties }) => {
+    const rowRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+      if (rowRef.current) {
+        setRowHeight(index, rowRef.current.clientHeight);
+      }
+      // eslint-disable-next-line
+    }, [rowRef]);
+
+    return (
+      <div style={style}>
+        <div ref={rowRef}>
+          <Clipping
+            bookName={bookName}
+            highlight={highlights[index]}
+            position={index}
+          />
+        </div>
+      </div>
+    );
+  };
+
+  function setRowHeight(index: number, size: number) {
+    if (!listRef.current) return;
+    listRef.current.resetAfterIndex(0);
+    rowHeights.current = { ...rowHeights.current, [index]: size };
+  }
+
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <div className="flex justify-between items-center p-4 bg-white shadow-lg">
         <h2 className="text-xl">
           <Link to="/books" className="underline">
@@ -25,18 +64,21 @@ export const ClippingsView = () => {
           <Selected highlights={highlights} />
         )}
       </div>
-      <div className="rounded overflow-hidden">
-        {highlights.map((highlight, position) => {
-          return (
-            <div key={highlight.id}>
-              <Clipping
-                bookName={bookName}
-                highlight={highlight}
-                position={position}
-              />
-            </div>
-          );
-        })}
+      <div className="flex-grow rounded overflow-hidden bg-lime-50">
+        <AutoSizer>
+          {({ height, width }) => (
+            <List
+              className="List"
+              height={height}
+              itemCount={highlights.length}
+              itemSize={getRowHeight}
+              ref={listRef}
+              width={width}
+            >
+              {Row}
+            </List>
+          )}
+        </AutoSizer>
       </div>
     </div>
   );
@@ -49,7 +91,6 @@ const NoBooksFound = () => {
     </div>
   );
 };
-
 
 const Selected = ({ highlights }: { highlights: Highlights[] }) => {
   const handleDownload = () => {
