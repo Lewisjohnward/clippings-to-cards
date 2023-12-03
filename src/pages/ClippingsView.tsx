@@ -4,15 +4,50 @@ import { useBookStore } from "../stores/useBookStore";
 import { getHighlights } from "../helpers/getHighlights";
 import { FaDownload } from "../misc/icons";
 import { Highlights } from "../types/Books";
-import { FixedSizeList as List } from "react-window";
+import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
+import { useEffect, useRef } from "react";
 
 export const ClippingsView = () => {
+  const rowHeights = useRef({});
+  const listRef = useRef({});
   const { id: bookName } = useParams();
   const books = useBookStore((state) => state.books);
   if (bookName === undefined) return;
   const highlights = getHighlights(books, bookName);
   if (highlights === undefined) return <NoBooksFound />;
+
+  function getRowHeight(index) {
+    return rowHeights.current[index] || 82;
+  }
+
+  function Row({ index, style }) {
+    const rowRef = useRef({});
+
+    useEffect(() => {
+      if (rowRef.current) {
+        setRowHeight(index, rowRef.current.clientHeight);
+      }
+      // eslint-disable-next-line
+    }, [rowRef]);
+
+    return (
+      <div style={style}>
+        <div ref={rowRef}>
+          <Clipping
+            bookName={bookName}
+            highlight={highlights[index]}
+            position={index}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  function setRowHeight(index, size) {
+    listRef.current.resetAfterIndex(0);
+    rowHeights.current = { ...rowHeights.current, [index]: size };
+  }
 
   return (
     <div className="h-full flex flex-col">
@@ -31,22 +66,14 @@ export const ClippingsView = () => {
         <AutoSizer>
           {({ height, width }) => (
             <List
+              className="List"
               height={height}
               itemCount={highlights.length}
-              itemSize={200}
+              itemSize={getRowHeight}
+              ref={listRef}
               width={width}
             >
-              {({ index, style }) => {
-                return (
-                  <div style={style}>
-                    <Clipping
-                      bookName={bookName}
-                      highlight={highlights[index]}
-                      position={index}
-                    />
-                  </div>
-                );
-              }}
+              {Row}
             </List>
           )}
         </AutoSizer>
@@ -54,17 +81,6 @@ export const ClippingsView = () => {
     </div>
   );
 };
-// {({ index, style }) => {
-//   return (
-//     <div style={style}>
-//       <Clipping
-//         bookName={bookName}
-//         highlight={highlights[index]}
-//         position={index}
-//       />
-//     </div>
-//   );
-// }}
 
 const NoBooksFound = () => {
   return (
