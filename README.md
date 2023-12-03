@@ -38,4 +38,6 @@ export default {
 -   [ ] Fetch definitions
 -   [ ] Change date format when downloading dd/mm/yy
 -   [ ] Select all
+-   [ ] Sort by date
+-   [ ] split store into slices - display date, cards ?
 
