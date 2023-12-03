@@ -4,6 +4,8 @@ import { useBookStore } from "../stores/useBookStore";
 import { getHighlights } from "../helpers/getHighlights";
 import { FaDownload } from "../misc/icons";
 import { Highlights } from "../types/Books";
+import { FixedSizeList as List } from "react-window";
+import AutoSizer from "react-virtualized-auto-sizer";
 
 export const ClippingsView = () => {
   const { id: bookName } = useParams();
@@ -13,7 +15,7 @@ export const ClippingsView = () => {
   if (highlights === undefined) return <NoBooksFound />;
 
   return (
-    <div>
+    <div className="h-full flex flex-col">
       <div className="flex justify-between items-center p-4 bg-white shadow-lg">
         <h2 className="text-xl">
           <Link to="/books" className="underline">
@@ -25,22 +27,44 @@ export const ClippingsView = () => {
           <Selected highlights={highlights} />
         )}
       </div>
-      <div className="rounded overflow-hidden">
-        {highlights.map((highlight, position) => {
-          return (
-            <div key={highlight.id}>
-              <Clipping
-                bookName={bookName}
-                highlight={highlight}
-                position={position}
-              />
-            </div>
-          );
-        })}
+      <div className="flex-grow rounded overflow-hidden bg-lime-50">
+        <AutoSizer>
+          {({ height, width }) => (
+            <List
+              height={height}
+              itemCount={highlights.length}
+              itemSize={200}
+              width={width}
+            >
+              {({ index, style }) => {
+                return (
+                  <div style={style}>
+                    <Clipping
+                      bookName={bookName}
+                      highlight={highlights[index]}
+                      position={index}
+                    />
+                  </div>
+                );
+              }}
+            </List>
+          )}
+        </AutoSizer>
       </div>
     </div>
   );
 };
+// {({ index, style }) => {
+//   return (
+//     <div style={style}>
+//       <Clipping
+//         bookName={bookName}
+//         highlight={highlights[index]}
+//         position={index}
+//       />
+//     </div>
+//   );
+// }}
 
 const NoBooksFound = () => {
   return (
@@ -49,7 +73,6 @@ const NoBooksFound = () => {
     </div>
   );
 };
-
 
 const Selected = ({ highlights }: { highlights: Highlights[] }) => {
   const handleDownload = () => {
