@@ -60,8 +60,6 @@ export const ClippingsView = () => {
           </Link>
           {` > ${bookName}`}
         </h2>
-        sdf
-
       </div>
       <div className="flex-grow rounded overflow-hidden bg-lime-50">
         <AutoSizer>
