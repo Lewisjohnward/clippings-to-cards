@@ -19,6 +19,10 @@ export const parseClippings = (data: string) => {
       else clippings.push(newObj);
       return;
     }
+    if (isDetails(i)) {
+      handleDetails(el);
+      return;
+    }
     if (isHighlight(i)) {
       handleHighlight(clippings, currentBook, el);
     }
@@ -34,6 +38,7 @@ export const parseClippings = (data: string) => {
 };
 const isTitle = (i: number) => i % 3 == 0;
 const isHighlight = (i: number) => (i + 1) % 3 == 0;
+const isDetails = (i: number) => (i - 1) % 3 == 0;
 
 const getAuthor = (rawTitle: string) => {
   const regExp = /\(([^)]+)\)/;
@@ -44,6 +49,15 @@ const getAuthor = (rawTitle: string) => {
 const getTitle = (rawTitle: string) => {
   const title = rawTitle.replace(/\([^()]*\)/g, "").trim();
   return title;
+};
+
+const handleDetails = (el: string) => {
+  // - La tua evidenziazione a pagina 477 | posizione 7312-7314 | Aggiunto in data lunedì 20 novembre 2023 23:50:21
+  const pageRegex = /\d+/;
+  const page = el.match(pageRegex)[0];
+  console.log(page);
+
+  console.log(el);
 };
 
 const handleTitle = (clippings: Books[], rawTitle: string) => {
