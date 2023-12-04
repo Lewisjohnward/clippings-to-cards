@@ -12,7 +12,6 @@ export default function Clipping({
   position: number;
   bookName: string;
 }) {
-  const displayDate = useBookStore((state) => state.displayDate);
   const toggleSelected = useBookStore((state) => state.toggleSelected);
   const deleteHighlight = useBookStore((state) => state.deleteHighlight);
   const handleSelect = () => {
