@@ -7,13 +7,13 @@ import { Highlights } from "../types/Books";
 import { VariableSizeList as List } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { CSSProperties, useEffect, useRef } from "react";
+import { Checkbox } from "@material-tailwind/react";
 
 export const ClippingsView = () => {
   const rowHeights = useRef({});
   const listRef = useRef(null);
   const { id: bookName } = useParams();
   const books = useBookStore((state) => state.books);
-  const toggleDisplayDate = useBookStore((state) => state.toggleDisplayDate);
   if (bookName === undefined) return;
   const highlights = getHighlights(books, bookName);
   if (highlights === undefined) return <NoBooksFound />;
@@ -60,10 +60,15 @@ export const ClippingsView = () => {
           </Link>
           {` > ${bookName}`}
         </h2>
-        <div className="flex gap-2">
-          <button onClick={toggleDisplayDate}>
-            <SlCalender />
-          </button>
+        <div className="flex items-center">
+          <label>Select all</label>
+          <Checkbox
+            checked={false}
+            ripple={false}
+            onChange={() => console.log("I need plugging in")}
+            className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
+            crossOrigin={undefined}
+          />
           {bookName === "selected" && highlights.length > 0 && (
             <Selected highlights={highlights} />
           )}
