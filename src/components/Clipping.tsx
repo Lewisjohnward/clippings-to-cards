@@ -29,13 +29,13 @@ export default function Clipping({
         (position + 1) % 2 == 0 ? "bg-white" : "bg-yellow-200",
       )}
     >
-      <div className="flex items-center gap-4 ">
+      <div className="flex-grow flex items-center gap-4">
         <p>{position + 1}</p>
-        <div>
-          <p className="text-sm">{highlight.text}</p>
-          <p className="text-xs h-4">
-            {displayDate && new Date().toLocaleString()}
+        <div className="flex items-center gap-4">
+          <p className="text-xs basis-10 text-center opacity-60 italic">
+            {new Date().toLocaleString()}
           </p>
+          <p className="text-sm">{highlight.text}</p>
         </div>
       </div>
       <div className="flex items-center justify-center">
