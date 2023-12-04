@@ -25,15 +25,18 @@ export default function Clipping({
   return (
     <div
       className={clsx(
-        "flex justify-between items-center gap-4 p-2",
+        "flex justify-between items-center gap-2 md:gap-4 px-2 md:px-6 py-2",
         (position + 1) % 2 == 0 ? "bg-white" : "bg-yellow-200",
       )}
     >
-      <div className="flex-grow flex items-center gap-4">
+      <div className="flex-grow flex items-center gap-2 md:gap-8">
         <p>{position + 1}</p>
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 md:gap-8">
           <p className="text-xs basis-10 text-center opacity-60 italic">
             {new Date().toLocaleString()}
+          </p>
+          <p className="text-xs basis-auto text-center opacity-60 italic">
+            {5}
           </p>
           <p className="text-sm">{highlight.text}</p>
         </div>
