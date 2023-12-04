@@ -53,26 +53,15 @@ export const ClippingsView = () => {
   }
   return (
     <div className="h-full flex flex-col">
-      <div className="flex justify-between items-center p-4 bg-white shadow-lg">
+      <div className="p-4 bg-white shadow-lg">
         <h2 className="text-xl">
           <Link to="/books" className="underline">
             Books
           </Link>
           {` > ${bookName}`}
         </h2>
-        <div className="flex items-center">
-          <label>Select all</label>
-          <Checkbox
-            checked={false}
-            ripple={false}
-            onChange={() => console.log("I need plugging in")}
-            className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
-            crossOrigin={undefined}
-          />
-          {bookName === "selected" && highlights.length > 0 && (
-            <Selected highlights={highlights} />
-          )}
-        </div>
+        sdf
+
       </div>
       <div className="flex-grow rounded overflow-hidden bg-lime-50">
         <AutoSizer>
