@@ -4,9 +4,11 @@ import { MdDelete } from "react-icons/md";
 import { FaDownload } from "react-icons/fa6";
 import { SlCalender } from "react-icons/sl";
 import { FaSortUp, FaSortDown } from "react-icons/fa6";
+import { BiSortAlt2 } from "react-icons/bi";
 
 export {
   TbCardsFilled,
+  BiSortAlt2,
   FcKindle,
   MdDelete,
   FaDownload,
