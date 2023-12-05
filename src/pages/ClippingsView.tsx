@@ -2,55 +2,18 @@ import { Link, useParams } from "react-router-dom";
 import Clipping from "../components/Clipping";
 import { useBookStore } from "../stores/useBookStore";
 import { getHighlights } from "../helpers/getHighlights";
-import { FaDownload, SlCalender } from "../misc/icons";
+import { BiSortAlt2, FaDownload, MdDelete } from "../misc/icons";
 import { Highlights } from "../types/Books";
-import { VariableSizeList as List } from "react-window";
-import AutoSizer from "react-virtualized-auto-sizer";
-import { CSSProperties, useEffect, useRef } from "react";
-import { Checkbox } from "@material-tailwind/react";
+import { Checkbox, IconButton } from "@material-tailwind/react";
+import { useState } from "react";
 
 export const ClippingsView = () => {
-  const rowHeights = useRef({});
-  const listRef = useRef(null);
   const { id: bookName } = useParams();
   const books = useBookStore((state) => state.books);
   if (bookName === undefined) return;
   const highlights = getHighlights(books, bookName);
   if (highlights === undefined) return <NoBooksFound />;
 
-  function getRowHeight(index: number) {
-    if (!rowHeights.current) return 0;
-    return rowHeights.current[index] || 82;
-  }
-
-  const Row = ({ index, style }: { index: number; style: CSSProperties }) => {
-    const rowRef = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-      if (rowRef.current) {
-        setRowHeight(index, rowRef.current.clientHeight);
-      }
-      // eslint-disable-next-line
-    }, [rowRef]);
-
-    return (
-      <div style={style}>
-        <div ref={rowRef}>
-          <Clipping
-            bookName={bookName}
-            highlight={highlights[index]}
-            position={index}
-          />
-        </div>
-      </div>
-    );
-  };
-
-  function setRowHeight(index: number, size: number) {
-    if (!listRef.current) return;
-    listRef.current.resetAfterIndex(0);
-    rowHeights.current = { ...rowHeights.current, [index]: size };
-  }
   return (
     <div className="h-full flex flex-col">
       <div className="p-4 bg-white shadow-lg">
@@ -61,22 +24,47 @@ export const ClippingsView = () => {
           {` > ${bookName}`}
         </h2>
       </div>
-      <div className="flex-grow rounded overflow-hidden bg-lime-50">
-        <AutoSizer>
-          {({ height, width }) => (
-            <List
-              className="List"
-              height={height}
-              itemCount={highlights.length}
-              itemSize={getRowHeight}
-              ref={listRef}
-              width={width}
-            >
-              {Row}
-            </List>
-          )}
-        </AutoSizer>
-      </div>
+      <table className="bg-white">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th className="px-2 hover:underline">
+              <button className="w-full flex justify-center items-center">
+                Date
+                <BiSortAlt2 />
+              </button>
+            </th>
+            <th className="px-2 hover:underline">
+              <button className="w-full flex justify-center items-center">
+                Page
+                <BiSortAlt2 />
+              </button>
+            </th>
+            <th>Text</th>
+            <th>
+              <Checkbox
+                checked={false}
+                ripple={false}
+                onChange={() => console.log("select all")}
+                className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
+                crossOrigin={undefined}
+              />
+            </th>
+            <th className="pr-4">
+              <IconButton size="sm" variant="outlined">
+                <MdDelete size={20} onClick={() => console.log("hello")} />
+              </IconButton>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {highlights.map((highlight, i) => {
+            return (
+              <Clipping key={highlight.id} highlight={highlight} position={i} />
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 };
