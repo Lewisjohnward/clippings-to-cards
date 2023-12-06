@@ -24,13 +24,14 @@ export const ClippingsView = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="p-4 bg-white shadow-lg">
+      <div className="flex justify-between px-8 py-4 bg-white shadow-lg">
         <h2 className="text-xl">
           <Link to="/books" className="underline">
             Books
           </Link>
           {` > ${bookName}`}
         </h2>
+        {bookName === "selected" && <Download highlights={highlights} />}
       </div>
       <table className="bg-white">
         <thead>
@@ -89,9 +90,8 @@ const NoBooksFound = () => {
   );
 };
 
-const Selected = ({ highlights }: { highlights: Highlights[] }) => {
+const Download = ({ highlights }: { highlights: Highlights[] }) => {
   const handleDownload = () => {
-    console.log("hello");
     // text content
     const texts = highlights.map((highlight) => `"${highlight.text}";\n`);
 
