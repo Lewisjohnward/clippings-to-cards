@@ -6,17 +6,6 @@ import { BiSortAlt2, FaDownload, MdDelete } from "../misc/icons";
 import { Highlights } from "../types/Books";
 import { Checkbox, IconButton } from "@material-tailwind/react";
 
-const useHeader = (bookName: string | undefined) => {
-  const toggleSelectAll = useBookStore((state) => state.toggleSelectAll);
-
-  const selectAll = () => {
-    if (!bookName) return;
-    toggleSelectAll(bookName);
-  };
-
-  return { selectAll };
-};
-
 const allSelected = (highlights: Highlights[]) => {
   return highlights.every((highlight) => highlight.selected === true);
 };
