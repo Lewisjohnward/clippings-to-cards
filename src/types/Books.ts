@@ -1,8 +1,14 @@
+export interface Details {
+  date: Date;
+  page: number;
+}
+
 export interface Highlights {
   id: string;
   title: string;
   text: string;
   selected: boolean;
+  details: Details;
   // Add translation
   // Add pictures
   // Add images
