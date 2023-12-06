@@ -145,7 +145,6 @@ const handleHighlight = (
       const selected = false;
       const title = clipping.title;
       const highlightObj = { text, title, id, selected, details };
-      console.log(highlightObj)
       clippings[i].highlights.push(highlightObj);
       return true;
     }

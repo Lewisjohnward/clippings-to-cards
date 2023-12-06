@@ -116,7 +116,6 @@ export const useBookStore = create<Store>()(
       // getSelected
       // getBook
       getHighlights: (id) => {
-        console.log("getHighlightsId ", id);
         const booksArr = get().books;
         if (id === "all") {
           return booksArr.map((book) => book.highlights).flat();

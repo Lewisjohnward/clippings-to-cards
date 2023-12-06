@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { TbCardsFilled, FcKindle } from "../misc/icons";
+import { TbCardsFilled } from "../misc/icons";
 import { Footer } from "./Footer";
 
 export const Layout = ({ children }: { children: ReactNode }) => {
