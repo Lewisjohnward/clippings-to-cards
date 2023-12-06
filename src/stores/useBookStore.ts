@@ -9,10 +9,14 @@ type Store = {
   toggleDisplayDate: () => void;
   initialiseBooks: (books: Books[]) => void;
   toggleSelected: (highlight: Highlights) => void;
-  toggleSelectAll: (bookName: string, select: boolean) => void;
+  toggleSelectAll: (bookName: string) => void;
   deleteHighlight: (highlight: Highlights) => void;
   getCount: (selector: string) => number;
   getHighlights: (id: string) => Highlights[] | undefined;
+};
+
+const allSelected = (highlights: Highlights[]) => {
+  return highlights.every((highlight) => highlight.selected === true);
 };
 
 export const useBookStore = create<Store>()(
@@ -46,16 +50,20 @@ export const useBookStore = create<Store>()(
         });
       },
 
-      toggleSelectAll: (bookName, select) => {
+      toggleSelectAll: (bookName) => {
         const booksArray = get().books;
 
         const bookPosition = booksArray
           .map((book) => book.title)
           .indexOf(bookName);
 
-        const updatedHighlights = booksArray[bookPosition].highlights.map(
-          (highlight) => ({ ...highlight, selected: select }),
-        );
+        const prevHighlights = booksArray[bookPosition].highlights;
+        const setSelected = allSelected(prevHighlights);
+
+        const updatedHighlights = prevHighlights.map((highlight) => ({
+          ...highlight,
+          selected: setSelected ? false : true,
+        }));
         return set((state) => {
           state.books[bookPosition].highlights = updatedHighlights;
         });
