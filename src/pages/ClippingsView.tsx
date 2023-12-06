@@ -7,8 +7,25 @@ import { Highlights } from "../types/Books";
 import { Checkbox, IconButton } from "@material-tailwind/react";
 import { useState } from "react";
 
+const useHeader = (bookName: string) => {
+  const toggleSelectAll = useBookStore((state) => state.toggleSelectAll);
+  const [select, setSelect] = useState(false);
+
+  const selectAll = () => {
+    toggleSelectAll(bookName, select);
+    setSelect((prev) => !prev);
+  };
+
+  return { selectAll };
+};
+
+const allSelected = (highlights: Highlights[]) => {
+  return highlights.every((highlight) => highlight.selected === true);
+};
+
 export const ClippingsView = () => {
   const { id: bookName } = useParams();
+  const { selectAll } = useHeader(bookName);
   const books = useBookStore((state) => state.books);
   if (bookName === undefined) return;
   const highlights = getHighlights(books, bookName);
@@ -43,9 +60,9 @@ export const ClippingsView = () => {
             <th>Text</th>
             <th>
               <Checkbox
-                checked={false}
+                checked={allSelected(highlights)}
                 ripple={false}
-                onChange={() => console.log("select all")}
+                onChange={selectAll}
                 className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
                 crossOrigin={undefined}
               />
