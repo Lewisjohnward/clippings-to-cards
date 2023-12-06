@@ -1,7 +1,8 @@
 import { create } from "zustand";
 import { Books, Highlights } from "../types/Books";
-import { persist } from "zustand/middleware";
+import { PersistStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
+import SuperJSON from "superjson";
 
 type Store = {
   books: Books[];
@@ -17,6 +18,18 @@ type Store = {
 
 const allSelected = (highlights: Highlights[]) => {
   return highlights.every((highlight) => highlight.selected === true);
+};
+
+const storage: PersistStorage<Store> = {
+  getItem: (name) => {
+    const str = localStorage.getItem(name);
+    if (!str) return null;
+    return SuperJSON.parse(str);
+  },
+  setItem: (name, value) => {
+    localStorage.setItem(name, SuperJSON.stringify(value));
+  },
+  removeItem: (name) => localStorage.removeItem(name),
 };
 
 export const useBookStore = create<Store>()(
@@ -123,6 +136,7 @@ export const useBookStore = create<Store>()(
     })),
     {
       name: "book-storage",
+      storage,
     },
   ),
 );
