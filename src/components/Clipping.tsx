@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { format } from "date-fns";
 import { Highlights } from "../types/Books";
 import { Checkbox, IconButton } from "@material-tailwind/react";
 import { MdDelete } from "../misc/icons";
@@ -20,6 +21,9 @@ export default function Clipping({
     deleteHighlight(highlight);
   };
 
+  const dateddMMyy = format(highlight.details.date, "dd-MM-yy");
+  const timeHmmss = format(highlight.details.date, "H:mm:ss");
+
   return (
     <tr
       className={clsx(
@@ -30,11 +34,11 @@ export default function Clipping({
       <td className="p-4 text-xs text-center italic">{position + 1}</td>
       <td className="text-xs text-center italic">
         <div>
-          <p>{"04/12/2023"}</p>
-          <p>{"17:52:05"}</p>
+          <p>{dateddMMyy}</p>
+          <p>{timeHmmss}</p>
         </div>
       </td>
-      <td className="text-xs text-center italic">{5}</td>
+      <td className="text-xs text-center italic">{highlight.details.page}</td>
       <td className="text-sm p-2">{highlight.text}</td>
       <td>
         <Checkbox
