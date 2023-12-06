@@ -5,16 +5,13 @@ import { getHighlights } from "../helpers/getHighlights";
 import { BiSortAlt2, FaDownload, MdDelete } from "../misc/icons";
 import { Highlights } from "../types/Books";
 import { Checkbox, IconButton } from "@material-tailwind/react";
-import { useState } from "react";
 
 const useHeader = (bookName: string | undefined) => {
   const toggleSelectAll = useBookStore((state) => state.toggleSelectAll);
-  const [select, setSelect] = useState(false);
 
   const selectAll = () => {
     if (!bookName) return;
-    toggleSelectAll(bookName, select);
-    setSelect((prev) => !prev);
+    toggleSelectAll(bookName);
   };
 
   return { selectAll };
@@ -26,11 +23,15 @@ const allSelected = (highlights: Highlights[]) => {
 
 export const ClippingsView = () => {
   const { id: bookName } = useParams();
-  const { selectAll } = useHeader(bookName);
   const books = useBookStore((state) => state.books);
+  const toggleSelectAll = useBookStore((state) => state.toggleSelectAll);
   if (bookName === undefined) return;
   const highlights = getHighlights(books, bookName);
   if (highlights === undefined) return <NoBooksFound />;
+
+  const handleToggleSelectAll = () => {
+    toggleSelectAll(bookName);
+  };
 
   return (
     <div className="h-full flex flex-col">
@@ -60,18 +61,22 @@ export const ClippingsView = () => {
             </th>
             <th>Text</th>
             <th>
-              <Checkbox
-                checked={allSelected(highlights)}
-                ripple={false}
-                onChange={selectAll}
-                className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
-                crossOrigin={undefined}
-              />
+              {bookName != "selected" && bookName != "all" && (
+                <Checkbox
+                  checked={allSelected(highlights)}
+                  ripple={false}
+                  onChange={handleToggleSelectAll}
+                  className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
+                  crossOrigin={undefined}
+                />
+              )}
             </th>
             <th className="pr-4">
-              <IconButton size="sm" variant="outlined">
-                <MdDelete size={20} onClick={() => console.log("hello")} />
-              </IconButton>
+              {bookName != "selected" && bookName != "all" && (
+                <IconButton size="sm" variant="outlined">
+                  <MdDelete size={20} onClick={() => console.log("hello")} />
+                </IconButton>
+              )}
             </th>
           </tr>
         </thead>
