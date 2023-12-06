@@ -45,7 +45,7 @@ export default function Clipping({
           crossOrigin={undefined}
         />
       </td>
-      <td>
+      <td className="pr-4">
         <IconButton size="sm" variant="outlined">
           <MdDelete size={20} onClick={handleDeleteHighlight} />
         </IconButton>
