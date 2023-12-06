@@ -7,11 +7,12 @@ import { Highlights } from "../types/Books";
 import { Checkbox, IconButton } from "@material-tailwind/react";
 import { useState } from "react";
 
-const useHeader = (bookName: string) => {
+const useHeader = (bookName: string | undefined) => {
   const toggleSelectAll = useBookStore((state) => state.toggleSelectAll);
   const [select, setSelect] = useState(false);
 
   const selectAll = () => {
+    if (!bookName) return;
     toggleSelectAll(bookName, select);
     setSelect((prev) => !prev);
   };
