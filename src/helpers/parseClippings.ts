@@ -1,4 +1,4 @@
-import { Books } from "../types/Books";
+import { Books, Details } from "../types/Books";
 import { v4 as uuidv4 } from "uuid";
 
 export const parseClippings = (data: string) => {
@@ -11,6 +11,10 @@ export const parseClippings = (data: string) => {
   const clippings: Books[] = [];
 
   let currentBook = "";
+  let details = {
+    date: new Date(),
+    page: 0,
+  };
   array.forEach((el, i) => {
     if (isTitle(i)) {
       currentBook = el;
@@ -20,11 +24,11 @@ export const parseClippings = (data: string) => {
       return;
     }
     if (isDetails(i)) {
-      handleDetails(el);
+      details = handleDetails(el);
       return;
     }
     if (isHighlight(i)) {
-      handleHighlight(clippings, currentBook, el);
+      handleHighlight(clippings, currentBook, details, el);
     }
   });
   return clippings;
@@ -51,13 +55,73 @@ const getTitle = (rawTitle: string) => {
   return title;
 };
 
-const handleDetails = (el: string) => {
+const handleDetails = (details: string) => {
   // - La tua evidenziazione a pagina 477 | posizione 7312-7314 | Aggiunto in data lunedì 20 novembre 2023 23:50:21
-  const pageRegex = /\d+/;
-  const page = el.match(pageRegex)[0];
-  console.log(page);
+  const segments = details.split("|");
 
-  console.log(el);
+  // Get page
+  const pageRegex = /\d+/;
+  const extracted = segments[0].match(pageRegex);
+  const page = extracted != null ? parseInt(extracted[0]) : 0;
+
+  // Get date
+  const dateStr = segments[2].replace(/\sAggiunto in data\s/, "");
+  const splitDate = dateStr.split(" ");
+  const year = parseInt(splitDate[3]);
+  const month = getMonth(splitDate[2]);
+  const day = parseInt(splitDate[1]);
+
+  // Get time
+  const splitTime = splitDate[4].split(":");
+  const hour = parseInt(splitTime[0]);
+  const minute = parseInt(splitTime[1]);
+  const second = parseInt(splitTime[2]);
+
+  const date = new Date(year, month, day, hour, minute, second, 0);
+  return { date, page };
+};
+
+const getMonth = (monthStr: string) => {
+  switch (monthStr) {
+    case "gennaio": {
+      return 0;
+    }
+    case "febbraio": {
+      return 1;
+    }
+    case "marzo": {
+      return 2;
+    }
+    case "aprile": {
+      return 3;
+    }
+    case "maggio": {
+      return 4;
+    }
+    case "giugno": {
+      return 5;
+    }
+    case "luglio": {
+      return 6;
+    }
+    case "agosto": {
+      return 7;
+    }
+    case "settembre": {
+      return 8;
+    }
+    case "ottobre": {
+      return 9;
+    }
+    case "novembre": {
+      return 10;
+    }
+    case "dicembre": {
+      return 11;
+    }
+    default:
+      return 0;
+  }
 };
 
 const handleTitle = (clippings: Books[], rawTitle: string) => {
@@ -72,6 +136,7 @@ const handleTitle = (clippings: Books[], rawTitle: string) => {
 const handleHighlight = (
   clippings: Books[],
   rawTitle: string,
+  details: Details,
   text: string,
 ) => {
   clippings.find((clipping, i) => {
@@ -79,7 +144,8 @@ const handleHighlight = (
       const id = uuidv4();
       const selected = false;
       const title = clipping.title;
-      const highlightObj = { text, title, id, selected };
+      const highlightObj = { text, title, id, selected, details };
+      console.log(highlightObj)
       clippings[i].highlights.push(highlightObj);
       return true;
     }
