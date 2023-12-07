@@ -14,7 +14,7 @@ export const getHighlights = (books: Books[], id: string) => {
     return highlightsSelected;
   } else {
     const booksFiltered = books.filter((d) => d.title == id);
-    if (booksFiltered.length === 0) return;
+    if (booksFiltered.length === 0) return [];
 
     const [{ highlights }] = books.filter((d) => d.title == id);
     return highlights;
