@@ -11,7 +11,6 @@ type Store = {
   toggleSelectAll: (bookName: string) => void;
   deleteHighlight: (highlight: Highlights) => void;
   getCount: (selector: string) => number;
-  getHighlights: (id: string) => Highlights[];
 };
 
 const allSelected = (highlights: Highlights[]) => {
@@ -106,23 +105,6 @@ export const useBookStore = create<Store>()(
       // getAll
       // getSelected
       // getBook
-      getHighlights: (id) => {
-        const booksArr = get().books;
-        if (id === "all") {
-          return booksArr.map((book) => book.highlights).flat();
-        } else if (id === "selected") {
-          return booksArr
-            .map((book) => book.highlights)
-            .flat()
-            .filter((highlight) => highlight.selected === true);
-        } else {
-          const booksFiltered = booksArr.filter((d) => d.title == id);
-          if (booksFiltered.length === 0) return [];
-
-          const [{ highlights }] = booksArr.filter((d) => d.title == id);
-          return highlights;
-        }
-      },
     })),
     {
       name: "book-storage",
