@@ -11,16 +11,19 @@ const allSelected = (highlights: Highlights[]) => {
 };
 
 export const ClippingsView = () => {
-  const { id: bookName } = useParams();
+  /* Get id/bookname from params*/
+  const { id: bookName } = useParams<keyof { id: string }>() as { id: string };
+  /* Store methods */
   const books = useBookStore((state) => state.books);
   const toggleSelectAll = useBookStore((state) => state.toggleSelectAll);
-  if (bookName === undefined) return;
+
   const highlights = getHighlights(books, bookName);
-  if (highlights === undefined) return <NoBooksFound />;
 
   const handleToggleSelectAll = () => {
     toggleSelectAll(bookName);
   };
+
+  if (highlights.length === 0) return <NoClippingsFound />;
 
   return (
     <div className="h-full flex flex-col">
@@ -38,13 +41,19 @@ export const ClippingsView = () => {
           <tr>
             <th>#</th>
             <th className="px-2 hover:underline">
-              <button className="w-full flex justify-center items-center">
+              <button
+                // onClick={sortByDate}
+                className="w-full flex justify-center items-center"
+              >
                 Date
                 <BiSortAlt2 />
               </button>
             </th>
             <th className="px-2 hover:underline">
-              <button className="w-full flex justify-center items-center">
+              <button
+                // onClick={sortByPage}
+                className="w-full flex justify-center items-center"
+              >
                 Page
                 <BiSortAlt2 />
               </button>
@@ -82,10 +91,11 @@ export const ClippingsView = () => {
   );
 };
 
-const NoBooksFound = () => {
+const NoClippingsFound = () => {
   return (
-    <div>
-      <div>No books here</div>
+    <div className="h-full flex flex-col justify-center items-center">
+      <p>No books here</p>
+      <Link to="/books">Return home</Link>
     </div>
   );
 };
