@@ -15,13 +15,7 @@ export const ClippingsView = () => {
   const { id: bookName } = useParams<keyof { id: string }>() as { id: string };
   /* Store methods */
   const books = useBookStore((state) => state.books);
-  const toggleSelectAll = useBookStore((state) => state.toggleSelectAll);
-
   const highlights = getHighlights(books, bookName);
-
-  const handleToggleSelectAll = () => {
-    toggleSelectAll(bookName);
-  };
 
   if (highlights.length === 0) return <NoClippingsFound />;
 
@@ -36,58 +30,77 @@ export const ClippingsView = () => {
         </h2>
         {bookName === "selected" && <Download highlights={highlights} />}
       </div>
-      <table className="bg-white">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th className="px-2 hover:underline">
-              <button
-                // onClick={sortByDate}
-                className="w-full flex justify-center items-center"
-              >
-                Date
-                <BiSortAlt2 />
-              </button>
-            </th>
-            <th className="px-2 hover:underline">
-              <button
-                // onClick={sortByPage}
-                className="w-full flex justify-center items-center"
-              >
-                Page
-                <BiSortAlt2 />
-              </button>
-            </th>
-            <th>Text</th>
-            <th>
-              {bookName != "selected" && bookName != "all" && (
-                <Checkbox
-                  checked={allSelected(highlights)}
-                  ripple={false}
-                  onChange={handleToggleSelectAll}
-                  className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
-                  crossOrigin={undefined}
-                />
-              )}
-            </th>
-            <th className="pr-4">
-              {bookName != "selected" && bookName != "all" && (
-                <IconButton size="sm" variant="outlined">
-                  <MdDelete size={20} onClick={() => console.log("hello")} />
-                </IconButton>
-              )}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {highlights.map((highlight, i) => {
-            return (
-              <Clipping key={highlight.id} highlight={highlight} position={i} />
-            );
-          })}
-        </tbody>
-      </table>
+      <ClippingTable bookName={bookName} highlights={highlights} />
     </div>
+  );
+};
+
+const ClippingTable = ({
+  bookName,
+  highlights,
+}: {
+  bookName: string;
+  highlights: Highlights[];
+}) => {
+  const toggleSelectAll = useBookStore((state) => state.toggleSelectAll);
+  // const sortByDate = useBookStore((state) => state.sortByDate)
+  // const sortByDate = useBookStore((state) => state.sortByDate)
+  const handleToggleSelectAll = () => {
+    toggleSelectAll(bookName);
+  };
+
+  return (
+    <table className="bg-white">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th className="px-2 hover:underline">
+            <button
+              // onClick={sortByDate}
+              className="w-full flex justify-center items-center"
+            >
+              Date
+              <BiSortAlt2 />
+            </button>
+          </th>
+          <th className="px-2 hover:underline">
+            <button
+              // onClick={sortByPage}
+              className="w-full flex justify-center items-center"
+            >
+              Page
+              <BiSortAlt2 />
+            </button>
+          </th>
+          <th>Text</th>
+          <th>
+            {bookName != "selected" && bookName != "all" && (
+              <Checkbox
+                checked={allSelected(highlights)}
+                ripple={false}
+                onChange={handleToggleSelectAll}
+                className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
+                crossOrigin={undefined}
+              />
+            )}
+          </th>
+          <th className="pr-4">
+            {bookName != "selected" && bookName != "all" && (
+              <IconButton size="sm" variant="outlined">
+                <MdDelete size={20} onClick={() => console.log("hello")} />
+              </IconButton>
+            )}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {highlights.map((highlight, i) => {
+          return (
+            <Clipping key={highlight.id} highlight={highlight} position={i} />
+          );
+        })}
+      </tbody>
+    </table>
   );
 };
 
