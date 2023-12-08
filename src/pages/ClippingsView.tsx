@@ -1,7 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import Clipping from "../components/Clipping";
 import { useBookStore } from "../stores/useBookStore";
-import { getHighlights } from "../helpers/getHighlights";
 import { BiSortAlt2, FaDownload, MdDelete } from "../misc/icons";
 import { Highlights } from "../types/Books";
 import { Checkbox, IconButton } from "@material-tailwind/react";
@@ -14,8 +13,10 @@ export const ClippingsView = () => {
   /* Get id/bookname from params*/
   const { id: bookName } = useParams<keyof { id: string }>() as { id: string };
   /* Store methods */
-  const books = useBookStore((state) => state.books);
-  const highlights = getHighlights(books, bookName);
+  // const books = useBookStore((state) => state.books);
+  useBookStore((state) => state.books);
+  const getHighlights = useBookStore((state) => state.getHighlights);
+  const highlights = getHighlights(bookName);
 
   if (highlights.length === 0) return <NoClippingsFound />;
 
@@ -35,6 +36,9 @@ export const ClippingsView = () => {
   );
 };
 
+const DATE = "date"
+const PAGE = "page"
+
 const ClippingTable = ({
   bookName,
   highlights,
@@ -43,12 +47,11 @@ const ClippingTable = ({
   highlights: Highlights[];
 }) => {
   const toggleSelectAll = useBookStore((state) => state.toggleSelectAll);
-  // const sortByDate = useBookStore((state) => state.sortByDate)
-  // const sortByDate = useBookStore((state) => state.sortByDate)
   const handleToggleSelectAll = () => {
     toggleSelectAll(bookName);
   };
 
+  const sort = useBookStore((state) => state.sort);
   return (
     <table className="bg-white">
       <thead>
@@ -56,7 +59,7 @@ const ClippingTable = ({
           <th>#</th>
           <th className="px-2 hover:underline">
             <button
-              // onClick={sortByDate}
+              onClick={() => sort(bookName, DATE)}
               className="w-full flex justify-center items-center"
             >
               Date
@@ -65,7 +68,7 @@ const ClippingTable = ({
           </th>
           <th className="px-2 hover:underline">
             <button
-              // onClick={sortByPage}
+              onClick={() => sort(bookName, PAGE)}
               className="w-full flex justify-center items-center"
             >
               Page
