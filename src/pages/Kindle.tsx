@@ -79,7 +79,7 @@ const CardDropArea = ({
 }) => {
   return (
     <div className="h-full flex justify-center" onDrop={handleDrop}>
-      <div className="hidden md:flex justify-center items-center">
+      <div className="hidden lg:flex justify-center items-center">
         <FcKindle size={300} className="select-none" />
       </div>
       <div className="flex justify-center items-center">
