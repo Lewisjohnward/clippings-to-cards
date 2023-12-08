@@ -69,18 +69,16 @@ export const Kindle = () => {
   };
 
   const proceedWithClippings = () => {
-    console.log("proceed with clippings");
     clippingsFile?.text().then((data: string) => {
       const clippings = parseClippings(data);
-      setDisplayModal(false)
+      setDisplayModal(false);
       initialiseBooks(clippings);
       navigate("/books");
     });
   };
 
   const cancelClippings = () => {
-    console.log("Cancel clippings");
-      setDisplayModal(false)
+    setDisplayModal(false);
     setClippingsFile(undefined);
   };
 
