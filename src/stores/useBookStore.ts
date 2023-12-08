@@ -11,6 +11,9 @@ type Store = {
   toggleSelectAll: (bookName: string) => void;
   deleteHighlight: (highlight: Highlights) => void;
   getCount: (selector: string) => number;
+  getHighlights: (bookName: string) => Highlights[];
+  sort: (bookName: string, field: string) => void;
+  sortAscending: boolean;
 };
 
 const allSelected = (highlights: Highlights[]) => {
@@ -102,7 +105,54 @@ export const useBookStore = create<Store>()(
             }, 0);
         }
       },
-      // getAll
+      getHighlights: (bookName: string) => {
+        const booksArr = get().books;
+        if (bookName === "all") {
+          const highlights: Highlights[] = [];
+          booksArr.forEach((book) => highlights.push(...book.highlights));
+          return highlights;
+        } else if (bookName === "selected") {
+          const highlights: Highlights[] = [];
+          booksArr.forEach((book) => highlights.push(...book.highlights));
+          const highlightsSelected = highlights.filter(
+            (highlight) => highlight.selected == true,
+          );
+          return highlightsSelected;
+        } else {
+          const booksFiltered = booksArr.filter((d) => d.title == bookName);
+          if (booksFiltered.length === 0) return [];
+
+          const [{ highlights }] = booksArr.filter((d) => d.title == bookName);
+          return highlights;
+        }
+      },
+
+      sortAscending: false,
+
+      sort: (bookName, field) => {
+        const booksArray = get().books;
+        const sort = get().sortAscending;
+
+        const bookPosition = booksArray
+          .map((book) => book.title)
+          .indexOf(bookName);
+
+        const test = booksArray[bookPosition].highlights;
+        const anotherTest = [...test];
+        const highlightArr = anotherTest.sort((a, b) => {
+          const clippA = a.details[field as keyof typeof a.details].valueOf();
+          const clippB = b.details[field as keyof typeof a.details].valueOf();
+
+          if (sort) return clippA - clippB;
+          else return clippB - clippA;
+        });
+
+        return set((state) => {
+          state.books[bookPosition].highlights = highlightArr;
+          state.sortAscending = !state.sortAscending;
+        });
+      },
+
       // getSelected
       // getBook
     })),
