@@ -1,12 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import ReactModal from "react-modal";
 import { FcKindle } from "../misc/icons";
-import { ChangeEvent, DragEvent } from "react";
+import { ChangeEvent, DragEvent, useState } from "react";
 import { useBookStore } from "../stores/useBookStore";
 import { parseClippings } from "../helpers/parseClippings";
 
 export const Kindle = () => {
+  const [displayModal, setDisplayModal] = useState(false);
+  const [clippingsFile, setClippingsFile] = useState<File>();
   const initialiseBooks = useBookStore((state) => state.initialiseBooks);
+  const books = useBookStore((state) => state.books);
   const navigate = useNavigate();
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
@@ -29,6 +32,10 @@ export const Kindle = () => {
       console.log("Throw error doesn't appear to be a text file");
       return;
     }
+    if (books.length != 0) {
+      setDisplayModal(true);
+      return;
+    }
 
     const file = item.getAsFile();
     if (!file) return;
@@ -48,6 +55,12 @@ export const Kindle = () => {
       console.log("Throw error doesn't appear to be a text file");
       return;
     }
+
+    if (books.length != 0) {
+      setDisplayModal(true);
+      setClippingsFile(item);
+      return;
+    }
     item.text().then((data: string) => {
       const clippings = parseClippings(data);
       initialiseBooks(clippings);
@@ -55,9 +68,50 @@ export const Kindle = () => {
     });
   };
 
+  const proceedWithClippings = () => {
+    console.log("proceed with clippings");
+    clippingsFile?.text().then((data: string) => {
+      const clippings = parseClippings(data);
+      setDisplayModal(false)
+      initialiseBooks(clippings);
+      navigate("/books");
+    });
+  };
+
+  const cancelClippings = () => {
+    console.log("Cancel clippings");
+      setDisplayModal(false)
+    setClippingsFile(undefined);
+  };
+
   return (
     <div className="h-full flex justify-center">
       {false && <Loading />}
+      <ReactModal
+        isOpen={displayModal}
+        appElement={document.getElementById("root") || undefined}
+        className="text-xl md:w-1/2 xl:w-2/6 p-4 space-y-4 bg-white rounded outline-none shadow-lg"
+        overlayClassName="absolute top-0 h-[100dvh] w-screen flex justify-center items-center p-4 bg-black bg-opacity-40"
+      >
+        <p>
+          It appears you already have some clippings, uploading will cause these
+          to be overwritten. Are you sure you want to continue?
+        </p>
+        <div className="flex justify-center gap-4">
+          <button
+            onClick={proceedWithClippings}
+            className="bg-green-400 rounded px-4 py-2 text-white"
+          >
+            Yes
+          </button>
+          <button
+            onClick={cancelClippings}
+            className="bg-red-400 rounded px-4 py-2 text-white"
+          >
+            No
+          </button>
+        </div>
+      </ReactModal>
       <CardDropArea handleDrop={handleDrop} handleChange={handleChange} />
     </div>
   );
@@ -80,12 +134,6 @@ const CardDropArea = ({
 }) => {
   return (
     <>
-      <ReactModal
-        isOpen={false}
-        appElement={document.getElementById("root") || undefined}
-      >
-        hello from react modal
-      </ReactModal>
       <div className="h-full flex justify-center" onDrop={handleDrop}>
         <div className="hidden lg:flex justify-center items-center">
           <FcKindle size={300} className="select-none" />
