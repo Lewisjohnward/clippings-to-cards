@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import ReactModal from "react-modal";
 import { FcKindle } from "../misc/icons";
 import { ChangeEvent, DragEvent } from "react";
 import { useBookStore } from "../stores/useBookStore";
@@ -78,29 +79,37 @@ const CardDropArea = ({
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }) => {
   return (
-    <div className="h-full flex justify-center" onDrop={handleDrop}>
-      <div className="hidden lg:flex justify-center items-center">
-        <FcKindle size={300} className="select-none" />
-      </div>
-      <div className="flex justify-center items-center">
-        <div className="space-y-4 text-sm px-12 md:text-lg md:px-8 overflow-hidden">
-          <ul className="space-y-4 list-disc">
-            <li>
-              Drag'n'drop from Kindle Connect your Kindle to the computer via a
-              USB cable.
-            </li>
-            <li>
-              Locate the myclippings.txt file on the Kindle disk in documents.
-            </li>
-            <li>
-              Drag and drop the file on this page or click below to upload.
-            </li>
-          </ul>
-          <form>
-            <input onChange={handleChange} type="file" />
-          </form>
+    <>
+      <ReactModal
+        isOpen={false}
+        appElement={document.getElementById("root") || undefined}
+      >
+        hello from react modal
+      </ReactModal>
+      <div className="h-full flex justify-center" onDrop={handleDrop}>
+        <div className="hidden lg:flex justify-center items-center">
+          <FcKindle size={300} className="select-none" />
+        </div>
+        <div className="flex justify-center items-center">
+          <div className="space-y-4 text-sm px-12 md:text-lg md:px-8 overflow-hidden">
+            <ul className="space-y-4 list-disc">
+              <li>
+                Drag'n'drop from Kindle Connect your Kindle to the computer via
+                a USB cable.
+              </li>
+              <li>
+                Locate the myclippings.txt file on the Kindle disk in documents.
+              </li>
+              <li>
+                Drag and drop the file on this page or click below to upload.
+              </li>
+            </ul>
+            <form>
+              <input onChange={handleChange} type="file" />
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
