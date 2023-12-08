@@ -22,7 +22,7 @@ export const ClippingsView = () => {
 
   return (
     <div className="h-full flex flex-col">
-      <div className="flex justify-between px-8 py-4 bg-white shadow-lg">
+      <div className="flex justify-between px-4 md:px-8 py-4 bg-white shadow-lg">
         <h2 className="text-xl">
           <Link to="/books" className="underline">
             Books
@@ -36,8 +36,8 @@ export const ClippingsView = () => {
   );
 };
 
-const DATE = "date"
-const PAGE = "page"
+const DATE = "date";
+const PAGE = "page";
 
 const ClippingTable = ({
   bookName,

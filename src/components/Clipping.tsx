@@ -31,7 +31,7 @@ export default function Clipping({
         (position + 1) % 2 == 0 ? "bg-white" : "bg-yellow-200",
       )}
     >
-      <td className="p-4 text-xs text-center italic">{position + 1}</td>
+      <td className="md:p-4 text-xs text-center italic">{position + 1}</td>
       <td className="text-xs text-center italic">
         <div>
           <p>{dateddMMyy}</p>
@@ -39,7 +39,7 @@ export default function Clipping({
         </div>
       </td>
       <td className="text-xs text-center italic">{highlight.details.page}</td>
-      <td className="text-sm p-2">{highlight.text}</td>
+      <td className="text-sm md:p-2">{highlight.text}</td>
       <td>
         <Checkbox
           checked={highlight.selected}
