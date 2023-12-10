@@ -48,7 +48,7 @@ export const BooksView = () => {
                     view.id == "selected" && count == 0 && view.style,
                   )}
                 >
-                  <div className="flex flex-col lg:flex-row justify-between p-4">
+                  <div className="4xl:flex justify-between p-4">
                     <h3>{view.text}</h3>
                     <p className="text-left">{count} clippings</p>
                   </div>
