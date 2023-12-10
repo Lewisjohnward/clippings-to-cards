@@ -22,13 +22,11 @@ export const BooksView = () => {
   const handleFetchDefinition = () => {
     console.log("fetching!");
     const str =
-      " https://dictionary.yandex.net/api/v1/dicservice.json/lookup?=&flags=4&key=dict.1.1.20231202T165200Z.f37a0db6c660a327.38c38e5f1732bcdf6faea905077ad49744d61e3d&lang=it-en&text=ubicare ";
+      "https://dictionary.yandex.net/api/v1/dicservice.json/lookup?=&flags=4&key=dict.1.1.20231202T165200Z.f37a0db6c660a327.38c38e5f1732bcdf6faea905077ad49744d61e3d&lang=it-en&text=freddo";
     fetch(str)
-      .then((res) => res.body)
-      .then((body) => {
-        const reader = body.getReader();
-        //Readable stream?
-      });
+      .then((data) => data.json())
+      .then((test) => console.log(test))
+      .catch((error) => console.log(error));
   };
 
   return (
