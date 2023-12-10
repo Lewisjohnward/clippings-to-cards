@@ -24,6 +24,21 @@ export default function Clipping({
   const dateddMMyy = format(highlight.details.date, "dd-MM-yy");
   const timeHmmss = format(highlight.details.date, "H:mm:ss");
 
+  const handleTranslate = (e) => {
+    console.log(e.target.innerText);
+    const word = e.target.innerText;
+
+    const str = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?=&flags=4&key=dict.1.1.20231202T165200Z.f37a0db6c660a327.38c38e5f1732bcdf6faea905077ad49744d61e3d&lang=it-en&text=${word}`;
+    fetch(str)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        console.log(data.def[0].tr);
+        alert(data.def[0].tr[0].text);
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <tr
       className={clsx(
@@ -39,7 +54,15 @@ export default function Clipping({
         </div>
       </td>
       <td className="text-xs text-center italic">{highlight.details.page}</td>
-      <td className="text-sm md:p-2">{highlight.text}</td>
+      <td className="text-sm md:p-2">
+        {highlight.text.split(" ").map((word) => (
+          <p className="inline">
+            <span onClick={handleTranslate} className="hover:bg-red-200">
+              {word}
+            </span>{" "}
+          </p>
+        ))}
+      </td>
       <td>
         <Checkbox
           checked={highlight.selected}
