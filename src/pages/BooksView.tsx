@@ -19,11 +19,7 @@ export const BooksView = () => {
   const books = useBookStore((state) => state.books);
   const getCount = useBookStore((state) => state.getCount);
 
-<<<<<<< HEAD
-
-=======
   if (books.length === 0) return <NoBooksFound />;
->>>>>>> 270a0c38ccefa94ea13c500550b7ef48f6fabc81
   return (
     <div className="flex-grow h-full w-full p-10">
       <div className="space-y-8">
