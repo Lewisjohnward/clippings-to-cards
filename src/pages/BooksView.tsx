@@ -19,15 +19,7 @@ export const BooksView = () => {
   const books = useBookStore((state) => state.books);
   const getCount = useBookStore((state) => state.getCount);
 
-  const handleFetchDefinition = () => {
-    console.log("fetching!");
-    const str =
-      "https://dictionary.yandex.net/api/v1/dicservice.json/lookup?=&flags=4&key=dict.1.1.20231202T165200Z.f37a0db6c660a327.38c38e5f1732bcdf6faea905077ad49744d61e3d&lang=it-en&text=freddo";
-    fetch(str)
-      .then((data) => data.json())
-      .then((test) => console.log(test))
-      .catch((error) => console.log(error));
-  };
+  if (books.length === 0) return <NoBooksFound />;
 
   return (
     <div className="flex-grow h-full w-full p-10">
@@ -69,8 +61,20 @@ export const BooksView = () => {
           </div>
         </div>
       </div>
-      <p>my word</p>
-      <button onClick={handleFetchDefinition}>Fetch def</button>
     </div>
   );
 };
+
+function NoBooksFound() {
+  return (
+    <div className="h-full flex flex-col justify-center items-center">
+      <p>No clippings found!</p>
+      <p>
+        Upload some{" "}
+        <Link to="/kindle" className="underline">
+          here
+        </Link>
+      </p>
+    </div>
+  );
+}
