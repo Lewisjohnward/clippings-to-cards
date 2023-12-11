@@ -110,7 +110,7 @@ const ClippingTable = ({
 const NoClippingsFound = () => {
   return (
     <div className="h-full flex flex-col justify-center items-center">
-      <p>No books here</p>
+      <p>No clippings here</p>
       <Link to="/books">Return home</Link>
     </div>
   );
