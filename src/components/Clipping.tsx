@@ -8,7 +8,9 @@ import { useBookStore } from "../stores/useBookStore";
 const LANGUAGE = `it`;
 
 const useTranslate = (highlight: Highlights) => {
-  const appendTranslation = useBookStore((state) => state.appendTranslation);
+  const appendTranslation = useBookStore(
+    (state) => state.actions.appendTranslation,
+  );
   const translate = (e) => {
     const word = e.target.innerText;
 
@@ -53,8 +55,10 @@ export default function Clipping({
   highlight: Highlights;
   position: number;
 }) {
-  const toggleSelected = useBookStore((state) => state.toggleSelected);
-  const deleteHighlight = useBookStore((state) => state.deleteHighlight);
+  const toggleSelected = useBookStore((state) => state.actions.toggleSelected);
+  const deleteHighlight = useBookStore(
+    (state) => state.actions.deleteHighlight,
+  );
   const handleSelect = () => {
     toggleSelected(highlight);
   };
