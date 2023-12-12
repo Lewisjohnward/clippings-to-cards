@@ -4,6 +4,7 @@ import { useBookStore } from "../stores/useBookStore";
 import { BiSortAlt2, FaDownload, MdDelete } from "../misc/icons";
 import { Highlights } from "../types/Books";
 import { Checkbox, IconButton } from "@material-tailwind/react";
+import { format } from "date-fns";
 
 const allSelected = (highlights: Highlights[]) => {
   return highlights.every((highlight) => highlight.selected === true);
@@ -119,16 +120,22 @@ const NoClippingsFound = () => {
 const Download = ({ highlights }: { highlights: Highlights[] }) => {
   const handleDownload = () => {
     // text content
-    const texts = highlights.map((highlight) => `"${highlight.text}";\n`);
+    const texts = highlights.map((highlight) => {
+      const translations = highlight.translations.join("<br>");
+
+      //Need to escape quotes with double quotes
+      return `"${highlight.text}<br><br><p style=""font-size:16px;font-style:italic"">${translations}</p>"\n`;
+    });
 
     // file object
     const file = new Blob(texts, { type: "text/plain" });
-    file.text().then((data) => console.log(data));
 
+    const now = Date.now();
+    const dateddMMyy = format(now, "H-mm-ss_dd-MM-yy");
     // anchor link
     const element = document.createElement("a");
     element.href = URL.createObjectURL(file);
-    element.download = "clippings" + Date.now() + ".txt";
+    element.download = `clippings_${dateddMMyy}.txt"`;
 
     // simulate link click
     document.body.appendChild(element); // Required for this to work in FireFox
