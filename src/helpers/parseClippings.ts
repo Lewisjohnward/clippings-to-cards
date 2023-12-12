@@ -144,7 +144,14 @@ const handleHighlight = (
       const id = uuidv4();
       const selected = false;
       const title = clipping.title;
-      const highlightObj = { text, title, id, selected, details };
+      const highlightObj = {
+        text,
+        title,
+        id,
+        selected,
+        details,
+        translations: [],
+      };
       clippings[i].highlights.push(highlightObj);
       return true;
     }
