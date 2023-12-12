@@ -5,6 +5,47 @@ import { Checkbox, IconButton } from "@material-tailwind/react";
 import { MdDelete } from "../misc/icons";
 import { useBookStore } from "../stores/useBookStore";
 
+const LANGUAGE = `it`;
+
+const useTranslate = (highlight: Highlights) => {
+  const appendTranslation = useBookStore((state) => state.appendTranslation);
+  const translate = (e) => {
+    const word = e.target.innerText;
+
+    const str = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?=&flags=4&key=dict.1.1.20231202T165200Z.f37a0db6c660a327.38c38e5f1732bcdf6faea905077ad49744d61e3d&lang=${LANGUAGE}-en&text=${word}`;
+    fetch(str)
+      .then((res) => res.json())
+      .then((data) => {
+        let translationObj = [];
+        data.def.forEach((definition) => {
+          const str = [];
+          const originalWord = definition.text;
+          const type = definition.pos;
+          str.push(originalWord);
+          str.push(`(${type})`);
+          str.push("--");
+
+          definition.tr.forEach((translation: { text: any }) => {
+            console.log(translation.text);
+            const trans = translation.text;
+            str.push(trans);
+          });
+          translationObj.push(str);
+        });
+        if (translationObj.length == 0)
+          console.log("unable to find translation");
+        const translationArr = translationObj.map((translation) =>
+          translation.join(" "),
+        );
+        translationArr.forEach((translation) => {
+          appendTranslation(highlight, translation);
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+  return { translate };
+};
+
 export default function Clipping({
   highlight,
   position,
@@ -20,24 +61,10 @@ export default function Clipping({
   const handleDeleteHighlight = () => {
     deleteHighlight(highlight);
   };
+  const { translate } = useTranslate(highlight);
 
   const dateddMMyy = format(highlight.details.date, "dd-MM-yy");
   const timeHmmss = format(highlight.details.date, "H:mm:ss");
-
-  const handleTranslate = (e) => {
-    console.log(e.target.innerText);
-    const word = e.target.innerText;
-
-    const str = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?=&flags=4&key=dict.1.1.20231202T165200Z.f37a0db6c660a327.38c38e5f1732bcdf6faea905077ad49744d61e3d&lang=it-en&text=${word}`;
-    fetch(str)
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        console.log(data.def[0].tr);
-        alert(data.def[0].tr[0].text);
-      })
-      .catch((error) => console.log(error));
-  };
 
   return (
     <tr
@@ -54,14 +81,27 @@ export default function Clipping({
         </div>
       </td>
       <td className="text-xs text-center italic">{highlight.details.page}</td>
-      <td className="text-sm md:p-2">
+      <td
+        onClick={() => console.log(highlight)}
+        className="text-sm md:p-2 space-y-2"
+      >
         {highlight.text.split(" ").map((word) => (
           <p className="inline">
-            <span onClick={handleTranslate} className="hover:bg-red-200">
+            <span
+              onClick={translate}
+              className="hover:bg-red-200 rounded px-[1px]"
+            >
               {word}
             </span>{" "}
           </p>
         ))}
+        {highlight.translations.length != 0 && (
+          <div>
+            {highlight.translations.map((translation) => (
+              <p className="italic text-xs">{translation}</p>
+            ))}
+          </div>
+        )}
       </td>
       <td>
         <Checkbox
