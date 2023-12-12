@@ -4,10 +4,6 @@ import clsx from "clsx";
 
 const views = [
   {
-    id: "all",
-    text: "All",
-  },
-  {
     id: "selected",
     text: "Selected",
     style: "pointer-events-none text-opacity-20",
