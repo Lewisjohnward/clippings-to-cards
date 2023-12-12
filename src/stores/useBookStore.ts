@@ -108,11 +108,7 @@ export const useBookStore = create<Store>()(
       },
       getHighlights: (bookName: string) => {
         const booksArr = get().books;
-        if (bookName === "all") {
-          const highlights: Highlights[] = [];
-          booksArr.forEach((book) => highlights.push(...book.highlights));
-          return highlights;
-        } else if (bookName === "selected") {
+        if (bookName === "selected") {
           const highlights: Highlights[] = [];
           booksArr.forEach((book) => highlights.push(...book.highlights));
           const highlightsSelected = highlights.filter(
@@ -153,7 +149,23 @@ export const useBookStore = create<Store>()(
           state.sortAscending = !state.sortAscending;
         });
       },
+      appendTranslation: (highlight, translationArr) => {
+        const booksArray = get().books;
 
+        const bookPosition = booksArray
+          .map((book) => book.title)
+          .indexOf(highlight.title);
+
+        const highlightPosition = booksArray[bookPosition].highlights
+          .map((highlight) => highlight.id)
+          .indexOf(highlight.id);
+
+        return set((state) => {
+          state.books[bookPosition].highlights[
+            highlightPosition
+          ].translations.push(translationArr);
+        });
+      },
       // getSelected
       // getBook
     })),
