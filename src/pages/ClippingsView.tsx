@@ -13,10 +13,7 @@ export const ClippingsView = () => {
   /* Get id/bookname from params*/
   const { id: bookName } = useParams<keyof { id: string }>() as { id: string };
   /* Store methods */
-  // const books = useBookStore((state) => state.books);
-  useBookStore((state) => state.books);
-  const getHighlights = useBookStore((state) => state.getHighlights);
-  const highlights = getHighlights(bookName);
+  const highlights = useBookStore((state) => state.getHighlights(bookName));
 
   if (highlights.length === 0) return <NoClippingsFound />;
 
