@@ -6,15 +6,17 @@ import SuperJSON from "superjson";
 
 type Store = {
   books: Books[];
-  initialiseBooks: (books: Books[]) => void;
-  toggleSelected: (highlight: Highlights) => void;
-  toggleSelectAll: (bookName: string) => void;
-  deleteHighlight: (highlight: Highlights) => void;
-  getCount: (selector: string) => number;
-  getHighlights: (bookName: string) => Highlights[];
-  sort: (bookName: string, field: string) => void;
-  sortAscending: boolean;
-  appendTranslation: (highlight: Highlights, translationObj) => void;
+  actions: {
+    initialiseBooks: (books: Books[]) => void;
+    toggleSelected: (highlight: Highlights) => void;
+    toggleSelectAll: (bookName: string) => void;
+    deleteHighlight: (highlight: Highlights) => void;
+    getCount: (selector: string) => number;
+    getHighlights: (bookName: string) => Highlights[];
+    sort: (bookName: string, field: string) => void;
+    sortAscending: boolean;
+    appendTranslation: (highlight: Highlights, translationObj) => void;
+  };
 };
 
 const allSelected = (highlights: Highlights[]) => {
@@ -38,133 +40,141 @@ export const useBookStore = create<Store>()(
     immer((set, get) => ({
       books: [],
 
-      initialiseBooks: (books) => set(() => ({ books })),
+      actions: {
+        initialiseBooks: (books) => set(() => ({ books })),
 
-      toggleSelected: (highlight) => {
-        const booksArray = get().books;
+        toggleSelected: (highlight) => {
+          const booksArray = get().books;
 
-        const bookPosition = booksArray
-          .map((book) => book.title)
-          .indexOf(highlight.title);
+          const bookPosition = booksArray
+            .map((book) => book.title)
+            .indexOf(highlight.title);
 
-        const highlightPosition = booksArray[bookPosition].highlights
-          .map((highlight) => highlight.id)
-          .indexOf(highlight.id);
+          const highlightPosition = booksArray[bookPosition].highlights
+            .map((highlight) => highlight.id)
+            .indexOf(highlight.id);
 
-        return set((state) => {
-          state.books[bookPosition].highlights[highlightPosition].selected =
-            !state.books[bookPosition].highlights[highlightPosition].selected;
-        });
-      },
+          return set((state) => {
+            state.books[bookPosition].highlights[highlightPosition].selected =
+              !state.books[bookPosition].highlights[highlightPosition].selected;
+          });
+        },
 
-      toggleSelectAll: (bookName) => {
-        const booksArray = get().books;
+        toggleSelectAll: (bookName) => {
+          const booksArray = get().books;
 
-        const bookPosition = booksArray
-          .map((book) => book.title)
-          .indexOf(bookName);
+          const bookPosition = booksArray
+            .map((book) => book.title)
+            .indexOf(bookName);
 
-        const prevHighlights = booksArray[bookPosition].highlights;
-        const setSelected = allSelected(prevHighlights);
+          const prevHighlights = booksArray[bookPosition].highlights;
+          const setSelected = allSelected(prevHighlights);
 
-        const updatedHighlights = prevHighlights.map((highlight) => ({
-          ...highlight,
-          selected: setSelected ? false : true,
-        }));
-        return set((state) => {
-          state.books[bookPosition].highlights = updatedHighlights;
-        });
-      },
+          const updatedHighlights = prevHighlights.map((highlight) => ({
+            ...highlight,
+            selected: setSelected ? false : true,
+          }));
+          return set((state) => {
+            state.books[bookPosition].highlights = updatedHighlights;
+          });
+        },
 
-      deleteHighlight: (highlight) => {
-        const booksArray = get().books;
-        const bookPosition = booksArray
-          .map((book) => book.title)
-          .indexOf(highlight.title);
+        deleteHighlight: (highlight) => {
+          const booksArray = get().books;
+          const bookPosition = booksArray
+            .map((book) => book.title)
+            .indexOf(highlight.title);
 
-        const updatedHighlights = booksArray[bookPosition].highlights.filter(
-          (highlightElement) => highlightElement.id != highlight.id,
-        );
-
-        return set((state) => {
-          state.books[bookPosition].highlights = updatedHighlights;
-        });
-      },
-
-      getCount: (selector) => {
-        const booksArr = get().books;
-        if (selector === "all") {
-          return booksArr
-            .map((clipping) => clipping.highlights.length)
-            .reduce((sum, val) => sum + val, 0);
-        } else {
-          return booksArr
-            .map((book) => book.highlights)
-            .flat()
-            .reduce((total, favouriteCount) => {
-              return favouriteCount.selected ? total + 1 : total + 0;
-            }, 0);
-        }
-      },
-      getHighlights: (bookName: string) => {
-        const booksArr = get().books;
-        if (bookName === "selected") {
-          const highlights: Highlights[] = [];
-          booksArr.forEach((book) => highlights.push(...book.highlights));
-          const highlightsSelected = highlights.filter(
-            (highlight) => highlight.selected == true,
+          const updatedHighlights = booksArray[bookPosition].highlights.filter(
+            (highlightElement) => highlightElement.id != highlight.id,
           );
-          return highlightsSelected;
-        } else {
-          const booksFiltered = booksArr.filter((d) => d.title == bookName);
-          if (booksFiltered.length === 0) return [];
 
-          const [{ highlights }] = booksArr.filter((d) => d.title == bookName);
-          return highlights;
-        }
-      },
+          return set((state) => {
+            state.books[bookPosition].highlights = updatedHighlights;
+          });
+        },
 
-      sortAscending: false,
+        getCount: (selector) => {
+          const booksArr = get().books;
+          if (selector === "all") {
+            return booksArr
+              .map((clipping) => clipping.highlights.length)
+              .reduce((sum, val) => sum + val, 0);
+          } else {
+            return booksArr
+              .map((book) => book.highlights)
+              .flat()
+              .reduce((total, favouriteCount) => {
+                return favouriteCount.selected ? total + 1 : total + 0;
+              }, 0);
+          }
+        },
+        getHighlights: (bookName: string) => {
+          const booksArr = get().books;
+          if (bookName === "all") {
+            const highlights: Highlights[] = [];
+            booksArr.forEach((book) => highlights.push(...book.highlights));
+            return highlights;
+          } else if (bookName === "selected") {
+            const highlights: Highlights[] = [];
+            booksArr.forEach((book) => highlights.push(...book.highlights));
+            const highlightsSelected = highlights.filter(
+              (highlight) => highlight.selected == true,
+            );
+            return highlightsSelected;
+          } else {
+            const booksFiltered = booksArr.filter((d) => d.title == bookName);
+            if (booksFiltered.length === 0) return [];
 
-      sort: (bookName, field) => {
-        const booksArray = get().books;
-        const sort = get().sortAscending;
+            const [{ highlights }] = booksArr.filter(
+              (d) => d.title == bookName,
+            );
+            return highlights;
+          }
+        },
 
-        const bookPosition = booksArray
-          .map((book) => book.title)
-          .indexOf(bookName);
+        sortAscending: false,
 
-        const test = booksArray[bookPosition].highlights;
-        const anotherTest = [...test];
-        const highlightArr = anotherTest.sort((a, b) => {
-          const clippA = a.details[field as keyof typeof a.details].valueOf();
-          const clippB = b.details[field as keyof typeof a.details].valueOf();
+        sort: (bookName, field) => {
+          const booksArray = get().books;
+          const sort = get().actions.sortAscending;
 
-          if (sort) return clippA - clippB;
-          else return clippB - clippA;
-        });
+          const bookPosition = booksArray
+            .map((book) => book.title)
+            .indexOf(bookName);
 
-        return set((state) => {
-          state.books[bookPosition].highlights = highlightArr;
-          state.sortAscending = !state.sortAscending;
-        });
-      },
-      appendTranslation: (highlight, translationArr) => {
-        const booksArray = get().books;
+          const test = booksArray[bookPosition].highlights;
+          const anotherTest = [...test];
+          const highlightArr = anotherTest.sort((a, b) => {
+            const clippA = a.details[field as keyof typeof a.details].valueOf();
+            const clippB = b.details[field as keyof typeof a.details].valueOf();
 
-        const bookPosition = booksArray
-          .map((book) => book.title)
-          .indexOf(highlight.title);
+            if (sort) return clippA - clippB;
+            else return clippB - clippA;
+          });
 
-        const highlightPosition = booksArray[bookPosition].highlights
-          .map((highlight) => highlight.id)
-          .indexOf(highlight.id);
+          return set((state) => {
+            state.books[bookPosition].highlights = highlightArr;
+            state.actions.sortAscending = !state.actions.sortAscending;
+          });
+        },
+        appendTranslation: (highlight, translationArr) => {
+          const booksArray = get().books;
 
-        return set((state) => {
-          state.books[bookPosition].highlights[
-            highlightPosition
-          ].translations.push(translationArr);
-        });
+          const bookPosition = booksArray
+            .map((book) => book.title)
+            .indexOf(highlight.title);
+
+          const highlightPosition = booksArray[bookPosition].highlights
+            .map((highlight) => highlight.id)
+            .indexOf(highlight.id);
+
+          return set((state) => {
+            state.books[bookPosition].highlights[
+              highlightPosition
+            ].translations.push(translationArr);
+          });
+        },
       },
       // getSelected
       // getBook
@@ -175,3 +185,5 @@ export const useBookStore = create<Store>()(
     },
   ),
 );
+
+export const useBooks = () => useBookStore((state) => state.books);

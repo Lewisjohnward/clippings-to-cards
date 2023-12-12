@@ -14,10 +14,7 @@ export const ClippingsView = () => {
   /* Get id/bookname from params*/
   const { id: bookName } = useParams<keyof { id: string }>() as { id: string };
   /* Store methods */
-  // const books = useBookStore((state) => state.books);
-  useBookStore((state) => state.books);
-  const getHighlights = useBookStore((state) => state.getHighlights);
-  const highlights = getHighlights(bookName);
+  const highlights = useBookStore((state) => state.actions.getHighlights(bookName));
 
   if (highlights.length === 0) return <NoClippingsFound />;
 
@@ -47,12 +44,12 @@ const ClippingTable = ({
   bookName: string;
   highlights: Highlights[];
 }) => {
-  const toggleSelectAll = useBookStore((state) => state.toggleSelectAll);
+  const toggleSelectAll = useBookStore((state) => state.actions.toggleSelectAll);
   const handleToggleSelectAll = () => {
     toggleSelectAll(bookName);
   };
 
-  const sort = useBookStore((state) => state.sort);
+  const sort = useBookStore((state) => state.actions.sort);
   return (
     <table className="bg-white">
       <thead>
