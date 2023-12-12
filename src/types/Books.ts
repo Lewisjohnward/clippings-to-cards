@@ -9,6 +9,7 @@ export interface Highlights {
   text: string;
   selected: boolean;
   details: Details;
+  translations: string[];
   // Add translation
   // Add pictures
   // Add images
