@@ -14,6 +14,7 @@ type Store = {
   getHighlights: (bookName: string) => Highlights[];
   sort: (bookName: string, field: string) => void;
   sortAscending: boolean;
+  appendTranslation: (highlight: Highlights, translationObj) => void;
 };
 
 const allSelected = (highlights: Highlights[]) => {
