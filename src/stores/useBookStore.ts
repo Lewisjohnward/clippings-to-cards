@@ -41,8 +41,8 @@ export const useBookStore = create<Store>()(
       books: [],
 
       actions: {
+        greet: () => console.log("hello from store"),
         initialiseBooks: (books) => set(() => ({ books })),
-
         toggleSelected: (highlight) => {
           const booksArray = get().books;
 
@@ -182,8 +182,48 @@ export const useBookStore = create<Store>()(
     {
       name: "book-storage",
       storage,
+      partialize: ({ actions, ...rest }: any) => rest,
     },
   ),
 );
 
+export const useBookActions = () => useBookStore((state) => state.actions);
 export const useBooks = () => useBookStore((state) => state.books);
+
+////////////////EXAMPLE////////////////////
+// import create from "zustand";
+// import { devtools, persist } from "zustand/middleware";
+//
+// interface PersonalInfoState {
+//   phone: string;
+//   actions: {
+//     queryPersonalInfo: () => void;
+//   };
+// }
+//
+// let store: any = (set: any) => ({
+//   phone: "123",
+//   actions: {
+//     queryPersonalInfo: async () => {
+//       // api here
+//       // set(() => {
+//       //   phone: "123";
+//       // });
+//     }
+//   }
+// });
+//
+// // store = devtools(store);
+// store = persist(store, {
+//   name: "PERSONAL_INFO",
+//   getStorage: () => sessionStorage,
+//   partialize: ({ actions, ...rest }: any) => rest
+// });
+//
+// const useInitStore = create<PersonalInfoState>(store);
+//
+// export const usePhone = () => useInitStore((state) => state.phone);
+//
+// export const useInitActions = () => useInitStore((state) => state.actions);
+//
+// export default useInitStore;
