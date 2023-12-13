@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import Clipping from "../components/Clipping";
-import { useBookActions, useBookStore } from "../stores/useBookStore";
+import { useBookStore } from "../stores/useBookStore";
 import { BiSortAlt2, FaDownload, MdDelete } from "../misc/icons";
 import { Highlights } from "../types/Books";
 import { Checkbox, IconButton } from "@material-tailwind/react";
@@ -17,8 +17,6 @@ export const ClippingsView = () => {
   const highlights = useBookStore((state) =>
     state.actions.getHighlights(bookName),
   );
-  // const highlights = useBookActions((action) => action.getHighlights(bookName));
-  // const highlights = useBookActions().getHighlights(bookName);
 
   if (highlights.length === 0) return <NoClippingsFound />;
 

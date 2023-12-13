@@ -2,14 +2,14 @@ import { useNavigate } from "react-router-dom";
 import ReactModal from "react-modal";
 import { FcKindle } from "../misc/icons";
 import { ChangeEvent, DragEvent, useState } from "react";
-import { useBookStore } from "../stores/useBookStore";
+import { useBookActions, useBooks } from "../stores/useBookStore";
 import { parseClippings } from "../helpers/parseClippings";
 
 export const Kindle = () => {
   const [displayModal, setDisplayModal] = useState(false);
   const [clippingsFile, setClippingsFile] = useState<File>();
-  const initialiseBooks = useBookStore((state) => state.initialiseBooks);
-  const books = useBookStore((state) => state.books);
+  const { initialiseBooks } = useBookActions();
+  const books = useBooks();
   const navigate = useNavigate();
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
