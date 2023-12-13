@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
-import { useBookStore } from "../stores/useBookStore";
-import { useBooks } from "../stores/useBookStore";
+import { useBooks, useBookActions } from "../stores/useBookStore";
 import clsx from "clsx";
 
 const views = [
@@ -14,7 +13,7 @@ const views = [
 // Change component name to Books
 export const BooksView = () => {
   const books = useBooks();
-  const getCount = useBookStore((state) => state.actions.getCount);
+  const { getCount } = useBookActions();
 
   if (books.length === 0) return <NoBooksFound />;
   return (
