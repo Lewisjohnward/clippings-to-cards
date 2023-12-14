@@ -14,6 +14,7 @@ type Actions = {
   sort: (bookName: string, field: string) => void;
   sortAscending: boolean;
   appendTranslation: (highlight: Highlights, translation: Translation) => void;
+  deleteTranslation: (highlight: Highlights, id: string) => void;
 };
 
 type Store = {
@@ -175,6 +176,27 @@ export const useBookStore = create<Store>()(
             state.books[bookPosition].highlights[
               highlightPosition
             ].translations.push(translation);
+          });
+        },
+        deleteTranslation: (highlight, id) => {
+          const booksArray = get().books;
+
+          const bookPosition = booksArray
+            .map((book) => book.title)
+            .indexOf(highlight.title);
+
+          const highlightPosition = booksArray[bookPosition].highlights
+            .map((highlight) => highlight.id)
+            .indexOf(highlight.id);
+
+          const updatedTranslations = booksArray[bookPosition].highlights[
+            highlightPosition
+          ].translations.filter((translation) => translation.id != id);
+
+          return set((state) => {
+            state.books[bookPosition].highlights[
+              highlightPosition
+            ].translations = updatedTranslations;
           });
         },
       },
