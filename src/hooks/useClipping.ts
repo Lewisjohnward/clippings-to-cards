@@ -1,9 +1,8 @@
-import { MouseEvent } from "react";
-import { useBookStore } from "../stores/useBookStore";
+import { MouseEvent, useState } from "react";
+import { useBookActions } from "../stores/useBookStore";
 import { Highlights, Translation } from "../types/Books";
 import { v4 as uuidv4 } from "uuid";
-
-const LANGUAGE = `it`;
+import { format } from "date-fns";
 
 interface Definition {
   pos: string;
@@ -14,13 +13,20 @@ interface Definition {
   }[];
 }
 
-export const useTranslate = (highlight: Highlights) => {
-  const appendTranslation = useBookStore(
-    (state) => state.actions.appendTranslation,
-  );
-  const translate = (e: MouseEvent<HTMLElement>) => {
+export const useClipping = (highlight: Highlights) => {
+  // const [translationButtonsVisible, setTranslationButtonsVisible] = useState(false);
+  const { toggleSelected, deleteHighlight, appendTranslation } =
+    useBookActions();
+  const handleToggleSelect = () => {
+    toggleSelected(highlight);
+  };
+  const handleDelete = () => {
+    deleteHighlight(highlight);
+  };
+  const handleTranslate = (e: MouseEvent<HTMLElement>) => {
     const word = (e.target as HTMLElement).innerText;
 
+    const LANGUAGE = `it`;
     const str = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?=&flags=4&key=dict.1.1.20231202T165200Z.f37a0db6c660a327.38c38e5f1732bcdf6faea905077ad49744d61e3d&lang=${LANGUAGE}-en&text=${word}`;
 
     fetch(str)
@@ -58,5 +64,15 @@ export const useTranslate = (highlight: Highlights) => {
       })
       .catch((error) => console.log(error));
   };
-  return { translate };
+  const date = format(highlight.details.date, "dd-MM-yy");
+  const time = format(highlight.details.date, "H:mm:ss");
+
+  return {
+    handleTranslate,
+    handleToggleSelect,
+    handleDelete,
+    date,
+    time,
+    // translationButtonsVisible,
+  };
 };
