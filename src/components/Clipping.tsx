@@ -1,10 +1,10 @@
 import clsx from "clsx";
-import { format } from "date-fns";
-import { Highlights } from "../types/Books";
+import { Highlights, Translation } from "../types/Books";
 import { Checkbox, IconButton } from "@material-tailwind/react";
 import { MdDelete, MdOutlineRemoveCircle } from "../misc/icons";
-import { useBookActions, useBookStore } from "../stores/useBookStore";
-import { useTranslate } from "../hooks/useTranslate";
+import { useBookActions } from "../stores/useBookStore";
+import { useClipping } from "../hooks/useClipping";
+import { useState } from "react";
 
 export default function Clipping({
   highlight,
@@ -13,20 +13,14 @@ export default function Clipping({
   highlight: Highlights;
   position: number;
 }) {
-  const toggleSelected = useBookStore((state) => state.actions.toggleSelected);
-  const deleteHighlight = useBookStore(
-    (state) => state.actions.deleteHighlight,
-  );
-  const handleSelect = () => {
-    toggleSelected(highlight);
-  };
-  const handleDeleteHighlight = () => {
-    deleteHighlight(highlight);
-  };
-  const { translate } = useTranslate(highlight);
-
-  const dateddMMyy = format(highlight.details.date, "dd-MM-yy");
-  const timeHmmss = format(highlight.details.date, "H:mm:ss");
+  const {
+    date,
+    time,
+    handleTranslate,
+    handleToggleSelect,
+    handleDelete,
+    // translationButtonsVisible,
+  } = useClipping(highlight);
 
   return (
     <tr
@@ -38,8 +32,8 @@ export default function Clipping({
       <td className="md:p-4 text-xs text-center italic">{position + 1}</td>
       <td className="text-xs text-center italic">
         <div>
-          <p>{dateddMMyy}</p>
-          <p>{timeHmmss}</p>
+          <p>{date}</p>
+          <p>{time}</p>
         </div>
       </td>
       <td className="text-xs text-center italic">{highlight.details.page}</td>
@@ -50,27 +44,30 @@ export default function Clipping({
         {highlight.text.split(" ").map((word, i) => (
           <p key={i} className="inline">
             <span
-              onClick={translate}
+              onClick={handleTranslate}
               className="hover:bg-red-200 rounded px-[1px]"
             >
               {word}
             </span>{" "}
           </p>
         ))}
-        <Translations highlight={highlight} />
+        <Translations
+          highlight={highlight}
+          // visible={translationButtonsVisible}
+        />
       </td>
       <td>
         <Checkbox
           checked={highlight.selected}
           ripple={false}
-          onChange={handleSelect}
+          onChange={handleToggleSelect}
           className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
           crossOrigin={undefined}
         />
       </td>
       <td className="pr-4">
         <IconButton size="sm" variant="outlined">
-          <MdDelete size={20} onClick={handleDeleteHighlight} />
+          <MdDelete size={20} onClick={handleDelete} />
         </IconButton>
       </td>
     </tr>
@@ -78,25 +75,44 @@ export default function Clipping({
 }
 
 const Translations = ({ highlight }: { highlight: Highlights }) => {
-  const { deleteTranslation } = useBookActions();
   if (highlight.translations.length == 0) return;
   return (
     <div>
       {highlight.translations.map((translation) => {
         return (
-          <div key={translation.id} className="flex gap-2">
-            <button
-              onClick={() => deleteTranslation(highlight, translation.id)}
-            >
-              <MdOutlineRemoveCircle className="text-red-400 min-w-fit" />
-            </button>
-            <p className="italic text-xs">
-              {translation.word} ({translation.type}) -{" "}
-              {translation.translation.join(", ")}
-            </p>
+          <div key={translation.id}>
+            <Tr highlight={highlight} translation={translation} />
           </div>
         );
       })}
+    </div>
+  );
+};
+
+const Tr = ({
+  highlight,
+  translation,
+}: {
+  highlight: Highlights;
+  translation: Translation;
+}) => {
+  const [vis, setVis] = useState(false);
+  const { deleteTranslation } = useBookActions();
+  return (
+    <div
+      className="flex gap-2"
+      onMouseEnter={() => setVis(true)}
+      onMouseLeave={() => setVis(false)}
+    >
+      {vis && (
+        <button onClick={() => deleteTranslation(highlight, translation.id)}>
+          <MdOutlineRemoveCircle className="text-red-400 min-w-fit" />
+        </button>
+      )}
+      <p className="italic text-xs">
+        {translation.word} ({translation.type}) -{" "}
+        {translation.translation.join(", ")}
+      </p>
     </div>
   );
 };
