@@ -18,10 +18,3 @@ function App() {
 }
 
 export default App;
-// <div className="flex flex-col items-center justify-center">
-//   <div>hello</div>
-//   <input onChange={handleFileChange} type="file" />
-//   {array.map((t: string) => {
-//     return <div>{t}</div>;
-//   })}
-// </div>
