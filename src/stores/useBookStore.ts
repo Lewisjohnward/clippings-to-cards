@@ -4,22 +4,21 @@ import { PersistStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import SuperJSON from "superjson";
 
+type Actions = {
+  initialiseBooks: (books: Books[]) => void;
+  toggleSelected: (highlight: Highlights) => void;
+  toggleSelectAll: (bookName: string) => void;
+  deleteHighlight: (highlight: Highlights) => void;
+  getCount: (selector: string) => number;
+  getHighlights: (bookName: string) => Highlights[];
+  sort: (bookName: string, field: string) => void;
+  sortAscending: boolean;
+  appendTranslation: (highlight: Highlights, translation: Translation) => void;
+};
+
 type Store = {
   books: Books[];
-  actions: {
-    initialiseBooks: (books: Books[]) => void;
-    toggleSelected: (highlight: Highlights) => void;
-    toggleSelectAll: (bookName: string) => void;
-    deleteHighlight: (highlight: Highlights) => void;
-    getCount: (selector: string) => number;
-    getHighlights: (bookName: string) => Highlights[];
-    sort: (bookName: string, field: string) => void;
-    sortAscending: boolean;
-    appendTranslation: (
-      highlight: Highlights,
-      translation: Translation,
-    ) => void;
-  };
+  actions: Actions;
 };
 
 const allSelected = (highlights: Highlights[]) => {
@@ -191,6 +190,8 @@ export const useBookStore = create<Store>()(
 );
 
 export const useBookActions = () => useBookStore((state) => state.actions);
+export const useHighlights = (bookName: string) =>
+  useBookStore((state) => state.actions.getHighlights(bookName));
 export const useBooks = () => useBookStore((state) => state.books);
 
 ////////////////EXAMPLE////////////////////
