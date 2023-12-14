@@ -47,8 +47,8 @@ export default function Clipping({
         onClick={() => console.log(highlight)}
         className="text-sm md:p-2 space-y-2"
       >
-        {highlight.text.split(" ").map((word) => (
-          <p className="inline">
+        {highlight.text.split(" ").map((word, i) => (
+          <p key={i} className="inline">
             <span
               onClick={translate}
               className="hover:bg-red-200 rounded px-[1px]"
@@ -57,13 +57,7 @@ export default function Clipping({
             </span>{" "}
           </p>
         ))}
-        {highlight.translations.length != 0 && (
-          <div>
-            {highlight.translations.map((translation) => (
-              <p className="italic text-xs">{translation}</p>
-            ))}
-          </div>
-        )}
+        <Translations highlight={highlight} />
       </td>
       <td>
         <Checkbox
@@ -82,3 +76,21 @@ export default function Clipping({
     </tr>
   );
 }
+
+const Translations = ({ highlight }: { highlight: Highlights }) => {
+  if (highlight.translations.length == 0) return;
+  return (
+    <div>
+      {highlight.translations.map((translation) => {
+        return (
+          <div key={translation.id}>
+            <p className="italic text-xs">
+              {translation.word} ({translation.type}) -{" "}
+              {translation.translation.join(", ")}
+            </p>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
