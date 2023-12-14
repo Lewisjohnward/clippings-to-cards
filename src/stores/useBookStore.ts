@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Books, Highlights } from "../types/Books";
+import { Books, Highlights, Translation } from "../types/Books";
 import { PersistStorage, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 import SuperJSON from "superjson";
@@ -15,7 +15,10 @@ type Store = {
     getHighlights: (bookName: string) => Highlights[];
     sort: (bookName: string, field: string) => void;
     sortAscending: boolean;
-    appendTranslation: (highlight: Highlights, translationObj) => void;
+    appendTranslation: (
+      highlight: Highlights,
+      translation: Translation,
+    ) => void;
   };
 };
 
@@ -158,7 +161,7 @@ export const useBookStore = create<Store>()(
             state.actions.sortAscending = !state.actions.sortAscending;
           });
         },
-        appendTranslation: (highlight, translationArr) => {
+        appendTranslation: (highlight, translation) => {
           const booksArray = get().books;
 
           const bookPosition = booksArray
@@ -172,7 +175,7 @@ export const useBookStore = create<Store>()(
           return set((state) => {
             state.books[bookPosition].highlights[
               highlightPosition
-            ].translations.push(translationArr);
+            ].translations.push(translation);
           });
         },
       },
