@@ -2,8 +2,8 @@ import clsx from "clsx";
 import { format } from "date-fns";
 import { Highlights } from "../types/Books";
 import { Checkbox, IconButton } from "@material-tailwind/react";
-import { MdDelete } from "../misc/icons";
-import { useBookStore } from "../stores/useBookStore";
+import { MdDelete, MdOutlineRemoveCircle } from "../misc/icons";
+import { useBookActions, useBookStore } from "../stores/useBookStore";
 import { useTranslate } from "../hooks/useTranslate";
 
 export default function Clipping({
@@ -78,12 +78,18 @@ export default function Clipping({
 }
 
 const Translations = ({ highlight }: { highlight: Highlights }) => {
+  const { deleteTranslation } = useBookActions();
   if (highlight.translations.length == 0) return;
   return (
     <div>
       {highlight.translations.map((translation) => {
         return (
-          <div key={translation.id}>
+          <div key={translation.id} className="flex gap-2">
+            <button
+              onClick={() => deleteTranslation(highlight, translation.id)}
+            >
+              <MdOutlineRemoveCircle className="text-red-400 min-w-fit" />
+            </button>
             <p className="italic text-xs">
               {translation.word} ({translation.type}) -{" "}
               {translation.translation.join(", ")}
