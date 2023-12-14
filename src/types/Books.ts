@@ -1,3 +1,10 @@
+export interface Translation {
+  id: string;
+  word: string;
+  type?: string;
+  translation: string[];
+}
+
 export interface Details {
   date: Date;
   page: number;
@@ -9,7 +16,7 @@ export interface Highlights {
   text: string;
   selected: boolean;
   details: Details;
-  translations: string[];
+  translations: Translation[];
   // Add translation
   // Add pictures
   // Add images
