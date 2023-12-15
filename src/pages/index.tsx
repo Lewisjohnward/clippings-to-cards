@@ -1,7 +1,7 @@
 import { BooksView } from "./BooksView";
 import { ClippingsView } from "./ClippingsView";
-import { Kindle } from "./Kindle";
+import { Upload } from "./Upload";
 import { Home } from "./Home";
 import { NotFound } from "./NotFound";
 
-export { BooksView, ClippingsView, Kindle, Home, NotFound };
+export { BooksView, ClippingsView, Upload, Home, NotFound };
