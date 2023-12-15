@@ -28,7 +28,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
             Books
           </NavLink>
           <NavLink
-            to="/kindle"
+            to="/upload"
             className={({ isActive }) => {
               if (isActive) return disabledLink;
               return enabledLink;
