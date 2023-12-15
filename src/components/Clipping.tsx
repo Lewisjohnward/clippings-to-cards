@@ -25,7 +25,7 @@ export default function Clipping({
   return (
     <tr
       className={clsx(
-        (position + 1) % 2 == 0 ? "bg-white" : "bg-yellow-400/30",
+        (position + 1) % 2 == 0 ? "bg-white" : "bg-yellow-300/30",
       )}
     >
       <td className="md:p-4 text-xs text-center italic">{position + 1}</td>
@@ -44,7 +44,7 @@ export default function Clipping({
           <p key={i} className="inline">
             <span
               onClick={handleTranslate}
-              className="hover:bg-red-200 rounded px-[1px]"
+              className="hover:bg-yellow-500 rounded px-[1px]"
             >
               {word}
             </span>{" "}
