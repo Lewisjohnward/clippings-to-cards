@@ -60,7 +60,7 @@ export const BooksView = () => {
   );
 };
 
-function NoBooksFound() {
+const NoBooksFound = () => {
   return (
     <div className="h-full flex flex-col justify-center items-center">
       <p>No clippings found!</p>
