@@ -1,4 +1,4 @@
-import { MouseEvent, useState } from "react";
+import { MouseEvent } from "react";
 import { useBookActions } from "../stores/useBookStore";
 import { Highlights, Translation } from "../types/Books";
 import { v4 as uuidv4 } from "uuid";
