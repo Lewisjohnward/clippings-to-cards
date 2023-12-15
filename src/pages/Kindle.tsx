@@ -83,34 +83,36 @@ export const Kindle = () => {
   };
 
   return (
-    <div className="h-full flex justify-center">
-      {false && <Loading />}
-      <ReactModal
-        isOpen={displayModal}
-        appElement={document.getElementById("root") || undefined}
-        className="text-xl md:w-1/2 xl:w-2/6 p-4 space-y-4 bg-white rounded outline-none shadow-lg"
-        overlayClassName="absolute top-0 h-[100dvh] w-screen flex justify-center items-center p-4 bg-black bg-opacity-40"
-      >
-        <p>
-          It appears you already have some clippings, uploading will cause these
-          to be overwritten. Are you sure you want to continue?
-        </p>
-        <div className="flex justify-center gap-4">
-          <button
-            onClick={proceedWithClippings}
-            className="bg-green-400 rounded px-4 py-2 text-white"
-          >
-            Yes
-          </button>
-          <button
-            onClick={cancelClippings}
-            className="bg-red-400 rounded px-4 py-2 text-white"
-          >
-            No
-          </button>
-        </div>
-      </ReactModal>
-      <CardDropArea handleDrop={handleDrop} handleChange={handleChange} />
+    <div className="h-full px-4 lg:px-10 bg-yellow-400">
+      <div className="h-full flex justify-center border-8 border-black border-dashed">
+        {false && <Loading />}
+        <ReactModal
+          isOpen={displayModal}
+          appElement={document.getElementById("root") || undefined}
+          className="text-xl md:w-1/2 xl:w-2/6 p-4 space-y-4 bg-white rounded outline-none shadow-lg"
+          overlayClassName="absolute top-0 h-[100dvh] w-screen flex justify-center items-center p-4 bg-black bg-opacity-40"
+        >
+          <p>
+            It appears you already have some clippings, uploading will cause
+            these to be overwritten. Are you sure you want to continue?
+          </p>
+          <div className="flex justify-center gap-4">
+            <button
+              onClick={proceedWithClippings}
+              className="bg-green-400 rounded px-4 py-2 text-white"
+            >
+              Yes
+            </button>
+            <button
+              onClick={cancelClippings}
+              className="bg-red-400 rounded px-4 py-2 text-white"
+            >
+              No
+            </button>
+          </div>
+        </ReactModal>
+        <CardDropArea handleDrop={handleDrop} handleChange={handleChange} />
+      </div>
     </div>
   );
 };
@@ -132,7 +134,7 @@ const CardDropArea = ({
 }) => {
   return (
     <>
-      <div className="h-full flex justify-center" onDrop={handleDrop}>
+      <div className="flex-grow flex justify-center" onDrop={handleDrop}>
         <div className="hidden lg:flex justify-center items-center">
           <FcKindle size={300} className="select-none" />
         </div>

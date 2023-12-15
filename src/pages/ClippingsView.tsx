@@ -18,8 +18,8 @@ export const ClippingsView = () => {
   if (highlights.length === 0) return <NoClippingsFound />;
 
   return (
-    <div className="h-full flex flex-col">
-      <div className="flex justify-between px-4 md:px-8 py-4 bg-white shadow-lg">
+    <div className="flex-grow h-full w-full 2xl:px-80">
+      <div className="flex justify-between px-4 md:px-0 py-4 bg-white">
         <h2 className="text-xl">
           <Link to="/books" className="underline">
             Books
@@ -52,7 +52,7 @@ const ClippingTable = ({
 
   const sort = useBookStore((state) => state.actions.sort);
   return (
-    <table className="bg-white">
+    <table className="bg-white w-full">
       <thead>
         <tr>
           <th>#</th>
@@ -110,7 +110,9 @@ const NoClippingsFound = () => {
   return (
     <div className="h-full flex flex-col justify-center items-center">
       <p>No clippings here</p>
-      <Link to="/books">Return home</Link>
+      <Link to="/books" className="underline">
+        Return home
+      </Link>
     </div>
   );
 };

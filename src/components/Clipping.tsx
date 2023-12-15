@@ -25,8 +25,7 @@ export default function Clipping({
   return (
     <tr
       className={clsx(
-        "",
-        (position + 1) % 2 == 0 ? "bg-white" : "bg-yellow-200",
+        (position + 1) % 2 == 0 ? "bg-white" : "bg-yellow-400/30",
       )}
     >
       <td className="md:p-4 text-xs text-center italic">{position + 1}</td>
@@ -39,7 +38,7 @@ export default function Clipping({
       <td className="text-xs text-center italic">{highlight.details.page}</td>
       <td
         onClick={() => console.log(highlight)}
-        className="text-sm md:p-2 space-y-2"
+        className="text-sm md:p-2 space-y-2 py-1"
       >
         {highlight.text.split(" ").map((word, i) => (
           <p key={i} className="inline">

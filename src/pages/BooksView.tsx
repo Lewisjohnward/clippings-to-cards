@@ -17,7 +17,7 @@ export const BooksView = () => {
 
   if (books.length === 0) return <NoBooksFound />;
   return (
-    <div className="flex-grow h-full w-full p-10">
+    <div className="flex-grow h-full w-full p-10 lg:px-60 lg:py-10 xl:px-80">
       <div className="space-y-8">
         <h2 className="text-4xl">Books</h2>
         <div className="space-y-2">
@@ -29,7 +29,7 @@ export const BooksView = () => {
                   key={view.id}
                   to={`/books/${view.id}`}
                   className={clsx(
-                    "bg-white rounded shadow-xl text-black",
+                    "bg-yellow-400 rounded shadow-xl text-black",
                     view.id == "selected" && count == 0 && view.style,
                   )}
                 >
@@ -44,7 +44,7 @@ export const BooksView = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-8 gap-4">
             {books.map((book) => (
               <Link key={book.id} to={`/books/${book.title}`}>
-                <div className="h-full flex flex-col justify-between p-4 space-y-2 bg-white rounded shadow-xl">
+                <div className="h-full flex flex-col justify-between p-4 space-y-2 bg-yellow-400 rounded shadow-xl">
                   <div className="space-y-1">
                     <h3>{book.title}</h3>
                     <p className="italic text-xs">-{book.author}</p>
@@ -72,4 +72,4 @@ const NoBooksFound = () => {
       </p>
     </div>
   );
-}
+};
