@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { useBooks, useBookActions } from "../stores/useBookStore";
 import clsx from "clsx";
+import { useBooks, useBookActions } from "../stores/useBookStore";
+import { Books } from "../types/Books";
 
 const views = [
   {
@@ -28,7 +29,7 @@ export const BooksView = () => {
                   key={view.id}
                   to={`/books/${view.id}`}
                   className={clsx(
-                    "bg-yellow-400 rounded shadow-xl text-black",
+                    "bg-yellow-400 rounded shadow-xl text-black hover:scale-105",
                     view.id == "selected" && count == 0 && view.style,
                   )}
                 >
@@ -54,9 +55,9 @@ export const BooksView = () => {
 const Book = ({ book }: { book: Books }) => {
   return (
     <Link key={book.id} to={`/books/${book.title}`}>
-      <div className="h-full flex flex-col justify-between p-4 space-y-2 bg-yellow-400 rounded shadow-xl">
+      <div className="h-full flex flex-col justify-between p-4 space-y-2 bg-yellow-400 rounded shadow-xl text-black hover:text-opacity-40">
         <div className="space-y-1">
-          <h3>{book.title}</h3>
+          <h3 className="">{book.title}</h3>
           <p className="italic text-xs">-{book.author}</p>
         </div>
         <p className="text-left">{`${book.highlights.length} clippings`}</p>
