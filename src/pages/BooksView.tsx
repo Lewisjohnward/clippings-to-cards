@@ -10,7 +10,6 @@ const views = [
   },
 ];
 
-// Change component name to Books
 export const BooksView = () => {
   const books = useBooks();
   const { getCount } = useBookActions();
@@ -43,20 +42,26 @@ export const BooksView = () => {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-8 gap-4">
             {books.map((book) => (
-              <Link key={book.id} to={`/books/${book.title}`}>
-                <div className="h-full flex flex-col justify-between p-4 space-y-2 bg-yellow-400 rounded shadow-xl">
-                  <div className="space-y-1">
-                    <h3>{book.title}</h3>
-                    <p className="italic text-xs">-{book.author}</p>
-                  </div>
-                  <p className="text-left">{`${book.highlights.length} clippings`}</p>
-                </div>
-              </Link>
+              <Book book={book} />
             ))}
           </div>
         </div>
       </div>
     </div>
+  );
+};
+
+const Book = ({ book }: { book: Books }) => {
+  return (
+    <Link key={book.id} to={`/books/${book.title}`}>
+      <div className="h-full flex flex-col justify-between p-4 space-y-2 bg-yellow-400 rounded shadow-xl">
+        <div className="space-y-1">
+          <h3>{book.title}</h3>
+          <p className="italic text-xs">-{book.author}</p>
+        </div>
+        <p className="text-left">{`${book.highlights.length} clippings`}</p>
+      </div>
+    </Link>
   );
 };
 
