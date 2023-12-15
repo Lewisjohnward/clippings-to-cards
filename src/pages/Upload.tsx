@@ -82,7 +82,7 @@ const CardDropArea = ({
           <FcKindle size={300} className="select-none" />
         </div>
         <div className="flex justify-center items-center">
-          <div className="space-y-4 text-sm px-12 md:text-lg md:px-8 overflow-hidden">
+          <div className="space-y-4 text-sm px-12 md:text-lg md:px-8">
             <ul className="space-y-4 list-disc">
               <li>
                 Drag'n'drop from Kindle Connect your Kindle to the computer via
@@ -95,24 +95,24 @@ const CardDropArea = ({
                 Drag and drop the file on this page or click below to upload.
               </li>
             </ul>
-            <input
-              onChange={handleChange}
-              type="file"
-              className="border border-black p-2 rounded-lg"
-            />
+            <form>
+              <label
+                htmlFor="upload"
+                className="bg-white py-2 px-4 border border-black rounded-lg cursor-pointer text-black hover:text-opacity-40"
+              >
+                <input
+                  type="file"
+                  id="upload"
+                  required
+                  className="hidden"
+                  onChange={handleChange}
+                />
+                <span>Select a file</span>
+              </label>
+            </form>
           </div>
         </div>
       </div>
     </>
   );
 };
-// <form>
-//   <input onChange={handleChange} type="file" />
-// </form>
-// <label for="file-upload">Custom upload</label>
-// <input
-//   onChange={handleChange}
-//   type="file"
-//   id="file-upload"
-//   className="hidden"
-// />
