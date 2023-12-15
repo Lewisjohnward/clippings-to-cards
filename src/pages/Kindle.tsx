@@ -7,7 +7,7 @@ import { parseClippings } from "../helpers/parseClippings";
 
 export const Kindle = () => {
   const [displayModal, setDisplayModal] = useState(false);
-  const [clippingsFile, setClippingsFile] = useState<File>();
+  const [clippingsFile, setClippingsFile] = useState<File | null>(null);
   const { initialiseBooks } = useBookActions();
   const books = useBooks();
   const navigate = useNavigate();
@@ -34,16 +34,10 @@ export const Kindle = () => {
     }
     if (books.length != 0) {
       setDisplayModal(true);
+      const file = item.getAsFile();
+      setClippingsFile(file);
       return;
     }
-
-    const file = item.getAsFile();
-    if (!file) return;
-    file.text().then((data: string) => {
-      const clippings = parseClippings(data);
-      initialiseBooks(clippings);
-      navigate("/books");
-    });
   };
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -79,7 +73,7 @@ export const Kindle = () => {
 
   const cancelClippings = () => {
     setDisplayModal(false);
-    setClippingsFile(undefined);
+    setClippingsFile(null);
   };
 
   return (
