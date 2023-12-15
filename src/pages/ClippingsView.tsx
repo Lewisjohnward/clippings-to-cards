@@ -19,7 +19,7 @@ export const ClippingsView = () => {
 
   return (
     <div className="flex-grow h-full w-full 2xl:px-80">
-      <div className="flex justify-between px-4 md:px-0 py-4 bg-white">
+      <div className="flex justify-between px-4 md:px-4 py-4 bg-white">
         <h2 className="text-xl">
           <Link to="/books" className="underline">
             Books
