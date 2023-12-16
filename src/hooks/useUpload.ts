@@ -31,13 +31,9 @@ export const useUpload = () => {
         };
       });
 
-      // acknowledge: () => {
-      //   setDisplayModal(false);
-      //   setDragOver(false);
       return;
     }
 
-    //Throw error "only one file at a time"
     if (event.dataTransfer.items.length != 1 || !event.dataTransfer.items) {
       setModal((prev) => {
         return {
@@ -50,7 +46,6 @@ export const useUpload = () => {
     }
 
     const [item] = event.dataTransfer.items;
-    // Throw error "Doesn't appear to be a text file"
     if (item.type != "text/plain" || item.kind != "file") {
       setModal((prev) => {
         return {
