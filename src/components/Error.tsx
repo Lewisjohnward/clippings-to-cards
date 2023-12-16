@@ -1,6 +1,6 @@
 import { Modal } from "./Modal";
 
-export const Error = ({ confirmation, error }) => {
+export const Error = ({error }) => {
   return (
     <Modal isOpen={error.display}>
       <p className="text-center">{error.message}</p>
