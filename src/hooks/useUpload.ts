@@ -1,18 +1,19 @@
-import { ChangeEvent, DragEvent, useEffect, useState } from "react";
-import { useBookActions, useBooks } from "../stores/useBookStore";
+import { ChangeEvent, DragEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useBookActions, useBooks } from "../stores/useBookStore";
 import { parseClippings } from "../helpers/parseClippings";
 
 export const useUpload = () => {
-  const [modal, setModal] = useState({
-    display: false,
-    type: "acknowledgment",
-    message: "",
-    acknowledge: () =>
-      setModal((prev) => {
-        return { ...prev, display: false };
-      }),
-  });
+  const [error, setError] = useState({});
+  // const [error, setError] = useState({
+  //   display: false,
+  //   type: "acknowledgment",
+  //   message: "",
+  //   acknowledge: () =>
+  //     setError((prev) => {
+  //       return { ...prev, display: false };
+  //     }),
+  // });
 
   const [dragOver, setDragOver] = useState(false);
   const [clippingsFile, setClippingsFile] = useState<File | null>(null);
@@ -20,11 +21,27 @@ export const useUpload = () => {
   const books = useBooks();
   const navigate = useNavigate();
 
+  const proceedWithClippings = () => {
+    console.log("hello");
+    clippingsFile?.text().then((data: string) => {
+      const clippings = parseClippings(data);
+      setError({ display: false });
+      initialiseBooks(clippings);
+      navigate("/books");
+    });
+  };
+
+  const cancelClippings = () => {
+    setError({ display: false });
+    setDragOver(false);
+    setClippingsFile(null);
+  };
+
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     setDragOver(false);
     if (event.dataTransfer === null) {
-      setModal((prev) => {
+      setError((prev) => {
         return {
           ...prev,
           type: "acknowledge",
@@ -37,7 +54,7 @@ export const useUpload = () => {
     }
 
     if (event.dataTransfer.items.length != 1 || !event.dataTransfer.items) {
-      setModal((prev) => {
+      setError((prev) => {
         return {
           ...prev,
           display: true,
@@ -50,7 +67,7 @@ export const useUpload = () => {
 
     const [item] = event.dataTransfer.items;
     if (item.type != "text/plain" || item.kind != "file") {
-      setModal((prev) => {
+      setError((prev) => {
         return {
           ...prev,
           display: true,
@@ -63,14 +80,14 @@ export const useUpload = () => {
 
     // Confirm user wants to override
     if (books.length != 0) {
-      setModal(() => {
+      setError(() => {
         return {
           type: "confirm",
           display: true,
           message:
             "It appears there are already some clippings, uploading will replace them, do you want to proceed?",
-          confirm: () => proceedWithClippings(),
-          cancel: () => cancelClippings(),
+          confirm: proceedWithClippings,
+          cancel: cancelClippings,
         };
       });
       const file = item.getAsFile();
@@ -91,14 +108,14 @@ export const useUpload = () => {
 
     if (books.length != 0) {
       setClippingsFile(item);
-      setModal({
+      setError({
         file: item,
         type: "confirm",
         display: true,
         message:
-          "testIt appears there are already some clippings, uploading will replace them, do you want to proceed?",
-        confirm: proceedWithClippings,
-        cancel: cancelClippings,
+          "It appears there are already some clippings, uploading will replace them, do you want to proceed?",
+        confirm: () => proceedWithClippings(),
+        cancel: () => cancelClippings(),
       });
       return;
     }
@@ -108,28 +125,6 @@ export const useUpload = () => {
       initialiseBooks(clippings);
       navigate("/books");
     });
-  };
-
-  useEffect(() => {
-    console.log("clippings file changed");
-    console.log(clippingsFile);
-  }, [clippingsFile]);
-
-  const proceedWithClippings = () => {
-    console.log("proceed");
-    clippingsFile?.text().then((data: string) => {
-      console.log(data);
-      const clippings = parseClippings(data);
-      setModal({ display: false });
-      initialiseBooks(clippings);
-      navigate("/books");
-    });
-  };
-
-  const cancelClippings = () => {
-    setModal({ display: false });
-    setDragOver(false);
-    setClippingsFile(null);
   };
 
   const handleDragOver = (event: DragEvent) => {
@@ -149,11 +144,16 @@ export const useUpload = () => {
     handleDragOver,
   };
 
+  const confirmation = {
+    confirm: proceedWithClippings,
+    cancel: cancelClippings,
+  };
+
   return {
-    modal,
+    error,
+    confirmation,
+    proceedWithClippings,
     events,
     dragOver,
-    proceedWithClippings,
-    cancelClippings,
   };
 };
