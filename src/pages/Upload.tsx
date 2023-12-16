@@ -11,6 +11,8 @@ export const Upload = () => {
   return (
     <div className="h-full px-4 lg:px-10 bg-yellow-400">
       <div className="h-full flex justify-center border-8 border-black border-dashed">
+        {/* Confirm modal */}
+        {/* Error modal*/}
         {false && <Loading />}
         <ReactModal
           isOpen={modal.display}
