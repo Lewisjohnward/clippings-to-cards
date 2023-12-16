@@ -5,8 +5,7 @@ import clsx from "clsx";
 import { Error } from "../components/Error";
 
 export const Upload = () => {
-  const { error, confirmation, events, dragOver } =
-    useUpload();
+  const { error, events, dragOver } = useUpload();
 
   return (
     <div className="h-full px-4 lg:px-10 bg-yellow-400">
@@ -14,7 +13,7 @@ export const Upload = () => {
         {/* Confirm modal */}
         {/* Error modal*/}
         {false && <Loading />}
-        <Error confirmation={confirmation} error={error} />
+        <Error error={error} />
         <CardDropArea {...events} dragOver={dragOver} />
       </div>
     </div>
