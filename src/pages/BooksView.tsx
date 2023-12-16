@@ -21,7 +21,7 @@ export const BooksView = () => {
       <div className="space-y-8">
         <h2 className="text-4xl">Books</h2>
         <div className="space-y-2">
-          <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-8 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {views.map((view) => {
               const count = getCount(view.id);
               return (
@@ -29,7 +29,7 @@ export const BooksView = () => {
                   key={view.id}
                   to={`/books/${view.id}`}
                   className={clsx(
-                    "bg-yellow-400 rounded shadow-xl text-black hover:scale-105",
+                    "bg-yellow-400 rounded shadow-xl text-black hover:text-opacity-40",
                     view.id == "selected" && count == 0 && view.style,
                   )}
                 >
@@ -41,7 +41,7 @@ export const BooksView = () => {
               );
             })}
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-8 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {books.map((book) => (
               <Book book={book} />
             ))}
