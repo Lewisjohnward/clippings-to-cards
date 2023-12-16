@@ -5,34 +5,28 @@ import { useUpload } from "../hooks/useUpload";
 import clsx from "clsx";
 
 export const Upload = () => {
-  const {
-    events,
-    dragOver,
-    proceedWithClippings,
-    cancelClippings,
-    displayModal,
-  } = useUpload();
+  const { modal, events, dragOver, proceedWithClippings, cancelClippings } =
+    useUpload();
 
   return (
     <div className="h-full px-4 lg:px-10 bg-yellow-400">
       <div className="h-full flex justify-center border-8 border-black border-dashed">
+        {/* Confirm modal */}
+        {/* Error modal*/}
         {false && <Loading />}
         <ReactModal
-          isOpen={displayModal}
+          isOpen={modal.display}
           appElement={document.getElementById("root") || undefined}
           className="text-xl md:w-1/2 xl:w-2/6 p-4 space-y-4 bg-white rounded outline-none shadow-lg"
           overlayClassName="absolute top-0 h-[100dvh] w-screen flex justify-center items-center p-4 bg-black bg-opacity-40"
         >
-          <p>
-            It appears you already have some clippings, uploading will cause
-            these to be overwritten. Are you sure you want to continue?
-          </p>
+          <p>{modal.message}</p>
           <div className="flex justify-center gap-4">
             <button
-              onClick={proceedWithClippings}
+              onClick={modal.acknowledge}
               className="bg-green-400 rounded px-4 py-2 text-white"
             >
-              Yes
+              Okay
             </button>
             <button
               onClick={cancelClippings}

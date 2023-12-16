@@ -4,7 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { parseClippings } from "../helpers/parseClippings";
 
 export const useUpload = () => {
-  const [displayModal, setDisplayModal] = useState(false);
+  const [modal, setModal] = useState({
+    display: false,
+    message: "",
+    acknowledge: () =>
+      setModal((prev) => {
+        return { ...prev, display: false };
+      }),
+  });
+
   const [dragOver, setDragOver] = useState(false);
   const [clippingsFile, setClippingsFile] = useState<File | null>(null);
   const { initialiseBooks } = useBookActions();
@@ -13,26 +21,45 @@ export const useUpload = () => {
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
-    // Throw error "It appears there has been an error"
+    setDragOver(false);
     if (event.dataTransfer === null) {
-      console.log("Throw error It appears there has been an error");
+      setModal((prev) => {
+        return {
+          ...prev,
+          display: true,
+          message: "It appears there has been an error",
+        };
+      });
+
       return;
     }
 
-    //Throw error "only one file at a time"
     if (event.dataTransfer.items.length != 1 || !event.dataTransfer.items) {
-      console.log("Throw error only one file at a time");
+      setModal((prev) => {
+        return {
+          ...prev,
+          display: true,
+          message: "Whoops, only one file at a time",
+        };
+      });
       return;
     }
 
     const [item] = event.dataTransfer.items;
-    // Throw error "Doesn't appear to be a text file"
     if (item.type != "text/plain" || item.kind != "file") {
-      console.log("Throw error doesn't appear to be a text file");
+      setModal((prev) => {
+        return {
+          ...prev,
+          display: true,
+          message: "Whoops, it doesn't appear to be a text file",
+        };
+      });
       return;
     }
+
+    // Confirm user wants to override
     if (books.length != 0) {
-      setDisplayModal(true);
+      // setDisplayModal(true);
       const file = item.getAsFile();
       setClippingsFile(file);
       return;
@@ -50,7 +77,7 @@ export const useUpload = () => {
     }
 
     if (books.length != 0) {
-      setDisplayModal(true);
+      // setDisplayModal(true);
       setClippingsFile(item);
       return;
     }
@@ -64,14 +91,14 @@ export const useUpload = () => {
   const proceedWithClippings = () => {
     clippingsFile?.text().then((data: string) => {
       const clippings = parseClippings(data);
-      setDisplayModal(false);
+      // setDisplayModal(false);
       initialiseBooks(clippings);
       navigate("/books");
     });
   };
 
   const cancelClippings = () => {
-    setDisplayModal(false);
+    // setDisplayModal(false);
     setDragOver(false);
     setClippingsFile(null);
   };
@@ -94,10 +121,10 @@ export const useUpload = () => {
   };
 
   return {
+    modal,
     events,
     dragOver,
     proceedWithClippings,
     cancelClippings,
-    displayModal,
   };
 };
