@@ -1,4 +1,4 @@
-import { ChangeEvent, DragEvent, useState } from "react";
+import { ChangeEvent, DragEvent, useEffect, useState } from "react";
 import { useBookActions, useBooks } from "../stores/useBookStore";
 import { useNavigate } from "react-router-dom";
 import { parseClippings } from "../helpers/parseClippings";
@@ -6,6 +6,7 @@ import { parseClippings } from "../helpers/parseClippings";
 export const useUpload = () => {
   const [modal, setModal] = useState({
     display: false,
+    type: "acknowledgment",
     message: "",
     acknowledge: () =>
       setModal((prev) => {
@@ -26,6 +27,7 @@ export const useUpload = () => {
       setModal((prev) => {
         return {
           ...prev,
+          type: "acknowledge",
           display: true,
           message: "It appears there has been an error",
         };
@@ -39,6 +41,7 @@ export const useUpload = () => {
         return {
           ...prev,
           display: true,
+          type: "acknowledge",
           message: "Whoops, only one file at a time",
         };
       });
@@ -51,6 +54,7 @@ export const useUpload = () => {
         return {
           ...prev,
           display: true,
+          type: "acknowledge",
           message: "Whoops, it doesn't appear to be a text file",
         };
       });
@@ -59,7 +63,16 @@ export const useUpload = () => {
 
     // Confirm user wants to override
     if (books.length != 0) {
-      // setDisplayModal(true);
+      setModal(() => {
+        return {
+          type: "confirm",
+          display: true,
+          message:
+            "It appears there are already some clippings, uploading will replace them, do you want to proceed?",
+          confirm: () => proceedWithClippings(),
+          cancel: () => cancelClippings(),
+        };
+      });
       const file = item.getAsFile();
       setClippingsFile(file);
       return;
@@ -77,10 +90,19 @@ export const useUpload = () => {
     }
 
     if (books.length != 0) {
-      // setDisplayModal(true);
       setClippingsFile(item);
+      setModal({
+        file: item,
+        type: "confirm",
+        display: true,
+        message:
+          "testIt appears there are already some clippings, uploading will replace them, do you want to proceed?",
+        confirm: proceedWithClippings,
+        cancel: cancelClippings,
+      });
       return;
     }
+
     item.text().then((data: string) => {
       const clippings = parseClippings(data);
       initialiseBooks(clippings);
@@ -88,17 +110,24 @@ export const useUpload = () => {
     });
   };
 
+  useEffect(() => {
+    console.log("clippings file changed");
+    console.log(clippingsFile);
+  }, [clippingsFile]);
+
   const proceedWithClippings = () => {
+    console.log("proceed");
     clippingsFile?.text().then((data: string) => {
+      console.log(data);
       const clippings = parseClippings(data);
-      // setDisplayModal(false);
+      setModal({ display: false });
       initialiseBooks(clippings);
       navigate("/books");
     });
   };
 
   const cancelClippings = () => {
-    // setDisplayModal(false);
+    setModal({ display: false });
     setDragOver(false);
     setClippingsFile(null);
   };
