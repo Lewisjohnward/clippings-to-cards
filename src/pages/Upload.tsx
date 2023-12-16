@@ -1,12 +1,11 @@
-import ReactModal from "react-modal";
 import { FcKindle } from "../misc/icons";
 import { ChangeEvent, DragEvent } from "react";
 import { useUpload } from "../hooks/useUpload";
 import clsx from "clsx";
-import { Modal } from "../components/Modal";
+import { Error } from "../components/Error";
 
 export const Upload = () => {
-  const { modal, events, dragOver, proceedWithClippings, cancelClippings } =
+  const { error, confirmation, events, dragOver } =
     useUpload();
 
   return (
@@ -15,7 +14,7 @@ export const Upload = () => {
         {/* Confirm modal */}
         {/* Error modal*/}
         {false && <Loading />}
-        <Modal modal={modal} />
+        <Error confirmation={confirmation} error={error} />
         <CardDropArea {...events} dragOver={dragOver} />
       </div>
     </div>
