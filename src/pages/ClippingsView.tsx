@@ -1,10 +1,13 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, NavLink, Route, Routes, useParams } from "react-router-dom";
 import Clipping from "../components/Clipping";
+import { useBookActions, useHighlights } from "../stores/useBookStore";
 import {
-  useBookActions,
-  useHighlights,
-} from "../stores/useBookStore";
-import { BiSortAlt2, FaDownload, MdDelete } from "../misc/icons";
+  BiSortAlt2,
+  FaDownload,
+  MdDelete,
+  MdOutlineAnalytics,
+  TbCardsFilled,
+} from "../misc/icons";
 import { Highlights } from "../types/Books";
 import { Checkbox, IconButton } from "@material-tailwind/react";
 import { format } from "date-fns";
@@ -15,14 +18,16 @@ const allSelected = (highlights: Highlights[]) => {
 
 export const ClippingsView = () => {
   /* Get id/bookname from params*/
-  const { id: bookName } = useParams<keyof { id: string }>() as { id: string };
+  const { bookName } = useParams<keyof { bookName: string }>() as {
+    bookName: string;
+  };
   const highlights = useHighlights(bookName);
 
   if (highlights.length === 0) return <NoClippingsFound />;
 
   return (
-    <div className="flex-grow h-full w-full 2xl:px-80">
-      <div className="flex justify-between px-4 md:px-4 py-4 bg-white">
+    <div className="flex-grow h-full w-full px-4 2xl:px-80 3xl:px-[600px]">
+      <div className="flex justify-between py-4 bg-white">
         <h2 className="text-xl">
           <Link to="/books" className="underline">
             Books
@@ -30,8 +35,54 @@ export const ClippingsView = () => {
           {` > ${bookName}`}
         </h2>
         {bookName === "selected" && <Download highlights={highlights} />}
+        <NavLink
+          to={`/books/${bookName}/analysis`}
+          className={({ isActive }) => {
+            return isActive ? "hidden" : "block";
+          }}
+        >
+          <MdOutlineAnalytics className="text-4xl select-none" />
+        </NavLink>
+        <NavLink
+          to={`/books/${bookName}/clippings`}
+          className={({ isActive }) => {
+            return isActive ? "hidden" : "block";
+          }}
+        >
+          <TbCardsFilled className="text-4xl select-none" />
+        </NavLink>
       </div>
-      <ClippingTable bookName={bookName} highlights={highlights} />
+      <Routes>
+        <Route
+          path="clippings"
+          element={
+            <ClippingTable bookName={bookName} highlights={highlights} />
+          }
+        />
+        <Route
+          path={`analysis`}
+          element={<Analysis highlights={highlights} />}
+        />
+      </Routes>
+    </div>
+  );
+};
+
+const Analysis = ({ highlights }: { highlights: Highlights[] }) => {
+  const test = highlights.map((d) => d.text);
+  const count = test.reduce((prev, current) => {
+    const split = current.split(" ");
+    const length = split.length;
+    return prev + length;
+  }, 0);
+  console.log(count);
+  console.log(test);
+
+  return (
+    <div>
+      <div>
+        <h2 className="text-2xl font-bold">Unique words</h2>
+      </div>
     </div>
   );
 };
