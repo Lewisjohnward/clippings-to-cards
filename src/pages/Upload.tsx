@@ -43,7 +43,7 @@ const CardDropArea = ({
     <>
       <div
         className={clsx(
-          "flex-grow flex justify-center",
+          "relative flex-grow flex justify-center",
           dragOver && "opacity-20",
         )}
         onDragOver={handleDragOver}
@@ -61,7 +61,11 @@ const CardDropArea = ({
                 a USB cable.
               </li>
               <li>
-                Locate the myclippings.txt file on the Kindle disk in documents.
+                Locate the{" "}
+                <span className="bg-blue-400 bg-opacity-40 py-2 px-2">
+                  "My Clippings.txt"
+                </span>{" "}
+                file on the Kindle disk in documents.
               </li>
               <li>
                 Drag and drop the file on this page or click below to upload.
@@ -70,7 +74,7 @@ const CardDropArea = ({
             <form>
               <label
                 htmlFor="upload"
-                className="bg-white py-2 px-4 border border-black rounded-lg cursor-pointer text-black hover:text-opacity-40"
+                className="py-2 px-4 cursor-pointer text-black bg-blue-400 bg-opacity-40 hover:text-opacity-40"
               >
                 <input
                   type="file"
@@ -79,9 +83,13 @@ const CardDropArea = ({
                   className="hidden"
                   onChange={handleChange}
                 />
-                <span>Select a file</span>
+                Select a file
               </label>
             </form>
+            <p className="absolute bottom-0 left-0 w-1/2 lg:w-1/6 p-2 text-xs opacity-50">
+              Note: the file is processed and stored entirely locally in your
+              browser. Your data is not uploaded to any server.
+            </p>
           </div>
         </div>
       </div>
