@@ -6,6 +6,7 @@ import { SlCalender } from "react-icons/sl";
 import { FaSortUp, FaSortDown } from "react-icons/fa6";
 import { BiSortAlt2 } from "react-icons/bi";
 import { MdOutlineRemoveCircle } from "react-icons/md";
+import { MdOutlineAnalytics } from "react-icons/md";
 
 const SiteIcon = () => {
   return (
@@ -21,6 +22,7 @@ const SiteIcon = () => {
 
 export {
   TbCardsFilled,
+  MdOutlineAnalytics,
   BiSortAlt2,
   FcKindle,
   MdDelete,
