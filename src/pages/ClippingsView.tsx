@@ -1,6 +1,9 @@
 import { Link, useParams } from "react-router-dom";
 import Clipping from "../components/Clipping";
-import { useBookStore, useHighlights } from "../stores/useBookStore";
+import {
+  useBookActions,
+  useHighlights,
+} from "../stores/useBookStore";
 import { BiSortAlt2, FaDownload, MdDelete } from "../misc/icons";
 import { Highlights } from "../types/Books";
 import { Checkbox, IconButton } from "@material-tailwind/react";
@@ -43,14 +46,12 @@ const ClippingTable = ({
   bookName: string;
   highlights: Highlights[];
 }) => {
-  const toggleSelectAll = useBookStore(
-    (state) => state.actions.toggleSelectAll,
-  );
+  const { toggleSelectAll, sort } = useBookActions();
+
   const handleToggleSelectAll = () => {
     toggleSelectAll(bookName);
   };
 
-  const sort = useBookStore((state) => state.actions.sort);
   return (
     <table className="bg-white w-full">
       <thead>
