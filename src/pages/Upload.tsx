@@ -74,7 +74,7 @@ const CardDropArea = ({
             <form>
               <label
                 htmlFor="upload"
-                className="py-2 px-4 cursor-pointer text-black bg-blue-400 bg-opacity-40 hover:text-opacity-40"
+                className="py-2 px-4 cursor-pointer bg-blue-400 bg-opacity-40 text-gray-800 hover:text-opacity-40"
               >
                 <input
                   type="file"
