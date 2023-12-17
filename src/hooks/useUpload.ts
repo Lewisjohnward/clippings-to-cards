@@ -1,36 +1,14 @@
 import { ChangeEvent, DragEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useError } from "./useError";
 import { useBookActions, useBooks } from "../stores/useBookStore";
 import { parseClippings } from "../helpers/parseClippings";
 
 export const useUpload = () => {
-  const [display, setDisplay] = useState(false);
-  const [message, setMessage] = useState("This is my error message");
-  const [type, setType] = useState("confirm");
-
-  const confirm = () => {
-    setDisplay(false);
-    proceedWithClippings();
-  };
-  const cancel = () => {
-    setDisplay(false);
-    cancelClippings();
-  };
-  const acknowledge = () => {
-    setDisplay(false);
-  };
-
-  const displayError = (message: string) => {
-    setDisplay(true);
-    setType("acknowledge");
-    setMessage(message);
-  };
-
-  const displayConfirmation = (message: string) => {
-    setDisplay(true);
-    setType("confirm");
-    setMessage(message);
-  };
+  const {
+    error,
+    setErrorType: { displayError, displayConfirmation },
+  } = useError();
 
   const [dragOver, setDragOver] = useState(false);
   const [clippingsFile, setClippingsFile] = useState<File | null>(null);
@@ -123,14 +101,8 @@ export const useUpload = () => {
     handleDragOver,
   };
 
-  const error = {
-    display,
-    message,
-    type,
-    confirm,
-    cancel,
-    acknowledge,
-  };
+  error.confirm = proceedWithClippings;
+  error.cancel = cancelClippings;
 
   return {
     error,
