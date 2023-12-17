@@ -1,4 +1,9 @@
 @tailwind base;
+@layer base {
+  html {
+    @apply text-gray-800;
+  }
+}
 @tailwind components;
 @tailwind utilities;
 
@@ -7,5 +12,5 @@ textarea,
 button,
 select,
 a {
-    -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent;
 }
