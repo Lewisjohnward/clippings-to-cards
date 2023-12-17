@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 import { FcKindle } from "../misc/icons";
-export const Home = () => {
+export const LandingPage = () => {
   return (
     <div className="h-full flex flex-col justify-center items-center space-y-4">
-      <p>Convert your Kindle clippings to Anki flashcards</p>
       <Link to="/upload" className="text-4xl underline">
         Upload clippings
       </Link>
-      <FcKindle className="text-[300px] md:text-[500px] textselect-none caret-transparent" />
+      <Link to="/upload" className="text-4xl underline">
+        <FcKindle className="text-[300px] md:text-[500px] textselect-none caret-transparent" />
+      </Link>
+      <p>Convert your Kindle clippings to Anki flashcards</p>
     </div>
   );
 };

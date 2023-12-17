@@ -1,7 +1,7 @@
 import { BooksView } from "./BooksView";
 import { ClippingsView } from "./ClippingsView";
 import { Upload } from "./Upload";
-import { Home } from "./Home";
+import { LandingPage } from "./LandingPage";
 import { NotFound } from "./NotFound";
 
-export { BooksView, ClippingsView, Upload, Home, NotFound };
+export { BooksView, ClippingsView, Upload, LandingPage, NotFound };
