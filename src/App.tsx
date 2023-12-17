@@ -10,7 +10,7 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/upload" element={<Upload />} />
         <Route path="/books" element={<BooksView />} />
-        <Route path="/books/:id" element={<ClippingsView />} />
+        <Route path="/books/:bookName/*" element={<ClippingsView />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </Layout>
