@@ -44,7 +44,7 @@ export default function Clipping({
           <p key={i} className="inline">
             <span
               onClick={handleTranslate}
-              className="hover:bg-yellow-500 rounded px-[1px]"
+              className="py-1 px-[2px] cursor-pointer hover:bg-blue-500 hover:bg-opacity-40"
             >
               {word}
             </span>{" "}
