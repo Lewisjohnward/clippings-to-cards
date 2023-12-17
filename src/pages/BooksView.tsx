@@ -27,7 +27,7 @@ export const BooksView = () => {
               return (
                 <Link
                   key={view.id}
-                  to={`/books/${view.id}`}
+                  to={`/books/${view.id}/clippings`}
                   className={clsx(
                     "bg-yellow-400 rounded shadow-xl text-gray-800 hover:text-opacity-40",
                     view.id == "selected" && count == 0 && view.style,
@@ -54,7 +54,10 @@ export const BooksView = () => {
 
 const Book = ({ book }: { book: Books }) => {
   return (
-    <Link key={book.id} to={`/books/${book.title}`}>
+    <Link
+      key={book.id}
+      to={`/books/${book.title}/clippings`}
+    >
       <div className="h-full flex flex-col justify-between p-4 space-y-2 bg-yellow-400 rounded shadow-xl text-gray-800 hover:text-opacity-40">
         <div className="space-y-1">
           <h3 className="">{book.title}</h3>
