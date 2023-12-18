@@ -43,7 +43,9 @@ export const BooksView = () => {
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 3xl:grid-cols-8 gap-4">
             {books.map((book) => (
-              <Book book={book} />
+              <div key={book.id}>
+                <Book book={book} />
+              </div>
             ))}
           </div>
         </div>
