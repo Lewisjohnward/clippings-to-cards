@@ -69,19 +69,23 @@ export const ClippingsView = () => {
 };
 
 const Analysis = ({ highlights }: { highlights: Highlights[] }) => {
-  const test = highlights.map((d) => d.text);
+  const test = highlights.slice(4, 5).map((d) => d.text);
   const count = test.reduce((prev, current) => {
-    const split = current.split(" ");
+    console.log("current ", current);
+    let split = current.replace(/[^\x00-\xFF]/g, "");
+    split = split.replace(/[?.,><«»]/g, "");
+    console.log("split ", split);
     const length = split.length;
     return prev + length;
   }, 0);
-  console.log(count);
-  console.log(test);
+  // console.log(count);
+  // console.log(test);
 
   return (
     <div>
       <div>
         <h2 className="text-2xl font-bold">Unique words</h2>
+        <p>{count}</p>
       </div>
     </div>
   );
