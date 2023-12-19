@@ -11,6 +11,7 @@ import {
 import { Highlights } from "../types/Books";
 import { Checkbox, IconButton } from "@material-tailwind/react";
 import { format } from "date-fns";
+import { getUniqueWords, getWords } from "../helpers/parseWords";
 
 const allSelected = (highlights: Highlights[]) => {
   return highlights.every((highlight) => highlight.selected === true);
@@ -69,23 +70,21 @@ export const ClippingsView = () => {
 };
 
 const Analysis = ({ highlights }: { highlights: Highlights[] }) => {
-  const test = highlights.slice(4, 5).map((d) => d.text);
-  const count = test.reduce((prev, current) => {
-    console.log("current ", current);
-    let split = current.replace(/[^\x00-\xFF]/g, "");
-    split = split.replace(/[?.,><«»]/g, "");
-    console.log("split ", split);
-    const length = split.length;
-    return prev + length;
-  }, 0);
-  // console.log(count);
-  // console.log(test);
+  // Turns highlights[] into array of words
+  const words = highlights
+    .map((highlight) => highlight.text)
+    .map((text) => getWords(text))
+    .flat();
+
+  const uniqueWords = getUniqueWords(words);
 
   return (
     <div>
       <div>
+        <h2 className="text-2xl font-bold">Total words</h2>
+        <p>{words.length}</p>
         <h2 className="text-2xl font-bold">Unique words</h2>
-        <p>{count}</p>
+        <p>{uniqueWords.length}</p>
       </div>
     </div>
   );
