@@ -20,7 +20,8 @@ export const BooksView = () => {
     <div className="flex-grow h-full w-full p-10 lg:px-60 lg:py-10 xl:px-80 3xl:px-[600px]">
       <div className="space-y-8">
         <h2 className="text-4xl">Books</h2>
-        <div className="space-y-2">
+        <div className="space-y-4">
+          <p>Your kindle books:</p>
           <div className="grid grid-cols-2 md:grid-cols-4 3xl:grid-cols-8 gap-4">
             {views.map((view) => {
               const count = getCount(view.id);
@@ -56,10 +57,7 @@ export const BooksView = () => {
 
 const Book = ({ book }: { book: Books }) => {
   return (
-    <Link
-      key={book.id}
-      to={`/books/${book.title}/clippings`}
-    >
+    <Link key={book.id} to={`/books/${book.title}/clippings`}>
       <div className="h-full flex flex-col justify-between p-4 space-y-2 bg-yellow-400 rounded shadow-xl text-gray-800 hover:text-opacity-40">
         <div className="space-y-1">
           <h3 className="">{book.title}</h3>
