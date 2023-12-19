@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { Highlights, Translation } from "../types/Books";
-import { Checkbox, IconButton } from "@material-tailwind/react";
+import { IconButton } from "@material-tailwind/react";
 import { MdDelete, MdOutlineRemoveCircle } from "../misc/icons";
 import { useBookActions } from "../stores/useBookStore";
 import { useClipping } from "../hooks/useClipping";
@@ -56,17 +56,22 @@ export default function Clipping({
         />
       </td>
       <td>
-        <Checkbox
-          checked={highlight.selected}
-          ripple={false}
-          onChange={handleToggleSelect}
-          className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
-          crossOrigin={undefined}
-        />
+          <input
+            checked={highlight.selected}
+            onChange={handleToggleSelect}
+            id="checked-checkbox"
+            type="checkbox"
+            value=""
+            className="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded ring-none select-none"
+          />
       </td>
       <td className="pr-4">
-        <IconButton size="sm" variant="outlined">
-          <MdDelete size={20} onClick={handleDelete} />
+        <IconButton size="sm" variant="text">
+          <MdDelete
+            className="text-gray-600"
+            size={20}
+            onClick={handleDelete}
+          />
         </IconButton>
       </td>
     </tr>

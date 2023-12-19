@@ -9,7 +9,7 @@ import {
   TbCardsFilled,
 } from "../misc/icons";
 import { Highlights } from "../types/Books";
-import { Checkbox, IconButton } from "@material-tailwind/react";
+import { IconButton } from "@material-tailwind/react";
 import { format } from "date-fns";
 import { getUniqueWords, getWords } from "../helpers/parseWords";
 
@@ -132,19 +132,24 @@ const ClippingTable = ({
           <th>Text</th>
           <th>
             {bookName != "selected" && bookName != "all" && (
-              <Checkbox
+              <input
                 checked={allSelected(highlights)}
-                ripple={false}
                 onChange={handleToggleSelectAll}
-                className="h-6 w-6 border-gray-900/20 bg-gray-900/10 transition-all hover:scale-105 hover:before:opacity-0"
-                crossOrigin={undefined}
+                id="checked-checkbox"
+                type="checkbox"
+                value=""
+                className="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded ring-none select-none"
               />
             )}
           </th>
           <th className="pr-4">
             {bookName != "selected" && bookName != "all" && (
-              <IconButton size="sm" variant="outlined">
-                <MdDelete size={20} onClick={() => console.log("hello")} />
+              <IconButton size="sm" variant="text">
+                <MdDelete
+                  className="text-gray-600"
+                  size={20}
+                  onClick={() => console.log("confirm delete selected")}
+                />
               </IconButton>
             )}
           </th>
