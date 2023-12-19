@@ -41,4 +41,5 @@ export default {
 -   [ ] Sort by date
 -   [ ] split store into slices - display date, cards ?
 -   [ ] Display no books component when no books.
+-   [ ] Edit/translate button
 
