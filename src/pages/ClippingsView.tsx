@@ -53,6 +53,14 @@ export const ClippingsView = () => {
           <TbCardsFilled className="text-4xl select-none" />
         </NavLink>
       </div>
+      <div className="py-2 space-y-2">
+        <p>Download the selected highlights as:</p>
+        <div className="space-x-2">
+          <button className="px-4 py-2 bg-yellow-400 rounded text-gray-800 hover:text-opacity-40">
+            Plain CSV
+          </button>
+        </div>
+      </div>
       <Routes>
         <Route
           path="clippings"
