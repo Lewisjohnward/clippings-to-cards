@@ -9,9 +9,11 @@ import { useState } from "react";
 export default function Clipping({
   highlight,
   position,
+  translate,
 }: {
   highlight: Highlights;
   position: number;
+  translate: boolean;
 }) {
   const {
     date,
@@ -42,12 +44,16 @@ export default function Clipping({
       >
         {highlight.text.split(" ").map((word, i) => (
           <p key={i} className="inline">
-            <span
-              onClick={handleTranslate}
-              className="py-1 px-[2px] cursor-pointer hover:bg-blue-500 hover:bg-opacity-40"
-            >
-              {word}
-            </span>{" "}
+            {translate ? (
+              <span
+                onClick={handleTranslate}
+                className="py-1 px-[2px] cursor-pointer hover:bg-blue-500 hover:bg-opacity-40"
+              >
+                {word}{" "}
+              </span>
+            ) : (
+              <span className="py-1 px-[2px]">{word} </span>
+            )}
           </p>
         ))}
         <Translations
@@ -56,14 +62,14 @@ export default function Clipping({
         />
       </td>
       <td>
-          <input
-            checked={highlight.selected}
-            onChange={handleToggleSelect}
-            id="checked-checkbox"
-            type="checkbox"
-            value=""
-            className="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded ring-none select-none"
-          />
+        <input
+          checked={highlight.selected}
+          onChange={handleToggleSelect}
+          id="checked-checkbox"
+          type="checkbox"
+          value=""
+          className="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded ring-none select-none"
+        />
       </td>
       <td className="pr-4">
         <IconButton size="sm" variant="text">
