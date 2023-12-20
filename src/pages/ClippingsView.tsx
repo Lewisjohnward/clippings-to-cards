@@ -44,7 +44,6 @@ export const ClippingsView = () => {
           </Link>
           {` > ${bookName}`}
         </h2>
-        {bookName === "selected" && <Download highlights={highlights} />}
         <div className="flex items-center gap-4">
           <button
             onClick={() => {
@@ -58,6 +57,7 @@ export const ClippingsView = () => {
           >
             scroll to top
           </button>
+          {bookName === "selected" && <Download highlights={highlights} />}
           <button
             className={clsx(
               "p-1 text-gray-700 rounded hover:opacity-40",
@@ -85,14 +85,16 @@ export const ClippingsView = () => {
           </NavLink>
         </div>
       </div>
-      <div className="py-2 space-y-2">
-        <p>Download the selected highlights as:</p>
-        <div className="space-x-2">
-          <button className="px-4 py-2 bg-yellow-400 rounded text-gray-800 hover:text-opacity-40">
-            Plain CSV
-          </button>
+      {bookName === "selected" && (
+        <div className="py-2 space-y-2">
+          <p>Download the selected highlights as:</p>
+          <div className="space-x-2">
+            <button className="px-4 py-2 bg-yellow-400 rounded text-gray-800 hover:text-opacity-40">
+              Plain CSV
+            </button>
+          </div>
         </div>
-      </div>
+      )}
       <Routes>
         <Route
           path="clippings"
@@ -181,7 +183,7 @@ const ClippingTable = ({
             </button>
           </th>
           <th>Text</th>
-          <th>
+          <th className="pr-4">
             {bookName != "selected" && bookName != "all" && (
               <input
                 checked={allSelected(highlights)}
