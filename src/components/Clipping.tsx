@@ -49,11 +49,11 @@ export default function Clipping({
                 onClick={handleTranslate}
                 className="py-1 px-[2px] cursor-pointer hover:bg-blue-500 hover:bg-opacity-40"
               >
-                {word}{" "}
+                {word}
               </span>
             ) : (
               <span className="py-1 px-[2px]">{word} </span>
-            )}
+            )}{" "}
           </p>
         ))}
         <Translations
