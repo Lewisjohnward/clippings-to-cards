@@ -230,7 +230,11 @@ const Download = ({ highlights }: { highlights: Highlights[] }) => {
   const handleDownload = () => {
     // text content
     const texts = highlights.map((highlight) => {
-      const translations = highlight.translations.join("<br>");
+      const translations = highlight.translations
+        .map((tr) =>
+          [tr.word, "-", tr.type, "-", ...tr.translation, "<br>"].join(" "),
+        )
+        .join(" ");
 
       //Need to escape quotes with double quotes
       return `"${highlight.text}<br><br><p style=""font-size:16px;font-style:italic"">${translations}</p>"\n`;
