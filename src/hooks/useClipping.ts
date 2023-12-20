@@ -3,6 +3,7 @@ import { useBookActions } from "../stores/useBookStore";
 import { Highlights, Translation } from "../types/Books";
 import { v4 as uuidv4 } from "uuid";
 import { format } from "date-fns";
+import { removePunctuation } from "../helpers/parseWords";
 
 interface Definition {
   pos: string;
@@ -24,7 +25,7 @@ export const useClipping = (highlight: Highlights) => {
     deleteHighlight(highlight);
   };
   const handleTranslate = (e: MouseEvent<HTMLElement>) => {
-    const word = (e.target as HTMLElement).innerText;
+    const word = removePunctuation((e.target as HTMLElement).innerText);
 
     const LANGUAGE = `it`;
     const str = `https://dictionary.yandex.net/api/v1/dicservice.json/lookup?=&flags=4&key=dict.1.1.20231202T165200Z.f37a0db6c660a327.38c38e5f1732bcdf6faea905077ad49744d61e3d&lang=${LANGUAGE}-en&text=${word}`;
