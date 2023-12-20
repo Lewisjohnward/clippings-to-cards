@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { Highlights, Translation } from "../types/Books";
 import { IconButton } from "@material-tailwind/react";
 import { MdDelete, MdOutlineRemoveCircle } from "../misc/icons";
@@ -25,13 +24,9 @@ export default function Clipping({
   } = useClipping(highlight);
 
   return (
-    <tr
-      className={clsx(
-        (position + 1) % 2 == 0 ? "bg-white" : "bg-yellow-300/30",
-      )}
-    >
-      <td className="md:p-4 text-xs text-center italic">{position + 1}</td>
-      <td className="text-xs text-center italic">
+    <>
+      <td className="text-xs text-center italic">{position + 1}</td>
+      <td className="p-4 text-xs text-center italic">
         <div>
           <p>{date}</p>
           <p>{time}</p>
@@ -39,7 +34,6 @@ export default function Clipping({
       </td>
       <td className="text-xs text-center italic">{highlight.details.page}</td>
       <td
-        onClick={() => console.log(highlight)}
         className="text-sm md:p-2 space-y-2 py-1"
       >
         {highlight.text.split(" ").map((word, i) => (
@@ -80,7 +74,7 @@ export default function Clipping({
           />
         </IconButton>
       </td>
-    </tr>
+    </>
   );
 }
 
