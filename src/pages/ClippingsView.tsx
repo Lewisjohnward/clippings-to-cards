@@ -13,8 +13,9 @@ import { Highlights } from "../types/Books";
 import { IconButton } from "@material-tailwind/react";
 import { format } from "date-fns";
 import { getUniqueWords, getWords } from "../helpers/parseWords";
-import { useState } from "react";
+import { RefObject, useRef, useState } from "react";
 import clsx from "clsx";
+import { TableVirtuoso, TableVirtuosoHandle } from "react-virtuoso";
 
 const allSelected = (highlights: Highlights[]) => {
   return highlights.every((highlight) => highlight.selected === true);
@@ -30,11 +31,12 @@ export const ClippingsView = () => {
   const handleToggleTranslate = () => {
     setTranslate((prev) => !prev);
   };
+  const virtuoso = useRef<TableVirtuosoHandle>(null);
 
   if (highlights.length === 0) return <NoClippingsFound />;
 
   return (
-    <div className="flex-grow h-full w-full px-4 2xl:px-80 3xl:px-[600px]">
+    <div className="flex flex-col h-full px-4 2xl:px-80 3xl:px-[600px]">
       <div className="flex items-center justify-between py-4 bg-white">
         <h2 className="text-xl">
           <Link to="/books" className="underline">
@@ -44,6 +46,18 @@ export const ClippingsView = () => {
         </h2>
         {bookName === "selected" && <Download highlights={highlights} />}
         <div className="flex items-center gap-4">
+          <button
+            onClick={() => {
+              if (!virtuoso.current) return;
+              virtuoso.current.scrollToIndex({
+                index: 0,
+                behavior: "smooth",
+              });
+              return false;
+            }}
+          >
+            scroll to top
+          </button>
           <button
             className={clsx(
               "p-1 text-gray-700 rounded hover:opacity-40",
@@ -84,6 +98,7 @@ export const ClippingsView = () => {
           path="clippings"
           element={
             <ClippingTable
+              virtuoso={virtuoso}
               bookName={bookName}
               highlights={highlights}
               translate={translate}
@@ -127,22 +142,26 @@ const ClippingTable = ({
   bookName,
   highlights,
   translate,
+  virtuoso,
 }: {
   bookName: string;
   highlights: Highlights[];
   translate: boolean;
+  virtuoso: RefObject<TableVirtuosoHandle>;
 }) => {
   const { toggleSelectAll, sort } = useBookActions();
 
   const handleToggleSelectAll = () => {
     toggleSelectAll(bookName);
   };
-
   return (
-    <table className="bg-white w-full">
-      <thead>
-        <tr>
-          <th>#</th>
+    <TableVirtuoso
+      overscan={{ main: 2000, reverse: 2000 }}
+      ref={virtuoso}
+      data={highlights}
+      fixedHeaderContent={() => (
+        <tr className="bg-white">
+          <th style={{ width: 100 }}>#</th>
           <th className="px-2 hover:underline">
             <button
               onClick={() => sort(bookName, DATE)}
@@ -177,24 +196,20 @@ const ClippingTable = ({
           <th className="pr-4">
             {bookName != "selected" && bookName != "all" && (
               <IconButton size="sm" variant="text">
-                <MdDelete
-                  className="text-gray-600"
-                  size={20}
-                  onClick={() => console.log("confirm delete selected")}
-                />
+                <MdDelete className="text-gray-600" size={20} />
               </IconButton>
             )}
           </th>
         </tr>
-      </thead>
-      <tbody>
-        {highlights.map((highlight, i) => {
-          return (
-            <Clipping key={highlight.id} highlight={highlight} position={i} translate={translate} />
-          );
-        })}
-      </tbody>
-    </table>
+      )}
+      itemContent={(index, highlight) => (
+        <Clipping
+          highlight={highlight}
+          position={index}
+          translate={translate}
+        />
+      )}
+    />
   );
 };
 
