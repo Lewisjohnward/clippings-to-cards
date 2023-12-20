@@ -44,7 +44,6 @@ export const useBookStore = create<Store>()(
       books: [],
 
       actions: {
-        greet: () => console.log("hello from store"),
         initialiseBooks: (books) => set(() => ({ books })),
         toggleSelected: (highlight) => {
           const booksArray = get().books;
