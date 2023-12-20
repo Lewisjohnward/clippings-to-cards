@@ -60,7 +60,7 @@ export default function Clipping({
           // visible={translationButtonsVisible}
         />
       </td>
-      <td className={clsx("", background)}>
+      <td className={clsx("pr-4", background)}>
         <input
           checked={highlight.selected}
           onChange={handleToggleSelect}
