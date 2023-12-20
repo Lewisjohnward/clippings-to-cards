@@ -4,6 +4,7 @@ import { MdDelete, MdOutlineRemoveCircle } from "../misc/icons";
 import { useBookActions } from "../stores/useBookStore";
 import { useClipping } from "../hooks/useClipping";
 import { useState } from "react";
+import clsx from "clsx";
 
 export default function Clipping({
   highlight,
@@ -23,19 +24,23 @@ export default function Clipping({
     // translationButtonsVisible,
   } = useClipping(highlight);
 
+  const background = (position + 1) % 2 == 0 ? "bg-yellow-400/20" : "bg-white";
+
   return (
     <>
-      <td className="text-xs text-center italic">{position + 1}</td>
-      <td className="p-4 text-xs text-center italic">
+      <td className={clsx("text-xs text-center italic", background)}>
+        {position + 1}
+      </td>
+      <td className={clsx("p-4 text-xs text-center italic", background)}>
         <div>
           <p>{date}</p>
           <p>{time}</p>
         </div>
       </td>
-      <td className="text-xs text-center italic">{highlight.details.page}</td>
-      <td
-        className="text-sm md:p-2 space-y-2 py-1"
-      >
+      <td className={clsx("text-xs text-center italic", background)}>
+        {highlight.details.page}
+      </td>
+      <td className={clsx("text-sm md:p-2 space-y-2 py-1", background)}>
         {highlight.text.split(" ").map((word, i) => (
           <p key={i} className="inline">
             {translate ? (
@@ -55,17 +60,17 @@ export default function Clipping({
           // visible={translationButtonsVisible}
         />
       </td>
-      <td>
+      <td className={clsx("", background)}>
         <input
           checked={highlight.selected}
           onChange={handleToggleSelect}
           id="checked-checkbox"
           type="checkbox"
           value=""
-          className="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded ring-none select-none"
+          className="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded ring-none select-none cursor-pointer"
         />
       </td>
-      <td className="pr-4">
+      <td className={clsx("pr-4", background)}>
         <IconButton size="sm" variant="text">
           <MdDelete
             className="text-gray-600"
