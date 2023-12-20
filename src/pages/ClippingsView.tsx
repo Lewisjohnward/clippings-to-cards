@@ -4,6 +4,7 @@ import { useBookActions, useHighlights } from "../stores/useBookStore";
 import {
   BiSortAlt2,
   FaDownload,
+  HiTranslate,
   MdDelete,
   MdOutlineAnalytics,
   TbCardsFilled,
@@ -12,6 +13,8 @@ import { Highlights } from "../types/Books";
 import { IconButton } from "@material-tailwind/react";
 import { format } from "date-fns";
 import { getUniqueWords, getWords } from "../helpers/parseWords";
+import { useState } from "react";
+import clsx from "clsx";
 
 const allSelected = (highlights: Highlights[]) => {
   return highlights.every((highlight) => highlight.selected === true);
@@ -19,16 +22,20 @@ const allSelected = (highlights: Highlights[]) => {
 
 export const ClippingsView = () => {
   /* Get id/bookname from params*/
+  const [translate, setTranslate] = useState(false);
   const { bookName } = useParams<keyof { bookName: string }>() as {
     bookName: string;
   };
   const highlights = useHighlights(bookName);
+  const handleToggleTranslate = () => {
+    setTranslate((prev) => !prev);
+  };
 
   if (highlights.length === 0) return <NoClippingsFound />;
 
   return (
     <div className="flex-grow h-full w-full px-4 2xl:px-80 3xl:px-[600px]">
-      <div className="flex justify-between py-4 bg-white">
+      <div className="flex items-center justify-between py-4 bg-white">
         <h2 className="text-xl">
           <Link to="/books" className="underline">
             Books
@@ -36,22 +43,33 @@ export const ClippingsView = () => {
           {` > ${bookName}`}
         </h2>
         {bookName === "selected" && <Download highlights={highlights} />}
-        <NavLink
-          to={`/books/${bookName}/analysis`}
-          className={({ isActive }) => {
-            return isActive ? "hidden" : "block";
-          }}
-        >
-          <MdOutlineAnalytics className="text-4xl select-none" />
-        </NavLink>
-        <NavLink
-          to={`/books/${bookName}/clippings`}
-          className={({ isActive }) => {
-            return isActive ? "hidden" : "block";
-          }}
-        >
-          <TbCardsFilled className="text-4xl select-none" />
-        </NavLink>
+        <div className="flex items-center gap-4">
+          <button
+            className={clsx(
+              "p-1 text-gray-700 rounded hover:opacity-40",
+              translate ? "bg-yellow-500" : "bg-transparent",
+            )}
+            onClick={handleToggleTranslate}
+          >
+            <HiTranslate className="text-4xl" />
+          </button>
+          <NavLink
+            to={`/books/${bookName}/analysis`}
+            className={({ isActive }) => {
+              return isActive ? "hidden" : "block";
+            }}
+          >
+            <MdOutlineAnalytics className="text-4xl select-none p-1 text-gray-700 rounded hover:bg-black/20" />
+          </NavLink>
+          <NavLink
+            to={`/books/${bookName}/clippings`}
+            className={({ isActive }) => {
+              return isActive ? "hidden" : "block";
+            }}
+          >
+            <TbCardsFilled className="text-4xl select-none" />
+          </NavLink>
+        </div>
       </div>
       <div className="py-2 space-y-2">
         <p>Download the selected highlights as:</p>
@@ -65,7 +83,11 @@ export const ClippingsView = () => {
         <Route
           path="clippings"
           element={
-            <ClippingTable bookName={bookName} highlights={highlights} />
+            <ClippingTable
+              bookName={bookName}
+              highlights={highlights}
+              translate={translate}
+            />
           }
         />
         <Route
@@ -104,9 +126,11 @@ const PAGE = "page";
 const ClippingTable = ({
   bookName,
   highlights,
+  translate,
 }: {
   bookName: string;
   highlights: Highlights[];
+  translate: boolean;
 }) => {
   const { toggleSelectAll, sort } = useBookActions();
 
@@ -166,7 +190,7 @@ const ClippingTable = ({
       <tbody>
         {highlights.map((highlight, i) => {
           return (
-            <Clipping key={highlight.id} highlight={highlight} position={i} />
+            <Clipping key={highlight.id} highlight={highlight} position={i} translate={translate} />
           );
         })}
       </tbody>
