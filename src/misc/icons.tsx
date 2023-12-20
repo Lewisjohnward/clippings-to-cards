@@ -7,6 +7,7 @@ import { FaSortUp, FaSortDown } from "react-icons/fa6";
 import { BiSortAlt2 } from "react-icons/bi";
 import { MdOutlineRemoveCircle } from "react-icons/md";
 import { MdOutlineAnalytics } from "react-icons/md";
+import { HiTranslate } from "react-icons/hi";
 
 const SiteIcon = () => {
   return (
@@ -22,6 +23,7 @@ const SiteIcon = () => {
 
 export {
   TbCardsFilled,
+  HiTranslate,
   MdOutlineAnalytics,
   BiSortAlt2,
   FcKindle,
