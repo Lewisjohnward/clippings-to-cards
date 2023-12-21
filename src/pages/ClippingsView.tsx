@@ -1,6 +1,10 @@
 import { Link, NavLink, Route, Routes, useParams } from "react-router-dom";
 import Clipping from "../components/Clipping";
-import { useBookActions, useHighlights } from "../stores/useBookStore";
+import {
+  useBookActions,
+  useHighlights,
+  useSelectedExists,
+} from "../stores/useBookStore";
 import {
   BiSortAlt2,
   FaDownload,
@@ -16,6 +20,7 @@ import { getUniqueWords, getWords } from "../helpers/parseWords";
 import { RefObject, useRef, useState } from "react";
 import clsx from "clsx";
 import { TableVirtuoso, TableVirtuosoHandle } from "react-virtuoso";
+import { useModalActions } from "../stores/useModalStore";
 
 const allSelected = (highlights: Highlights[]) => {
   return highlights.every((highlight) => highlight.selected === true);
@@ -151,7 +156,9 @@ const ClippingTable = ({
   translate: boolean;
   virtuoso: RefObject<TableVirtuosoHandle>;
 }) => {
-  const { toggleSelectAll, sort } = useBookActions();
+  const { toggleSelectAll, sort, deleteSelected } = useBookActions();
+  const selectedExists = useSelectedExists(bookName);
+  const { enableModal } = useModalActions();
 
   const handleToggleSelectAll = () => {
     toggleSelectAll(bookName);
@@ -197,7 +204,19 @@ const ClippingTable = ({
           </th>
           <th className="pr-4">
             {bookName != "selected" && bookName != "all" && (
-              <IconButton size="sm" variant="text">
+              <IconButton
+                size="sm"
+                variant="text"
+                disabled={selectedExists}
+                onClick={() =>
+                  enableModal({
+                    type: "confirm",
+                    message:
+                      "Are you sure you want to delete the selected clippings?",
+                    confirm: () => deleteSelected(bookName),
+                  })
+                }
+              >
                 <MdDelete className="text-gray-600" size={20} />
               </IconButton>
             )}
