@@ -216,6 +216,7 @@ export const useBookStore = create<Store>()(
           });
         },
         isThereASelectedHighlight: (bookName) => {
+          if (bookName == "selected") return false;
           const booksArray = get().books;
 
           const bookPosition = booksArray
