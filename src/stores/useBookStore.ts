@@ -9,12 +9,14 @@ type Actions = {
   toggleSelected: (highlight: Highlights) => void;
   toggleSelectAll: (bookName: string) => void;
   deleteHighlight: (highlight: Highlights) => void;
+  deleteSelected: (bookName: string) => void;
   getCount: (selector: string) => number;
   getHighlights: (bookName: string) => Highlights[];
   sort: (bookName: string, field: string) => void;
   sortAscending: boolean;
   appendTranslation: (highlight: Highlights, translation: Translation) => void;
   deleteTranslation: (highlight: Highlights, id: string) => void;
+  isThereASelectedHighlight: (bookName: string) => boolean;
 };
 
 type Store = {
@@ -89,6 +91,21 @@ export const useBookStore = create<Store>()(
 
           const updatedHighlights = booksArray[bookPosition].highlights.filter(
             (highlightElement) => highlightElement.id != highlight.id,
+          );
+
+          return set((state) => {
+            state.books[bookPosition].highlights = updatedHighlights;
+          });
+        },
+
+        deleteSelected: (bookName) => {
+          const booksArray = get().books;
+          const bookPosition = booksArray
+            .map((book) => book.title)
+            .indexOf(bookName);
+
+          const updatedHighlights = booksArray[bookPosition].highlights.filter(
+            (highlightElement) => !highlightElement.selected,
           );
 
           return set((state) => {
@@ -198,6 +215,17 @@ export const useBookStore = create<Store>()(
             ].translations = updatedTranslations;
           });
         },
+        isThereASelectedHighlight: (bookName) => {
+          const booksArray = get().books;
+
+          const bookPosition = booksArray
+            .map((book) => book.title)
+            .indexOf(bookName);
+
+          return !booksArray[bookPosition].highlights.some(
+            (highlight) => highlight.selected,
+          );
+        },
       },
       // getSelected
       // getBook
@@ -211,6 +239,8 @@ export const useBookStore = create<Store>()(
 );
 
 export const useBookActions = () => useBookStore((state) => state.actions);
+export const useSelectedExists = (bookName: string) =>
+  useBookStore((state) => state.actions.isThereASelectedHighlight(bookName));
 export const useHighlights = (bookName: string) =>
   useBookStore((state) => state.actions.getHighlights(bookName));
 export const useBooks = () => useBookStore((state) => state.books);
