@@ -41,6 +41,9 @@ export default function Clipping({
       <td className={clsx("text-xs text-center italic", background)}>
         {highlight.details.page}
       </td>
+      <td className={clsx("text-xs text-center italic", background)}>
+        {words}
+      </td>
       <td className={clsx("text-sm md:p-2 space-y-2 py-1", background)}>
         {highlight.text.split(" ").map((word, i) => (
           <p key={i} className="inline">
