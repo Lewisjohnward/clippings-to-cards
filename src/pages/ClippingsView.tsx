@@ -189,7 +189,7 @@ const ClippingTable = ({
               <BiSortAlt2 />
             </button>
           </th>
-          <th>Text</th>
+          <th style={{ width: "100%" }}>Text</th>
           <th className="pr-4">
             {bookName != "selected" && bookName != "all" && (
               <input
