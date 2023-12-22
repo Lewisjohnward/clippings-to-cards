@@ -152,8 +152,8 @@ const ClippingTable = ({
       overscan={{ main: 2000, reverse: 2000 }}
       data={highlights}
       fixedHeaderContent={() => (
-        <tr className="bg-white">
-          <th style={{ width: 100 }}>#</th>
+        <tr className="bg-yellow-50">
+          <th className="px-2 py-4">#</th>
           <th className="px-2 hover:underline">
             <button
               onClick={() => sort(bookName, DATE)}
