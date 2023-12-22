@@ -24,7 +24,8 @@ export default function Clipping({
     // translationButtonsVisible,
   } = useClipping(highlight);
 
-  const background = (position + 1) % 2 == 0 ? "bg-yellow-400/20" : "bg-white";
+  const background = (position + 1) % 2 == 0 ? "bg-yellow-50" : "bg-white";
+  const words = highlight.text.split(" ").length
 
   return (
     <>
