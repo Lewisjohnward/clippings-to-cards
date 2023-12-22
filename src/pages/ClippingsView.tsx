@@ -66,7 +66,7 @@ export const ClippingsView = () => {
           <button
             className={clsx(
               "p-1 text-gray-700 rounded hover:opacity-40",
-              translate ? "bg-yellow-500" : "bg-transparent",
+              translate ? "bg-blue-200" : "bg-transparent",
             )}
             onClick={handleToggleTranslate}
           >
