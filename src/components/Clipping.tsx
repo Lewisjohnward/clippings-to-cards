@@ -40,7 +40,7 @@ export default function Clipping({
       <td className={clsx("text-xs text-center italic", background)}>
         {highlight.details.page}
       </td>
-      <td className={clsx("text-xs text-center italic", background)}>
+      <td className={clsx("hidden md:table-cell text-xs text-center italic", background)}>
         {highlight.details.words}
       </td>
       <td className={clsx("text-sm md:p-2 space-y-2 py-1", background)}>

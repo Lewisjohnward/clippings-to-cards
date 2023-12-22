@@ -173,7 +173,7 @@ const ClippingTable = ({
               <BiSortAlt2 />
             </button>
           </th>
-          <th className="px-2 hover:underline">
+          <th className="hidden md:table-cell px-2 hover:underline">
             <button
               onClick={() => sort(bookName, WORDS)}
               className="w-full flex justify-center items-center"
