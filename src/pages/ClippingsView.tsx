@@ -65,8 +65,8 @@ export const ClippingsView = () => {
           {bookName === "selected" && <Download highlights={highlights} />}
           <button
             className={clsx(
-              "p-1 text-gray-700 rounded hover:opacity-40",
-              translate ? "bg-blue-200" : "bg-transparent",
+              "p-1 rounded hover:opacity-40",
+              translate ? "text-blue-300" : "text-gray-700",
             )}
             onClick={handleToggleTranslate}
           >
@@ -276,8 +276,8 @@ const Download = ({ highlights }: { highlights: Highlights[] }) => {
 
   return (
     <>
-      <button onClick={handleDownload}>
-        <FaDownload />
+      <button className="text-gray-700" onClick={handleDownload}>
+        <FaDownload className="text-2xl" />
       </button>
     </>
   );
