@@ -25,7 +25,6 @@ export default function Clipping({
   } = useClipping(highlight);
 
   const background = (position + 1) % 2 == 0 ? "bg-yellow-50" : "bg-white";
-  const words = highlight.text.split(" ").length
 
   return (
     <>
@@ -42,7 +41,7 @@ export default function Clipping({
         {highlight.details.page}
       </td>
       <td className={clsx("text-xs text-center italic", background)}>
-        {words}
+        {highlight.details.words}
       </td>
       <td className={clsx("text-sm md:p-2 space-y-2 py-1", background)}>
         {highlight.text.split(" ").map((word, i) => (
