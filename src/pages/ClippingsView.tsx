@@ -130,6 +130,7 @@ const Analysis = ({ highlights }: { highlights: Highlights[] }) => {
 
 const DATE = "date";
 const PAGE = "page";
+const WORDS = "words";
 
 const ClippingTable = ({
   bookName,
@@ -172,7 +173,15 @@ const ClippingTable = ({
               <BiSortAlt2 />
             </button>
           </th>
-          <th className="px-2 py-4">Words</th>
+          <th className="px-2 hover:underline">
+            <button
+              onClick={() => sort(bookName, WORDS)}
+              className="w-full flex justify-center items-center"
+            >
+              Words
+              <BiSortAlt2 />
+            </button>
+          </th>
           <th style={{ width: "100%" }}>Text</th>
           <th className="pr-4">
             {bookName != "selected" && bookName != "all" && (
