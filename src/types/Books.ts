@@ -8,6 +8,7 @@ export interface Translation {
 export interface Details {
   date: Date;
   page: number;
+  words: number;
 }
 
 export interface Highlights {
