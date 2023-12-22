@@ -17,9 +17,9 @@ import { Highlights } from "../types/Books";
 import { IconButton } from "@material-tailwind/react";
 import { format } from "date-fns";
 import { getUniqueWords, getWords } from "../helpers/parseWords";
-import { RefObject, useRef, useState } from "react";
+import { useState } from "react";
 import clsx from "clsx";
-import { TableVirtuoso, TableVirtuosoHandle } from "react-virtuoso";
+import { TableVirtuoso } from "react-virtuoso";
 import { useModalActions } from "../stores/useModalStore";
 
 const allSelected = (highlights: Highlights[]) => {
@@ -36,32 +36,19 @@ export const ClippingsView = () => {
   const handleToggleTranslate = () => {
     setTranslate((prev) => !prev);
   };
-  const virtuoso = useRef<TableVirtuosoHandle>(null);
 
   if (highlights.length === 0) return <NoClippingsFound />;
 
   return (
     <div className="flex flex-col h-full px-4 2xl:px-80 3xl:px-[600px]">
       <div className="flex items-center justify-between py-4 bg-white">
-        <h2 className="text-xl">
-          <Link to="/books" className="underline">
+        <h2 className="text-md">
+          <Link to="/books" className="text-xl underline">
             Books
           </Link>
           {` > ${bookName}`}
         </h2>
         <div className="flex items-center gap-4">
-          <button
-            onClick={() => {
-              if (!virtuoso.current) return;
-              virtuoso.current.scrollToIndex({
-                index: 0,
-                behavior: "smooth",
-              });
-              return false;
-            }}
-          >
-            scroll to top
-          </button>
           {bookName === "selected" && <Download highlights={highlights} />}
           <button
             className={clsx(
@@ -105,7 +92,6 @@ export const ClippingsView = () => {
           path="clippings"
           element={
             <ClippingTable
-              virtuoso={virtuoso}
               bookName={bookName}
               highlights={highlights}
               translate={translate}
@@ -149,12 +135,10 @@ const ClippingTable = ({
   bookName,
   highlights,
   translate,
-  virtuoso,
 }: {
   bookName: string;
   highlights: Highlights[];
   translate: boolean;
-  virtuoso: RefObject<TableVirtuosoHandle>;
 }) => {
   const { toggleSelectAll, sort, deleteSelected } = useBookActions();
   const selectedExists = useSelectedExists(bookName);
@@ -166,7 +150,6 @@ const ClippingTable = ({
   return (
     <TableVirtuoso
       overscan={{ main: 2000, reverse: 2000 }}
-      ref={virtuoso}
       data={highlights}
       fixedHeaderContent={() => (
         <tr className="bg-white">
