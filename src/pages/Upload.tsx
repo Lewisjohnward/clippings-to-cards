@@ -57,7 +57,7 @@ const CardDropArea = ({
             </li>
             <li>
               Locate the{" "}
-              <span className="bg-blue-400 bg-opacity-40 py-2 px-2">
+              <span className="py-1 px-2 md:py-2 bg-blue-400 bg-opacity-40">
                 "My Clippings.txt"
               </span>{" "}
               file on the Kindle disk in documents.
@@ -69,7 +69,7 @@ const CardDropArea = ({
           <form>
             <label
               htmlFor="upload"
-              className="py-2 px-4 cursor-pointer bg-blue-400 bg-opacity-40 text-gray-800 hover:text-opacity-40"
+              className="py-1 md:py-2 px-4 cursor-pointer bg-blue-400 bg-opacity-40 text-gray-800 hover:text-opacity-40"
             >
               <input
                 type="file"
@@ -81,7 +81,8 @@ const CardDropArea = ({
               Select a file
             </label>
           </form>
-          <p className="absolute bottom-0 left-0 w-1/2 lg:w-1/6 p-2 text-xs opacity-50">
+          <p className="text-xs opacity-50">
+            {/* <p className="absolute bottom-0 left-0 w-1/2 lg:w-1/6 p-2 text-xs opacity-50"> */}
             Note: the file is processed and stored entirely locally in your
             browser. Your data is not uploaded to any server.
           </p>
