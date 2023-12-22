@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { FcKindle } from "../misc/icons";
 export const LandingPage = () => {
   return (
-    <div className="h-full flex flex-col justify-center items-center space-y-4">
+    <div className="w-full flex flex-col justify-center items-center space-y-4">
       <Link to="/upload" className="text-4xl underline">
         Upload clippings
       </Link>
