@@ -197,8 +197,7 @@ const ClippingTable = ({
                 onChange={handleToggleSelectAll}
                 id="checked-checkbox"
                 type="checkbox"
-                value=""
-                className="w-4 h-4 text-gray-600 bg-gray-100 border-gray-300 rounded ring-none select-none cursor-pointer"
+                className="text-gray-600 bg-gray-100 border-gray-300 rounded ring-none select-none cursor-pointer"
               />
             )}
           </th>
