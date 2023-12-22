@@ -45,7 +45,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
           </NavLink>
         </div>
       </div>
-      <div className="flex-grow overflow-scroll">{children}</div>
+      <div className="flex-grow flex justify-center overflow-scroll">{children}</div>
       <Footer />
     </div>
   );
