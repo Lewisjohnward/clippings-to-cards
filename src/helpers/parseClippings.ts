@@ -14,6 +14,7 @@ export const parseClippings = (data: string) => {
   let details = {
     date: new Date(),
     page: 0,
+    words: 0,
   };
   array.forEach((el, i) => {
     if (isTitle(i)) {
@@ -78,7 +79,7 @@ const handleDetails = (details: string) => {
   const second = parseInt(splitTime[2]);
 
   const date = new Date(year, month, day, hour, minute, second, 0);
-  return { date, page };
+  return { date, page, words: 0 };
 };
 
 const getMonth = (monthStr: string) => {
@@ -144,12 +145,13 @@ const handleHighlight = (
       const id = uuidv4();
       const selected = false;
       const title = clipping.title;
+      const words = text.split(" ").length;
       const highlightObj = {
         text,
         title,
         id,
         selected,
-        details,
+        details: { ...details, words },
         translations: [],
       };
       clippings[i].highlights.push(highlightObj);
