@@ -50,7 +50,8 @@ const Book = ({ book }: { book: Books }) => {
       setSrc(`https://covers.openlibrary.org/b/olid/${id}-M.jpg`);
     };
     getCover();
-  }, []);
+  });
+
   return (
     <Link key={book.id} to={`/books/${book.title}/clippings`}>
       <div className="p-1 bg-yellow-400 shadow-xl text-gray-800 hover:text-opacity-40">
