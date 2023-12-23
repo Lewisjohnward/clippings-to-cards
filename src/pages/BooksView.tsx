@@ -22,27 +22,7 @@ export const BooksView = () => {
         <h2 className="text-4xl">Books</h2>
         <div className="space-y-4">
           <p>Your kindle books:</p>
-          <div className="grid grid-cols-2 md:grid-cols-4 3xl:grid-cols-8 gap-4">
-            {views.map((view) => {
-              const count = getCount(view.id);
-              return (
-                <Link
-                  key={view.id}
-                  to={`/books/${view.id}/clippings`}
-                  className={clsx(
-                    "bg-yellow-400 rounded shadow-xl text-gray-800 hover:text-opacity-40",
-                    view.id == "selected" && count == 0 && view.style,
-                  )}
-                >
-                  <div className="4xl:flex justify-between p-4">
-                    <h3>{view.text}</h3>
-                    <p className="text-left">{count} clippings</p>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 3xl:grid-cols-8 gap-4">
+          <div className="flex flex-wrap gap-2">
             {books.map((book) => (
               <div key={book.id}>
                 <Book book={book} />
