@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import axios from "axios";
 import clsx from "clsx";
 import { useBooks, useBookActions } from "../stores/useBookStore";
 import { Books } from "../types/Books";
+import { useEffect, useState } from "react";
+import { FaSpinner } from "../misc/icons";
 
 const views = [
   {
@@ -13,7 +16,6 @@ const views = [
 
 export const BooksView = () => {
   const books = useBooks();
-  const { getCount } = useBookActions();
 
   if (books.length === 0) return <NoBooksFound />;
   return (
@@ -36,14 +38,32 @@ export const BooksView = () => {
 };
 
 const Book = ({ book }: { book: Books }) => {
+  const [src, setSrc] = useState<string | null>(null);
+  useEffect(() => {
+    const getCover = async () => {
+      const { data } = await axios.get(
+        `https://openlibrary.org/search.json?q=${book.title
+          .split(" ")
+          .join("+")}`,
+      );
+      const id = data.docs[0].seed[0].replace(/.*\//, "");
+      setSrc(`https://covers.openlibrary.org/b/olid/${id}-M.jpg`);
+    };
+    getCover();
+  }, []);
   return (
     <Link key={book.id} to={`/books/${book.title}/clippings`}>
-      <div className="h-full flex flex-col justify-between p-4 space-y-2 bg-yellow-400 rounded shadow-xl text-gray-800 hover:text-opacity-40">
-        <div className="space-y-1">
-          <h3 className="">{book.title}</h3>
-          <p className="italic text-xs">-{book.author}</p>
-        </div>
-        <p className="text-left">{`${book.highlights.length} clippings`}</p>
+      <div className="p-1 bg-yellow-400 shadow-xl text-gray-800 hover:text-opacity-40">
+        {/* <h3 className="text-sm">{book.title}</h3> */}
+        {/* <p className="italic text-xs">-{book.author}</p> */}
+        {src ? (
+          <img src={src} className="h-48 w-28 hover:opacity-60" />
+        ) : (
+          <div className="h-48 w-28 flex justify-center items-center text-4xl animate-spin">
+            <FaSpinner />
+          </div>
+        )}
+        <p className="text-center italic">{`${book.highlights.length} clippings`}</p>
       </div>
     </Link>
   );
