@@ -39,6 +39,7 @@ export const BooksView = () => {
 
 const Book = ({ book }: { book: Books }) => {
   const [src, setSrc] = useState<string | null>(null);
+
   useEffect(() => {
     const getCover = async () => {
       const { data } = await axios.get(
@@ -50,7 +51,7 @@ const Book = ({ book }: { book: Books }) => {
       setSrc(`https://covers.openlibrary.org/b/olid/${id}-M.jpg`);
     };
     getCover();
-  });
+  }, [book]);
 
   return (
     <Link key={book.id} to={`/books/${book.title}/clippings`}>
