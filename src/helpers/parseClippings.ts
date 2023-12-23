@@ -126,6 +126,7 @@ const getMonth = (monthStr: string) => {
 };
 
 const handleTitle = (clippings: Books[], rawTitle: string) => {
+  // Check if book already exists
   if (clippings.some((clipping) => clipping.rawTitle === rawTitle)) return;
 
   const author = getAuthor(rawTitle) || "?";
