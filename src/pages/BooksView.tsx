@@ -7,7 +7,7 @@ export const BooksView = () => {
 
   if (books.length === 0) return <NoBooksFound />;
   return (
-    <div className="flex-grow h-full w-full p-10 lg:px-60 lg:py-10 xl:px-80 3xl:px-[600px]">
+    <div className="flex-grow p-5 lg:px-60 lg:py-10 xl:px-80 3xl:px-[600px]">
       <div className="space-y-8">
         <h2 className="text-4xl">Books</h2>
         <div className="space-y-4">
