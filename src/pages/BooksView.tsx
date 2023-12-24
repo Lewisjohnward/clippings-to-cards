@@ -38,32 +38,20 @@ export const BooksView = () => {
 };
 
 const Book = ({ book }: { book: Books }) => {
-  const [src, setSrc] = useState<string | null>(null);
-
-  useEffect(() => {
-    const getCover = async () => {
-      const { data } = await axios.get(
-        `https://openlibrary.org/search.json?q=${book.title
-          .split(" ")
-          .join("+")}`,
-      );
-      const id = data.docs[0].seed[0].replace(/.*\//, "");
-      setSrc(`https://covers.openlibrary.org/b/olid/${id}-M.jpg`);
-    };
-    getCover();
-  }, [book]);
-
   return (
     <Link key={book.id} to={`/books/${book.title}/clippings`}>
-      <div className="p-1 bg-yellow-400 shadow-xl text-gray-800 hover:text-opacity-40">
-        {/* <h3 className="text-sm">{book.title}</h3> */}
-        {/* <p className="italic text-xs">-{book.author}</p> */}
-        {src ? (
-          <img src={src} className="h-48 w-28 hover:opacity-60" />
-        ) : (
-          <div className="h-48 w-28 flex justify-center items-center text-4xl animate-spin">
-            <FaSpinner />
+      <div className="p-1 bg-yellow-400 shadow-xl text-gray-800 hover:text-opacity-40 caret-transparent">
+        {book.imageURL === "" ? (
+          <div className="h-48 w-28 flex flex-col justify-center gap-2 text-center">
+            <p className="text-sm">{book.title}</p>
+            <p className="italic text-xs">-{book.author}</p>
           </div>
+        ) : (
+          <img
+            src={book.imageURL}
+            alt="book cover"
+            className="h-48 w-28 text-xs hover:opacity-60"
+          />
         )}
         <p className="text-center italic">{`${book.highlights.length} clippings`}</p>
       </div>
