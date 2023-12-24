@@ -1,7 +1,6 @@
 import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
 import { SiteIcon } from "../misc/icons";
-import { Footer } from "./Footer";
 import { useBooks } from "../stores/useBookStore";
 
 const disabledLink = "opacity-20 pointer-events-none underline";
@@ -45,8 +44,9 @@ export const Layout = ({ children }: { children: ReactNode }) => {
           </NavLink>
         </div>
       </div>
-      <div className="flex-grow flex justify-center overflow-scroll">{children}</div>
-      <Footer />
+      <div className="flex-grow flex justify-center overflow-scroll">
+        {children}
+      </div>
     </div>
   );
 };
