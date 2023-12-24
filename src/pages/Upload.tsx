@@ -2,16 +2,18 @@ import { FcKindle } from "../misc/icons";
 import { ChangeEvent, DragEvent } from "react";
 import { useUpload } from "../hooks/useUpload";
 import clsx from "clsx";
+import { Footer } from "../components/Footer";
 
 export const Upload = () => {
   const { events, dragOver } = useUpload();
 
   return (
-    <div className="w-full px-4 lg:px-10 bg-yellow-400">
-      <div className="h-full flex justify-center border-8 border-gray-800 border-dashed">
+    <div className="flex flex-col justify-between px-4 lg:px-10 bg-yellow-400">
+      <div className="flex-grow flex justify-center border-8 border-gray-800 border-dashed">
         {false && <Loading />}
         <CardDropArea {...events} dragOver={dragOver} />
       </div>
+      <Footer />
     </div>
   );
 };
