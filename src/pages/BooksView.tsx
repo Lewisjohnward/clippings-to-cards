@@ -1,18 +1,6 @@
 import { Link } from "react-router-dom";
-import axios from "axios";
-import clsx from "clsx";
-import { useBooks, useBookActions } from "../stores/useBookStore";
+import { useBooks } from "../stores/useBookStore";
 import { Books } from "../types/Books";
-import { useEffect, useState } from "react";
-import { FaSpinner } from "../misc/icons";
-
-const views = [
-  {
-    id: "selected",
-    text: "Selected",
-    style: "pointer-events-none opacity-80",
-  },
-];
 
 export const BooksView = () => {
   const books = useBooks();
