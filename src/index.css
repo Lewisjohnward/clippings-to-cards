@@ -7,6 +7,9 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  caret-color: transparent;
+}
 input,
 textarea,
 button,
