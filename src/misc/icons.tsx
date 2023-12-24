@@ -1,7 +1,7 @@
 import { TbCardsFilled } from "react-icons/tb";
 import { FcKindle } from "react-icons/fc";
 import { MdDelete } from "react-icons/md";
-import { FaDownload } from "react-icons/fa6";
+import { FaDownload, FaSpinner } from "react-icons/fa6";
 import { SlCalender } from "react-icons/sl";
 import { FaSortUp, FaSortDown } from "react-icons/fa6";
 import { BiSortAlt2 } from "react-icons/bi";
@@ -22,6 +22,7 @@ const SiteIcon = () => {
 };
 
 export {
+  FaSpinner,
   TbCardsFilled,
   HiTranslate,
   MdOutlineAnalytics,

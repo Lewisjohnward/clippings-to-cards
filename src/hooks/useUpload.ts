@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useBookActions, useBooks } from "../stores/useBookStore";
 import { parseClippings } from "../helpers/parseClippings";
 import { useModalActions } from "../stores/useModalStore";
+import { fetchCover } from "../helpers/fetchCover";
 
 export const useUpload = () => {
   const { enableModal } = useModalActions();
@@ -12,12 +13,21 @@ export const useUpload = () => {
 
   const [dragOver, setDragOver] = useState(false);
 
-  const proceedWithClippings = (file: File) => {
-    file.text().then((data: string) => {
-      const clippings = parseClippings(data);
-      initialiseBooks(clippings);
-      navigate("/books");
-    });
+  const proceedWithClippings = async (file: File) => {
+    const data = await file.text();
+    let books = parseClippings(data);
+
+    books = await Promise.all(
+      books.map(async (book) => {
+        const imageURL = await fetchCover(book.title);
+
+        return { ...book, imageURL };
+      }),
+    );
+
+
+    initialiseBooks(books);
+    navigate("/books");
   };
 
   const handleDrop = (event: DragEvent<HTMLDivElement>) => {

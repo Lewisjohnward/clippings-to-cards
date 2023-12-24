@@ -25,6 +25,7 @@ export interface Highlights {
 
 export interface Books {
   id: string;
+  imageURL: string;
   rawTitle: string;
   title: string;
   author: string;
