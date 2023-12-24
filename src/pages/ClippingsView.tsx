@@ -49,7 +49,7 @@ export const ClippingsView = () => {
           {` > ${bookName}`}
         </h2>
         <div className="flex items-center gap-4">
-          {bookName === "selected" && <Download highlights={highlights} />}
+          <Download highlights={highlights} />
           <button
             className={clsx(
               "p-1 rounded hover:opacity-40",
@@ -77,16 +77,14 @@ export const ClippingsView = () => {
           </NavLink>
         </div>
       </div>
-      {bookName === "selected" && (
-        <div className="py-2 space-y-2">
-          <p>Download the selected highlights as:</p>
-          <div className="space-x-2">
-            <button className="px-4 py-2 bg-yellow-400 rounded text-gray-800 hover:text-opacity-40">
-              Plain CSV
-            </button>
-          </div>
+      <div className="py-2 space-y-2">
+        <p>Download the selected highlights as:</p>
+        <div className="space-x-2">
+          <button className="px-4 py-2 bg-yellow-400 rounded text-gray-800 hover:text-opacity-40">
+            Plain CSV
+          </button>
         </div>
-      )}
+      </div>
       <Routes>
         <Route
           path="clippings"
