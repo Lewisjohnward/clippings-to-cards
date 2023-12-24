@@ -33,6 +33,7 @@ export const ClippingsView = () => {
     bookName: string;
   };
   const highlights = useHighlights(bookName);
+  const selectedExists = useSelectedExists(bookName);
   const handleToggleTranslate = () => {
     setTranslate((prev) => !prev);
   };
@@ -80,7 +81,10 @@ export const ClippingsView = () => {
       <div className="py-2 space-y-2">
         <p>Download the selected highlights as:</p>
         <div className="space-x-2">
-          <button className="px-4 py-2 bg-yellow-400 rounded text-gray-800 hover:text-opacity-40">
+          <button
+            className="px-4 py-2 bg-yellow-400 rounded text-gray-800 disabled:text-opacity-40"
+            disabled={selectedExists}
+          >
             Plain CSV
           </button>
         </div>
@@ -237,8 +241,12 @@ const NoClippingsFound = () => {
 
 const Download = ({ highlights }: { highlights: Highlights[] }) => {
   const handleDownload = () => {
+    // get selected highlights
+    const selectedHighlights = highlights.filter(
+      (highlight) => highlight.selected,
+    );
     // text content
-    const texts = highlights.map((highlight) => {
+    const texts = selectedHighlights.map((highlight) => {
       const translations = highlight.translations
         .map((tr) =>
           [tr.word, "-", tr.type, "-", ...tr.translation, "<br>"].join(" "),
