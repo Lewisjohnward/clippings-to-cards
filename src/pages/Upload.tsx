@@ -8,7 +8,7 @@ export const Upload = () => {
   const { events, dragOver } = useUpload();
 
   return (
-    <div className="flex flex-col justify-between px-4 lg:px-10 bg-yellow-400">
+    <div className="w-full flex flex-col justify-between px-4 lg:px-10 bg-yellow-400">
       <div className="flex-grow flex justify-center border-8 border-gray-800 border-dashed">
         {false && <Loading />}
         <CardDropArea {...events} dragOver={dragOver} />
