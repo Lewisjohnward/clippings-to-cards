@@ -8,6 +8,7 @@ import { BiSortAlt2 } from "react-icons/bi";
 import { MdOutlineRemoveCircle } from "react-icons/md";
 import { MdOutlineAnalytics } from "react-icons/md";
 import { HiTranslate } from "react-icons/hi";
+import { FaTwitter } from "react-icons/fa";
 
 const SiteIcon = () => {
   return (
@@ -20,6 +21,7 @@ const SiteIcon = () => {
     </svg>
   );
 };
+
 
 export {
   FaSpinner,
@@ -35,4 +37,5 @@ export {
   FaSortUp,
   MdOutlineRemoveCircle,
   SiteIcon,
+  FaTwitter
 };
