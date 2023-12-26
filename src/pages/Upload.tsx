@@ -1,8 +1,8 @@
-import { FcKindle } from "../misc/icons";
-import { ChangeEvent, DragEvent } from "react";
-import { useUpload } from "../hooks/useUpload";
 import clsx from "clsx";
-import { Footer } from "../components/Footer";
+import { ChangeEvent, DragEvent } from "react";
+import { FcKindle } from "@/misc/icons";
+import { useUpload } from "@/hooks/useUpload";
+import { Footer } from "@/components/Footer";
 
 export const Upload = () => {
   const { events, dragOver } = useUpload();

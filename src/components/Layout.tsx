@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { NavLink } from "react-router-dom";
-import { SiteIcon } from "../misc/icons";
-import { useBooks } from "../stores/useBookStore";
+import { SiteIcon } from "@/misc/icons";
+import { useBooks } from "@/stores/useBookStore";
 
 const disabledLink = "opacity-20 pointer-events-none underline";
 const enabledLink = "hover:opacity-40";

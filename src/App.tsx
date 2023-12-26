@@ -1,8 +1,8 @@
 import { Routes, Route } from "react-router-dom";
-import { BooksView, ClippingsView, Upload, NotFound } from "./pages/index";
-import { LandingPage } from "./pages/LandingPage";
-import { Layout } from "./components/Layout";
-import { Modal } from "./components/Modal";
+import { BooksView, ClippingsView, Upload, NotFound } from "@/pages/index";
+import { LandingPage } from "@/pages/LandingPage";
+import { Layout } from "@/components/Layout";
+import { Modal } from "@/components/Modal";
 
 function App() {
   return (

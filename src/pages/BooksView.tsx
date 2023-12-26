@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { useBooks } from "../stores/useBookStore";
-import { Books } from "../types/Books";
+import { useBooks } from "@/stores/useBookStore";
+import { Books } from "@/types/Books";
 
 export const BooksView = () => {
   const books = useBooks();

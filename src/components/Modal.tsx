@@ -1,5 +1,5 @@
 import ReactModal from "react-modal";
-import { useModal, useModalActions } from "../stores/useModalStore";
+import { useModal, useModalActions } from "@/stores/useModalStore";
 
 export const Modal = () => {
   const { enabled, type, message, confirm } = useModal();

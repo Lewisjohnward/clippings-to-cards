@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { FcKindle } from "../misc/icons";
-import { Footer } from "../components/Footer";
+import { FcKindle } from "@/misc/icons";
+import { Footer } from "@/components/Footer";
 export const LandingPage = () => {
   return (
     <div className="flex-grow flex flex-col justify-between">

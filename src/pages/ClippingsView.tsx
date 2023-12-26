@@ -1,10 +1,15 @@
+import { useState } from "react";
 import { Link, NavLink, Route, Routes, useParams } from "react-router-dom";
-import Clipping from "../components/Clipping";
+import { IconButton } from "@material-tailwind/react";
+import Clipping from "@/components/Clipping";
+import clsx from "clsx";
+import { TableVirtuoso } from "react-virtuoso";
+import { format } from "date-fns";
 import {
   useBookActions,
   useHighlights,
   useSelectedExists,
-} from "../stores/useBookStore";
+} from "@/stores/useBookStore";
 import {
   BiSortAlt2,
   FaDownload,
@@ -12,15 +17,10 @@ import {
   MdDelete,
   MdOutlineAnalytics,
   TbCardsFilled,
-} from "../misc/icons";
-import { Highlights } from "../types/Books";
-import { IconButton } from "@material-tailwind/react";
-import { format } from "date-fns";
-import { getUniqueWords, getWords } from "../helpers/parseWords";
-import { useState } from "react";
-import clsx from "clsx";
-import { TableVirtuoso } from "react-virtuoso";
-import { useModalActions } from "../stores/useModalStore";
+} from "@/misc/icons";
+import { Highlights } from "@/types/Books";
+import { getUniqueWords, getWords } from "@/helpers/parseWords";
+import { useModalActions } from "@/stores/useModalStore";
 
 const allSelected = (highlights: Highlights[]) => {
   return highlights.every((highlight) => highlight.selected === true);
