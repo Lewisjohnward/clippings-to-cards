@@ -234,7 +234,8 @@ export const useBookStore = create<Store>()(
     {
       name: "book-storage",
       storage,
-      // partialize: ({ actions, ...rest }: any) => rest,
+      // If not present unable to initialiseBooks
+      partialize: ({ actions, ...rest }: any) => rest,
     },
   ),
 );
