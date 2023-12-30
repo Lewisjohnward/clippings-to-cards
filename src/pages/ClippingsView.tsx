@@ -50,7 +50,6 @@ export const ClippingsView = () => {
           {` > ${bookName}`}
         </h2>
         <div className="flex items-center gap-4">
-          <Download highlights={highlights} />
           <button
             className={clsx(
               "p-1 rounded hover:opacity-40",
@@ -84,6 +83,7 @@ export const ClippingsView = () => {
           <button
             className="px-4 py-2 bg-yellow-400 rounded text-gray-800 disabled:text-opacity-40"
             disabled={selectedExists}
+            onClick={() => handleDownload(highlights)}
           >
             Plain CSV
           </button>
@@ -239,45 +239,35 @@ const NoClippingsFound = () => {
   );
 };
 
-const Download = ({ highlights }: { highlights: Highlights[] }) => {
-  const handleDownload = () => {
-    // get selected highlights
-    const selectedHighlights = highlights.filter(
-      (highlight) => highlight.selected,
-    );
-    // text content
-    const texts = selectedHighlights.map((highlight) => {
-      const translations = highlight.translations
-        .map((tr) =>
-          [tr.word, "-", tr.type, "-", ...tr.translation, "<br>"].join(" "),
-        )
-        .join(" ");
-
-      //Need to escape quotes with double quotes
-      return `"${highlight.text}<br><br><p style=""font-size:16px;font-style:italic"">${translations}</p>"\n`;
-    });
-
-    // file object
-    const file = new Blob(texts, { type: "text/plain" });
-
-    const now = Date.now();
-    const dateddMMyy = format(now, "H-mm-ss_dd-MM-yy");
-    // anchor link
-    const element = document.createElement("a");
-    element.href = URL.createObjectURL(file);
-    element.download = `clippings_${dateddMMyy}.txt"`;
-
-    // simulate link click
-    document.body.appendChild(element); // Required for this to work in FireFox
-    element.click();
-    element.remove();
-  };
-
-  return (
-    <>
-      <button className="text-gray-700" onClick={handleDownload}>
-        <FaDownload className="text-2xl" />
-      </button>
-    </>
+const handleDownload = (highlights: Highlights[]) => {
+  // get selected highlights
+  const selectedHighlights = highlights.filter(
+    (highlight) => highlight.selected,
   );
+  // text content
+  const texts = selectedHighlights.map((highlight) => {
+    const translations = highlight.translations
+      .map((tr) =>
+        [tr.word, "-", tr.type, "-", ...tr.translation, "<br>"].join(" "),
+      )
+      .join(" ");
+
+    //Need to escape quotes with double quotes
+    return `"${highlight.text}<br><br><p style=""font-size:16px;font-style:italic"">${translations}</p>"\n`;
+  });
+
+  // file object
+  const file = new Blob(texts, { type: "text/plain" });
+
+  const now = Date.now();
+  const dateddMMyy = format(now, "H-mm-ss_dd-MM-yy");
+  // anchor link
+  const element = document.createElement("a");
+  element.href = URL.createObjectURL(file);
+  element.download = `clippings_${dateddMMyy}.txt"`;
+
+  // simulate link click
+  document.body.appendChild(element); // Required for this to work in FireFox
+  element.click();
+  element.remove();
 };
