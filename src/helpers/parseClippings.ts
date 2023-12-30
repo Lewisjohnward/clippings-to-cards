@@ -3,10 +3,10 @@ import { v4 as uuidv4 } from "uuid";
 
 export const parseClippings = (data: string) => {
   const replaced = data.replace(/\ufeff/g, "");
-  let array = replaced
+  let lines = replaced
     .split("\r\n")
     .filter((el) => el.length != 0 && el != "==========");
-  array = removeBookmarks(array);
+  lines = removeBookmarks(lines);
 
   const clippings: Books[] = [];
 
@@ -16,7 +16,7 @@ export const parseClippings = (data: string) => {
     page: 0,
     words: 0,
   };
-  array.forEach((el, i) => {
+  lines.forEach((el, i) => {
     if (isTitle(i)) {
       currentBook = el;
       const newObj = handleTitle(clippings, currentBook);
@@ -34,13 +34,14 @@ export const parseClippings = (data: string) => {
   });
   return clippings;
 
-  // line 0 title
-  // line 1 page | position | date
-  // line 2 highlight
-  // line 3 title
-  // line 4 page
-  // line 5 highlight
+  // lines 0 title
+  // lines 1 page | position | date
+  // lines 2 highlight
+  // lines 3 title
+  // lines 4 page
+  // lines 5 highlight
 };
+
 const isTitle = (i: number) => i % 3 == 0;
 const isHighlight = (i: number) => (i + 1) % 3 == 0;
 const isDetails = (i: number) => (i - 1) % 3 == 0;
@@ -66,7 +67,7 @@ const handleDetails = (details: string) => {
   const page = extracted != null ? parseInt(extracted[0]) : 0;
 
   // Get date
-  const dateStr = segments[2].replace(/\sAggiunto in data\s/, "");
+  const dateStr = segments[2].replace(/\sAggiunto in data\s|\sAdded on\s/, "");
   const splitDate = dateStr.split(" ");
   const year = parseInt(splitDate[3]);
   const month = getMonth(splitDate[2]);
@@ -84,42 +85,54 @@ const handleDetails = (details: string) => {
 
 const getMonth = (monthStr: string) => {
   switch (monthStr) {
-    case "gennaio": {
+    case "gennaio":
+    case "January":
       return 0;
-    }
-    case "febbraio": {
+
+    case "febbraio":
+    case "February":
       return 1;
-    }
-    case "marzo": {
+
+    case "marzo":
+    case "March":
       return 2;
-    }
-    case "aprile": {
+
+    case "aprile":
+    case "April":
       return 3;
-    }
-    case "maggio": {
+
+    case "maggio":
+    case "May":
       return 4;
-    }
-    case "giugno": {
+
+    case "giugno":
+    case "June":
       return 5;
-    }
-    case "luglio": {
+
+    case "luglio":
+    case "July":
       return 6;
-    }
-    case "agosto": {
+
+    case "agosto":
+    case "August":
       return 7;
-    }
-    case "settembre": {
+
+    case "settembre":
+    case "September":
       return 8;
-    }
-    case "ottobre": {
+
+    case "ottobre":
+    case "October":
       return 9;
-    }
-    case "novembre": {
+
+    case "novembre":
+    case "November":
       return 10;
-    }
-    case "dicembre": {
+
+    case "dicembre":
+    case "December":
       return 11;
-    }
+
     default:
       return 0;
   }
@@ -168,14 +181,33 @@ const handleHighlight = (
   });
 };
 
-const removeBookmarks = (array: string[]) => {
+/*
+ * Recieves array of lines and removes those that contain bookmarks
+ * - Your Bookmark on page 19 | location 290 | Added on Saturday, 30 December 2023 17:15:12
+ */
+
+const removeBookmarks = (lines: string[]) => {
   const cleanedArray = [];
   let i = 0;
-  while (i < array.length) {
-    if (array[i].includes("segnalibro")) {
+
+  while (i < lines.length) {
+    if (
+      bookmarkTranslations.some((bookmark) => lines[i].includes(bookmark.word))
+    ) {
       cleanedArray.pop();
-    } else cleanedArray.push(array[i]);
+    } else cleanedArray.push(lines[i]);
     i++;
   }
   return cleanedArray;
 };
+
+const bookmarkTranslations = [
+  {
+    language: "Italian",
+    word: "segnalibro",
+  },
+  {
+    language: "English",
+    word: "Bookmark",
+  },
+];
