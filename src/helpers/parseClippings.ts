@@ -131,7 +131,14 @@ const handleTitle = (clippings: Books[], rawTitle: string) => {
 
   const author = getAuthor(rawTitle) || "?";
   const title = getTitle(rawTitle);
-  const obj = { id: uuidv4(), rawTitle, title, author, highlights: [] };
+  const obj = {
+    id: uuidv4(),
+    rawTitle,
+    title,
+    author,
+    highlights: [],
+    imageURL: "",
+  };
   return obj;
 };
 
