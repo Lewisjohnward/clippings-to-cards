@@ -1,8 +1,6 @@
-import { useState } from "react";
-import { Link, NavLink, Route, Routes, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { IconButton } from "@material-tailwind/react";
 import Clipping from "@/components/Clipping";
-import clsx from "clsx";
 import { TableVirtuoso } from "react-virtuoso";
 import { format } from "date-fns";
 import {
@@ -10,16 +8,8 @@ import {
   useHighlights,
   useSelectedExists,
 } from "@/stores/useBookStore";
-import {
-  BiSortAlt2,
-  FaDownload,
-  HiTranslate,
-  MdDelete,
-  MdOutlineAnalytics,
-  TbCardsFilled,
-} from "@/misc/icons";
+import { BiSortAlt2, MdDelete } from "@/misc/icons";
 import { Highlights } from "@/types/Books";
-import { getUniqueWords, getWords } from "@/helpers/parseWords";
 import { useModalActions } from "@/stores/useModalStore";
 
 const allSelected = (highlights: Highlights[]) => {
@@ -28,15 +18,11 @@ const allSelected = (highlights: Highlights[]) => {
 
 export const ClippingsView = () => {
   /* Get id/bookname from params*/
-  const [translate, setTranslate] = useState(false);
   const { bookName } = useParams<keyof { bookName: string }>() as {
     bookName: string;
   };
   const highlights = useHighlights(bookName);
   const selectedExists = useSelectedExists(bookName);
-  const handleToggleTranslate = () => {
-    setTranslate((prev) => !prev);
-  };
 
   if (highlights.length === 0) return <NoClippingsFound />;
 
@@ -49,33 +35,6 @@ export const ClippingsView = () => {
           </Link>
           {` > ${bookName}`}
         </h2>
-        <div className="flex items-center gap-4">
-          <button
-            className={clsx(
-              "p-1 rounded hover:opacity-40",
-              translate ? "text-blue-300" : "text-gray-700",
-            )}
-            onClick={handleToggleTranslate}
-          >
-            <HiTranslate className="text-4xl" />
-          </button>
-          <NavLink
-            to={`/books/${bookName}/analysis`}
-            className={({ isActive }) => {
-              return isActive ? "hidden" : "block";
-            }}
-          >
-            <MdOutlineAnalytics className="text-4xl select-none p-1 text-gray-700 rounded hover:bg-black/20" />
-          </NavLink>
-          <NavLink
-            to={`/books/${bookName}/clippings`}
-            className={({ isActive }) => {
-              return isActive ? "hidden" : "block";
-            }}
-          >
-            <TbCardsFilled className="text-4xl select-none" />
-          </NavLink>
-        </div>
       </div>
       <div className="py-2 space-y-2">
         <p>Download the selected highlights as:</p>
@@ -89,43 +48,7 @@ export const ClippingsView = () => {
           </button>
         </div>
       </div>
-      <Routes>
-        <Route
-          path="clippings"
-          element={
-            <ClippingTable
-              bookName={bookName}
-              highlights={highlights}
-              translate={translate}
-            />
-          }
-        />
-        <Route
-          path={`analysis`}
-          element={<Analysis highlights={highlights} />}
-        />
-      </Routes>
-    </div>
-  );
-};
-
-const Analysis = ({ highlights }: { highlights: Highlights[] }) => {
-  // Turns highlights[] into array of words
-  const words = highlights
-    .map((highlight) => highlight.text)
-    .map((text) => getWords(text))
-    .flat();
-
-  const uniqueWords = getUniqueWords(words);
-
-  return (
-    <div>
-      <div>
-        <h2 className="text-2xl font-bold">Total words</h2>
-        <p>{words.length}</p>
-        <h2 className="text-2xl font-bold">Unique words</h2>
-        <p>{uniqueWords.length}</p>
-      </div>
+      <ClippingTable bookName={bookName} highlights={highlights} />
     </div>
   );
 };
@@ -137,11 +60,9 @@ const WORDS = "words";
 const ClippingTable = ({
   bookName,
   highlights,
-  translate,
 }: {
   bookName: string;
   highlights: Highlights[];
-  translate: boolean;
 }) => {
   const { toggleSelectAll, sort, deleteSelected } = useBookActions();
   const selectedExists = useSelectedExists(bookName);
@@ -218,11 +139,7 @@ const ClippingTable = ({
         </tr>
       )}
       itemContent={(index, highlight) => (
-        <Clipping
-          highlight={highlight}
-          position={index}
-          translate={translate}
-        />
+        <Clipping highlight={highlight} position={index} />
       )}
     />
   );
