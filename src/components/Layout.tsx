@@ -30,6 +30,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
               if (books.length === 0) return "opacity-20 pointer-events-none";
               return enabledLink;
             }}
+            end
           >
             Books
           </NavLink>
