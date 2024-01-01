@@ -27,7 +27,7 @@ export const ClippingsView = () => {
   if (highlights.length === 0) return <NoClippingsFound />;
 
   return (
-    <div className="flex flex-col w-full px-2 md:px-8 max-w-[1400px]">
+    <div className="flex-grow flex flex-col px-2 md:px-8 max-w-[1400px]">
       <div className="flex items-center justify-between py-4 bg-white">
         <h2 className="text-md">
           <Link to="/books" className="text-xl underline">

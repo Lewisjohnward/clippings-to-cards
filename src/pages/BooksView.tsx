@@ -12,13 +12,13 @@ export const BooksView = () => {
         <h2 className="text-4xl">Books</h2>
         <div className="space-y-4">
           <p>Your kindle books:</p>
-          <div className="flex flex-wrap gap-2">
+          <ul className="flex flex-wrap gap-2">
             {books.map((book) => (
-              <div key={book.id}>
+              <li key={book.id}>
                 <Book book={book} />
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </div>
@@ -37,7 +37,7 @@ const Book = ({ book }: { book: Books }) => {
         ) : (
           <img
             src={book.imageURL}
-            alt="book cover"
+            alt={`${book.title}  cover`}
             className="h-48 w-28 text-xs hover:opacity-60"
           />
         )}

@@ -8,7 +8,7 @@ export const Upload = () => {
   const { events, dragOver } = useUpload();
 
   return (
-    <div className="w-full flex flex-col justify-between px-4 lg:px-10 bg-yellow-400">
+    <div className="flex-grow flex flex-col justify-between px-4 lg:px-10 bg-yellow-400">
       <div className="flex-grow flex justify-center border-8 border-gray-800 border-dashed">
         {false && <Loading />}
         <CardDropArea {...events} dragOver={dragOver} />
@@ -83,10 +83,12 @@ const CardDropArea = ({
               Select a file
             </label>
           </form>
-          <p className="text-xs opacity-50">
-            {/* <p className="absolute bottom-0 left-0 w-1/2 lg:w-1/6 p-2 text-xs opacity-50"> */}
-            Note: the file is processed and stored entirely locally in your
-            browser. Your data is not uploaded to any server.
+          <p>
+            <small className="text-xs opacity-50">
+              {/* <p className="absolute bottom-0 left-0 w-1/2 lg:w-1/6 p-2 text-xs opacity-50"> */}
+              Note: the file is processed and stored entirely locally in your
+              browser. Your data is not uploaded to any server.
+            </small>
           </p>
         </div>
       </div>

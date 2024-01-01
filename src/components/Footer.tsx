@@ -1,7 +1,7 @@
 export const Footer = () => {
   return (
-    <div className="bg-yellow-400 py-2">
-      <p className="text-xs italic text-center">Clippings to Cards, 2023</p>
-    </div>
+    <footer className="flex justify-center bg-yellow-500 py-2">
+      <small>Clippings to Cards, 2023</small>
+    </footer>
   );
 };
