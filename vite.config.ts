@@ -9,7 +9,7 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: "/clippings-to-cards/",
+  base: "/",
   plugins: [react()],
   optimizeDeps: {
     exclude: ["superjson"],
