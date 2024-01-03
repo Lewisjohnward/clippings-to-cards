@@ -1,5 +1,3 @@
-import { Link } from "react-router-dom";
-
 export const About = () => {
   return (
     <div className="pt-20 px-20 md:px-48 space-y-4">
@@ -16,9 +14,15 @@ export const About = () => {
       </div>
       <div className="space-y-4">
         <p className="font-bold">Contact</p>
-        <a className="block">Contact Us</a>
-        <a className="block">Privacy Policy</a>
-        <a className="block">Terms of Use</a>
+        <a href="#" className="block">
+          Contact Us
+        </a>
+        <a href="#" className="block">
+          Privacy Policy
+        </a>
+        <a href="#" className="block">
+          Terms of Use
+        </a>
       </div>
     </div>
   );
