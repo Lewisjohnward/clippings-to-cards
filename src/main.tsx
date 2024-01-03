@@ -6,7 +6,7 @@ import App from "@/App.tsx";
 import "@/index.css";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <BrowserRouter>
+  <BrowserRouter basename="/clippings-to-cards">
     <React.StrictMode>
       <ThemeProvider>
         <App />
