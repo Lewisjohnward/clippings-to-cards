@@ -23,7 +23,7 @@ export default function Clipping({
       </td>
       <td className={clsx("p-4 text-xs text-center italic", background)}>
         <div>
-          <p>{date}</p>
+          <p className="whitespace-nowrap">{date}</p>
           <p>{time}</p>
         </div>
       </td>
