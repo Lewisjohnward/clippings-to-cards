@@ -7,7 +7,7 @@ export const BooksView = () => {
 
   if (books.length === 0) return <NoBooksFound />;
   return (
-    <div className="flex-grow p-5 lg:px-60 lg:py-10 xl:px-80 3xl:px-[600px]">
+    <div className="relative flex-grow p-5 lg:px-60 lg:py-10 xl:px-80 3xl:px-[600px]">
       <div className="space-y-8">
         <h2 className="text-4xl">Books</h2>
         <div className="space-y-4">
@@ -21,6 +21,12 @@ export const BooksView = () => {
           </ul>
         </div>
       </div>
+      <Link
+        to="/about"
+        className="fixed bottom-4 right-4 px-4 py-2 bg-yellow-400 shadow-xl rounded hover:opacity-60"
+      >
+        About
+      </Link>
     </div>
   );
 };
