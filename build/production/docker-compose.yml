@@ -1,0 +1,11 @@
+services:
+  vite-dev:
+    image: clippings-to-cards-production
+    build:
+     context: ../../
+     dockerfile: build/production/Dockerfile
+    init: true
+    ports:
+      - 8080:8080
+networks:
+  frontend:

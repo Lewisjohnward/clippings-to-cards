@@ -1,0 +1,23 @@
+services:
+  app:
+    image: clippingstocards-dev
+    build:
+     context: ../../
+     dockerfile: build/development/Dockerfile
+    init: true
+    container_name: clippings-to-cards-dev
+    volumes:
+      - type: bind
+        source: ../../
+        target: /app/
+      - type: volume
+        target: /app/node_modules/
+      - type: bind
+        source: ../../vite.config.ts
+        target: /app/vite.config.ts
+    networks:
+      - frontend
+    ports:
+      - 5001:5173
+networks:
+  frontend:
